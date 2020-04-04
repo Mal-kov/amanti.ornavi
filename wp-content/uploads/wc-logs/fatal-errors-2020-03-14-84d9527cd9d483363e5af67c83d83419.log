@@ -1,0 +1,2 @@
+2020-03-14T15:17:22+00:00 CRITICAL Out of memory (allocated 4194304) (tried to allocate 8192 bytes) in C:\OSPanel\domains\shop1-woo-cream.local\wp-content\plugins\woocommerce-gateway-paypal-express-checkout\includes\class-wc-gateway-ppec-payment-details.php on line 284
+
