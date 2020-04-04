@@ -13,8 +13,9 @@ global $wpdb;
 
 $regions = get_option( 'wc_price_based_country_regions', array() );
 
-foreach ( $regions as $region_id => $region ) {
-	
+foreach ( WCPBC_Pricing_Zones::get_zones() as $wcpbc_zone ) {
+
+	$region_id = $wcpbc_zone->get_zone_id();
 
 	/**
 	 * Get variable products without price
@@ -30,15 +31,15 @@ foreach ( $regions as $region_id => $region ) {
                     'compare'   => '='
 	            ),
 	            array(
-	            	'key'     => "_{$region_id}_price",                    
+	            	'key'     => "_{$region_id}_price",
                     'compare' => 'NOT EXISTS'
 	            )
-			)			
+			)
 		)  );
-	
+
 	foreach ( $products as $product ) {
-		wcpbc_zone_variable_product_sync( $region_id, $product->ID );
-	}	
+		wcpbc_zone_variable_product_sync( $wcpbc_zone, $product->ID );
+	}
 }
 
 

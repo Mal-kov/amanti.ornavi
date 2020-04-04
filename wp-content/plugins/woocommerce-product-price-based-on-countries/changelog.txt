@@ -1,3 +1,17 @@
+= 1.8.25 (2020-03-16) =
+* Tweak: Additional check to prevent a JavaScript error when the Cookies jQuery plugin is not set.
+
+= 1.8.24 (2020-03-11) =
+* Tweak: Tested up WooCommerce 4.0
+* Fixed: the option "Convert by exchange rate" of coupons is not saved on coupon update.
+* Fixed: Warning on install fuction when WooCommerce is not active.
+* Fixed: Remove empty row from the System Status table.
+
+= 1.8.23 (2020-03-03) =
+* Fixed: Bug on WC update GeoIP database WC < 3.9.
+* Fixed: Error on the function that updates database to 1.6.
+* Tweak: Improvements on the geolocation AJAX function to prevent issues with wrong HTML in the product pages.
+
 = 1.8.22 (2020-01-29) =
 * Fixed: Bug on WooCommerce Status report.
 * Tweak: Remove WC update GeoIP database hooks for WC < 3.9.

@@ -125,7 +125,12 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 				if ( 'no' === $notice['hide'] && ( empty( $notice['screens'] ) || in_array( $screen_id, $notice['screens'], true ) ) ) {
 					$callback = empty( $notice['callback'] ) ? array( __CLASS__, 'display_' . $key . '_notice' ) : $notice['callback'];
 					if ( is_callable( $callback ) ) {
-						add_action( 'admin_notices', $callback );
+						if ( 'woocommerce_page_wc-settings' === $screen_id ) {
+							$current_tab = empty( $_GET['tab'] ) ? 'general' : sanitize_title( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+							add_action( 'woocommerce_sections_' . $current_tab, $callback );
+						} else {
+							add_action( 'admin_notices', $callback );
+						}
 					}
 				}
 			}

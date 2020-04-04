@@ -92,7 +92,7 @@ class WCPBC_Install {
 			self::sync_exchange_rate_prices();
 
 			// Update database for WC<3.9.
-			if ( version_compare( WC_VERSION, '3.4', '>=' ) && version_compare( WC_VERSION, '3.9', '<' ) ) {
+			if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '3.4', '>=' ) && version_compare( WC_VERSION, '3.9', '<' ) ) {
 				WCPBC_Update_GeoIP_DB::install();
 			}
 		}

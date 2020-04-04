@@ -105,20 +105,20 @@
  * Notices
  */
 
-.notice.notice-pbc {
+.notice-pbc {
 	position: relative;
 }
 
-.notice.notice-pbc.pbc-is-dismissible {
+.notice-pbc.pbc-is-dismissible {
 	padding-right: 38px;
 }
 
-.notice.notice-pbc a.notice-dismiss {
+.notice-pbc a.notice-dismiss {
 	text-decoration: none;
 	right: 12px;
 }
 
-.notice.notice-pbc a.notice-dismiss.notice-pbc-close::before {
+.notice-pbc a.notice-dismiss.notice-pbc-close::before {
 	float: left;
 }
 

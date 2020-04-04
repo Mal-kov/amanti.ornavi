@@ -57,6 +57,10 @@
 		 * Set the refresh cart flag
 		 */
 		set_refresh_cart_flag: function() {
+			if ( 'undefined' === typeof Cookies && 'undefined' === typeof $.cookie ) {
+				return false;
+			}
+
 			if ( 'undefined' === typeof Cookies ) {
 				$.cookie( 'wc_pbc_refresh_cart', '1' );
 			} else {
@@ -68,6 +72,12 @@
 		 * Get the refresh cart flag
 		 */
 		get_refresh_cart_flag: function() {
+			var refresh_cart_flag = undefined;
+
+			if ( 'undefined' === typeof Cookies && 'undefined' === typeof $.cookie ) {
+				return refresh_cart_flag;
+			}
+
 			if ( 'undefined' === typeof Cookies ) {
 				var refresh_cart_flag = $.cookie( 'wc_pbc_refresh_cart' );
 			} else {
@@ -79,9 +89,15 @@
 		/**
 		 * Remove the refresh cart flag
 		 */
-		remove_refresh_cart_flag: function(){
+		remove_refresh_cart_flag: function() {
+			if ( 'undefined' === typeof Cookies && 'undefined' === typeof $.cookie ) {
+				return false;
+			}
+
 			if ( 'undefined' === typeof Cookies ) {
-				$.removeCookie( 'wc_pbc_refresh_cart' );
+				if ( 'undefined' !== typeof $.cookie ) {
+					$.removeCookie( 'wc_pbc_refresh_cart' );
+				}
 			} else {
 				Cookies.remove( 'wc_pbc_refresh_cart' );
 			}
@@ -147,7 +163,6 @@
 		get_product_ids: function(){
 			var ids                = [];
 			var product_id         = null;
-			var product_variations = $( 'form.variations_form' ).data( 'product_variations' );
 
 			$('span.wcpbc-price.loading').each(function(){
 
@@ -167,10 +182,19 @@
 			});
 
 			// Add product variations
-			if ( null !== product_variations && typeof product_variations !== 'undefined' ) {
-				$.each(product_variations, function(i, variation){
-					if ( typeof variation.variation_id !== 'undefined' ){
-						ids.push(variation.variation_id);
+			if ( $( 'form.variations_form' ).length > 0 ) {
+
+				$( 'form.variations_form' ).each( function() {
+
+					var product_variations = $(this).data('product_variations');
+
+					if ( null !== product_variations && typeof product_variations !== 'undefined' ) {
+
+						$.each( product_variations, function(i, variation ){
+							if ( typeof variation.variation_id !== 'undefined' ){
+								ids.push( variation.variation_id );
+							}
+						});
 					}
 				});
 			}
@@ -212,35 +236,40 @@
 				}
 			});
 
-			var product_variations = $( 'form.variations_form' ).data( 'product_variations' );
-
 			// update product variation
-			if ( null !== product_variations && typeof product_variations !== 'undefined' ){
+			if ( $( 'form.variations_form' ).length > 0 ) {
+				$( 'form.variations_form' ).each( function() {
 
-				$.each( product_variations, function( i, variation ){
+					var product_variations = $( this ).data( 'product_variations' );
 
-					var $price_html = $( variation.price_html );
+					if ( null !== product_variations && typeof product_variations !== 'undefined' ) {
+						$.each( product_variations, function( i, variation ){
 
-					if (typeof products[ variation.variation_id ] !== 'undefined') {
+							var $price_html = $( variation.price_html );
 
-						product_variations[i].display_price 		= products[variation.variation_id].display_price;
-						product_variations[i].display_regular_price = products[variation.variation_id].display_regular_price;
+							if (typeof products[ variation.variation_id ] !== 'undefined') {
 
-						if ( $price_html.hasClass( 'price' ) ) {
-							$price_html.first().html( products[ variation.variation_id ].price_html );
-						}else {
-							$price_html.html( products[ variation.variation_id ].price_html );
-						}
+								product_variations[i].display_price 		= products[variation.variation_id].display_price;
+								product_variations[i].display_regular_price = products[variation.variation_id].display_regular_price;
+
+								if ( $price_html.hasClass( 'price' ) ) {
+									$price_html.first().html( products[ variation.variation_id ].price_html );
+								}else {
+									$price_html.html( products[ variation.variation_id ].price_html );
+								}
+							}
+
+							// Set price html visible
+							$price_html.find('.wcpbc-price').css('visibility', '');
+							$price_html.find('.wcpbc-price').removeClass('loading');
+
+							product_variations[i].price_html = $price_html.html();
+						});
+
+						$(this).data('product_variations', product_variations);
 					}
 
-					// Set price html visible
-					$price_html.find('.wcpbc-price').css('visibility', '');
-					$price_html.find('.wcpbc-price').removeClass('loading');
-
-					product_variations[i].price_html = $price_html.html();
 				});
-
-				$('form.variations_form').data('product_variations', product_variations);
 			}
 
 			$(document.body).trigger( 'wc_price_based_country_set_product_price', [products] );

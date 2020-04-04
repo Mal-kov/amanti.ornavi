@@ -53,8 +53,6 @@ global $wpdb;
 			</td>
 		</tr>
 		<?php endif; ?>
-		<tr>
-		</tr>
 		<?php
 		foreach ( array( 'HTTP_CF_IPCOUNTRY', 'GEOIP_COUNTRY_CODE', 'HTTP_X_COUNTRY_CODE', 'HTTP_X_REAL_IP', 'HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR' ) as $server_var ) :
 			$server_var_value = isset( $_SERVER[ $server_var ] ) ? wcpbc_sanitize_server_var( $_SERVER[ $server_var ] ) : false; // WPCS: sanitization ok, CSRF ok.

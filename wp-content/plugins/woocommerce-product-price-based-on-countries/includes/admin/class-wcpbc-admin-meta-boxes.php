@@ -287,6 +287,7 @@ class WCPBC_Admin_Meta_Boxes {
 	 */
 	public static function coupon_options_save( $post_id ) {
 		$type              = get_post_meta( $post_id, 'discount_type', true );
+		$type              = empty( $type ) && ! empty( $_POST['discount_type'] ) ? wc_clean( wp_unslash( $_POST['discount_type'] ) ) : false; // phpcs:ignore WordPress.Security.NonceVerification
 		$zone_pricing_type = in_array( $type, array( 'fixed_cart', 'fixed_product' ), true ) && isset( $_POST['zone_pricing_type'] ) ? 'exchange_rate' : 'nothig'; // WPCS: CSRF ok.
 		update_post_meta( $post_id, 'zone_pricing_type', $zone_pricing_type );
 	}

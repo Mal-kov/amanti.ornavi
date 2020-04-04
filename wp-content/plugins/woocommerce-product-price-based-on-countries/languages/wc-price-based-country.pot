@@ -2,15 +2,15 @@
 # This file is distributed under the same license as the WooCommerce Price Based on Country (Basic) plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WooCommerce Price Based on Country (Basic) 1.8.22\n"
+"Project-Id-Version: WooCommerce Price Based on Country (Basic) 1.8.25\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-product-price-based-on-countries\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-01-29T11:20:14+00:00\n"
-"PO-Revision-Date: 2020-01-29T11:20:14+00:00\n"
+"POT-Creation-Date: 2020-03-17T07:24:13+00:00\n"
+"PO-Revision-Date: 2020-03-17T07:24:13+00:00\n"
 "X-Generator: WP-CLI 2.0.1\n"
 "X-Domain: wc-price-based-country\n"
 
@@ -82,76 +82,76 @@ msgstr ""
 msgid "Geolocation has not been configured. You must enter a valid license key on the %1$sMaxMind integration settings page%2$s."
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:70
+#: includes/admin/views/html-admin-page-status-report.php:68
 msgid "Real external IP"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:93
+#: includes/admin/views/html-admin-page-status-report.php:91
 msgid "Geolocation Test"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:95
+#: includes/admin/views/html-admin-page-status-report.php:93
 msgid "Runing"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:103
+#: includes/admin/views/html-admin-page-status-report.php:101
 #: includes/admin/settings/class-wc-settings-price-based-country.php:91
 msgid "General options"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:108
+#: includes/admin/views/html-admin-page-status-report.php:106
 msgid "Version"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:113
+#: includes/admin/views/html-admin-page-status-report.php:111
 msgid "Base location"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:118
+#: includes/admin/views/html-admin-page-status-report.php:116
 msgid "Base currency"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:123
+#: includes/admin/views/html-admin-page-status-report.php:121
 #: includes/admin/settings/class-wc-settings-price-based-country.php:117
 msgid "Price Based On"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:128
+#: includes/admin/views/html-admin-page-status-report.php:126
 #: includes/admin/settings/class-wc-settings-price-based-country.php:131
 msgid "Shipping"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:133
+#: includes/admin/views/html-admin-page-status-report.php:131
 #: includes/admin/settings/class-wc-settings-price-based-country.php:149
 msgid "Test mode"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:138
+#: includes/admin/views/html-admin-page-status-report.php:136
 #: includes/admin/settings/class-wc-settings-price-based-country.php:159
 msgid "Test country"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:143
+#: includes/admin/views/html-admin-page-status-report.php:141
 msgid "Load products price in background"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:149
+#: includes/admin/views/html-admin-page-status-report.php:147
 msgid "Currency Format"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:155
+#: includes/admin/views/html-admin-page-status-report.php:153
 msgid "Prices entered with tax"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:160
+#: includes/admin/views/html-admin-page-status-report.php:158
 msgid "Calculate tax based on"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:165
+#: includes/admin/views/html-admin-page-status-report.php:163
 msgid "Display prices in the shop"
 msgstr ""
 
-#: includes/admin/views/html-admin-page-status-report.php:175
+#: includes/admin/views/html-admin-page-status-report.php:173
 #: includes/admin/settings/class-wc-settings-price-based-country.php:33
 msgid "Zone Pricing"
 msgstr ""
@@ -401,35 +401,35 @@ msgstr ""
 msgid "export"
 msgstr ""
 
-#: includes/admin/class-wcpbc-admin-notices.php:212
+#: includes/admin/class-wcpbc-admin-notices.php:217
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: includes/admin/class-wcpbc-admin-notices.php:234
+#: includes/admin/class-wcpbc-admin-notices.php:239
 #: includes/admin/settings/class-wc-settings-price-based-country.php:58
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class-wcpbc-admin-notices.php:237
+#: includes/admin/class-wcpbc-admin-notices.php:242
 msgid "You don&#8217;t have permission to do this."
 msgstr ""
 
 #. translators: 1,2: bold HTML tag, 3: Plugin name.
-#: includes/admin/class-wcpbc-admin-notices.php:343
+#: includes/admin/class-wcpbc-admin-notices.php:348
 msgid "It looks like another multicurrency plugin is active on your site. %1$sPrice Based on Country will not work properly%2$s. We recomended you disable %3$s."
 msgstr ""
 
-#: includes/admin/class-wcpbc-admin-notices.php:369
+#: includes/admin/class-wcpbc-admin-notices.php:374
 msgid "WooCommerce Multilingual multiple currencies option"
 msgstr ""
 
 #. Translators: Shop base currency.
-#: includes/admin/class-wcpbc-admin-notices.php:421
+#: includes/admin/class-wcpbc-admin-notices.php:426
 msgid "Totals in different currency to %s has been calculate by following exchange rates:"
 msgstr ""
 
 #. translators: 1, 2 HTML Tags. 3 version.
-#: includes/admin/class-wcpbc-admin-notices.php:457
+#: includes/admin/class-wcpbc-admin-notices.php:462
 msgid "%1$sWarning!%2$s Price Based on Country - You have to update %1$sPrice Based on Country Pro Add-on to %3$s%2$s. The plugin is not working. Update the Pro add-on or deactivate it."
 msgstr ""
 

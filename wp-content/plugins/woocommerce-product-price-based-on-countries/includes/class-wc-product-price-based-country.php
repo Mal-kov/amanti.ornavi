@@ -18,7 +18,7 @@ class WC_Product_Price_Based_Country {
 	 *
 	 * @var string
 	 */
-	public $version = '1.8.22';
+	public $version = '1.8.25';
 
 	/**
 	 * The front-end pricing zone
@@ -289,9 +289,10 @@ class WC_Product_Price_Based_Country {
 		switch ( $type ) {
 			case 'frontend':
 				return wcpbc_is_woocommerce_frontend() && ! defined( 'DOING_CRON' ) && ( ! is_admin() || ( $ajax_action && apply_filters( 'wc_price_based_country_is_ajax_frontend', has_action( 'wp_ajax_nopriv_' . $ajax_action ), $ajax_action ) ) );
-
+			case 'rest_api':
+				return function_exists( 'wc' ) && is_callable( array( wc(), 'is_rest_api_request' ) ) && wc()->is_rest_api_request();
 			case 'admin':
-				return ! defined( 'DOING_CRON' ) && ! $this->is_request( 'frontend' );
+				return ! defined( 'DOING_CRON' ) && ! $this->is_request( 'rest_api' ) && ! $this->is_request( 'frontend' );
 		}
 	}
 

@@ -1,0 +1,10 @@
+2020-04-04T10:59:00+00:00 CRITICAL Uncaught Error: Call to a member function is_on_sale() on null in C:\OSPanel\domains\shop1-woo-cream.local\wp-content\themes\cream\woocommerce\single-product\sale-flash.php:25
+Stack trace:
+#0 C:\OSPanel\domains\shop1-woo-cream.local\wp-content\plugins\woocommerce\includes\wc-core-functions.php(251): include()
+#1 C:\OSPanel\domains\shop1-woo-cream.local\wp-content\plugins\woocommerce\includes\wc-template-functions.php(1565): wc_get_template('single-product/...')
+#2 C:\OSPanel\domains\shop1-woo-cream.local\wp-includes\class-wp-hook.php(287): woocommerce_show_product_sale_flash('')
+#3 C:\OSPanel\domains\shop1-woo-cream.local\wp-includes\class-wp-hook.php(311): WP_Hook->apply_filters('', Array)
+#4 C:\OSPanel\domains\shop1-woo-cream.local\wp-includes\plugin.php(478): WP_Hook->do_action(Array)
+#5 C:\OSPanel\domains\shop1-woo-cream.local\wp-content\themes\cream\woocommerce\content-single-product.php(39): do_action('woocommerce_bef...')
+#6 C:\OSPanel\domains\shop1-woo-cream.local\wp-includes\template.php(725): requir in C:\OSPanel\domains\shop1-woo-cream.local\wp-content\themes\cream\woocommerce\single-product\sale-flash.php on line 25
+

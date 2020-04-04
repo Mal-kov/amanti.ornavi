@@ -5,47 +5,136 @@
 
 <?php get_header(); ?>
 
-    <!--2 section about_us -->
+    <!-- =====================================
+            ==== Start slider -->
+
+    <section class="section-main-slider">
+        <div class="main-slider my-slider slider-pro skin2" id="my-slider-1" data-slider-width="100%" data-slider-height="670">
+            <div class="sp-slides">
+                <!-- Slide 1 -->
+                <div class="sp-slide section-bg" style="background-image:url(<?php bloginfo('template_url'); ?>/assets/images/slider/home3_slider1.jpg)">
+		           		<span class="sp-layer main-slider__img" data-horizontal="0" data-vertical="100"  data-show-transition="up" data-hide-transition="left" data-show-duration="800" data-show-delay="400" data-hide-delay="400">
+							<img class="img-responsive" src="<?php bloginfo('template_url'); ?>/assets/images/slider/home3_slider1.png" height="593" alt="">
+						</span>
+
+                    <div class="sp-layer main-slider__text btn-sale text-white font-bold section-bg hidden-xs hidden-sm" data-horizontal="35%" data-vertical="140"  data-show-transition="up" data-hide-transition="left" data-show-duration="1200" data-show-delay="1200" data-hide-delay="1200" style="background-image:url("<?php bloginfo('template_url'); ?>"/assets/images/slider/home3_slider1_3.png)">
+                    <span class="btn-sale__title">-ONLY-</span>
+                    <span class="btn-sale__price">$56.89</span>
+                </div>
+
+
+                <h2 class="sp-layer main-slider__title font-italic" data-horizontal="50%" data-vertical="120" data-show-transition="up" data-hide-transition="left" data-show-duration="800" data-show-delay="800" data-hide-delay="800">
+                    The Organic Store
+                </h2>
+                <h2 class="sp-layer main-slider__title color-primary font-bold hidden-md" data-horizontal="50%" data-vertical="210" data-show-transition="up" data-hide-transition="left" data-show-duration="900" data-show-delay="900" data-hide-delay="900">
+                    Skin Care
+                </h2>
+                <div class="sp-layer main-slider__text" data-horizontal="50%" data-vertical="320"  data-show-transition="up" data-hide-transition="left" data-show-duration="1000" data-show-delay="1000" data-hide-delay="1000">
+                    <p class="hidden-xs">
+                        Organica we know that washing your face is the most important part <br/>
+                        of any skincare routine, but we all use different products to get the job ...
+                    </p>
+                    <div class="main-slider__btn-group">
+                        <a class="mt-40 btn btn-features btn-primary btn-radius" href="../product_grid.html">Shop now <i class="fa fa-long-arrow-right" aria-hidden="true"></i> </a>
+                    </div>
+                </div>
+                <span class="sp-layer main-slider__img" data-horizontal="80%" data-vertical="500"  data-show-transition="up" data-hide-transition="right" data-show-duration="1200" data-show-delay="1200" data-hide-delay="1200">
+							<img class="img-responsive" src="<?php bloginfo('template_url'); ?>/assets/images/slider/home3_slider1_8.png" height="87" width="198" alt="">
+						</span>
+            </div>
+            <!-- end sp-slide -->
+
+
+            <!-- Slide 2-->
+            <div class="sp-slide section-bg" style="background-image:url(<?php bloginfo('template_url'); ?>/assets/images/slider/home3_slider2.jpg)">
+                <h2 class="sp-layer main-slider__title font-italic text-center" data-horizontal="50%" data-vertical="120" data-show-transition="up" data-hide-transition="center" data-show-duration="800" data-show-delay="800" data-hide-delay="800">
+                    The Organic Store
+                </h2>
+                <h2 class="sp-layer main-slider__title color-primary font-bold  text-center" data-horizontal="50%" data-vertical="210" data-show-transition="up" data-hide-transition="center" data-show-duration="900" data-show-delay="900" data-hide-delay="900">
+                    Skin Care
+                </h2>
+                <div class="sp-layer main-slider__text text-center" data-horizontal="50%" data-vertical="310"  data-show-transition="up" data-hide-transition="center" data-show-duration="1000" data-show-delay="1000" data-hide-delay="1000">
+                    <p class="hidden-xs">
+                        Organica we know that washing your face is the most important part<br/>
+                        of any skincare routine, but we all use different products to get the job ...
+                    </p>
+                    <div class="main-slider__btn-group">
+                        <a class="mt-40 btn btn-features btn-primary btn-radius" href="../product_grid.html">Shop now <i class="fa fa-long-arrow-right" aria-hidden="true"></i> </a>
+                    </div>
+                </div>
+                <div class="sp-layer main-slider__text btn-sale text-white font-bold section-bg hidden-xs hidden-sm" data-horizontal="72%" data-vertical="120"  data-show-transition="up" data-hide-transition="left" data-show-duration="1200" data-show-delay="1200" data-hide-delay="1200" style="background-image:url("<?php bloginfo('template_url'); ?>"/assets/images/slider/home3_slider1_3.png)">
+                <span class="btn-sale__title">-ONLY-</span>
+                <span class="btn-sale__price">$56.89</span>
+            </div>
+        </div>
+        <!-- end sp-slide -->
+        </div>
+        </div>
+    </section>
+    <!-- End slider ====
+        ======================================= -->
+
+
+<!-- ===================================== 2 section
+    ==== Start About Us -->
     <div class="containerMebel text-center about_us">
         <div class="container">
             <div class="row">
                 <div class="col-12 header-text">
-<!--                    <p class="slogan_section">Мебель и Интерьер</p>-->
-                    <p class="slogan_section">Furniture and Interior</p>
-<!--                    <p class="name_section">Немного О нас</p>-->
-                    <p class="name_section">little about us</p>
+                    <p class="slogan_section">Мебель и Интерьер</p>
+<!--                    <p class="slogan_section">Furniture and Interior</p>-->
+                    <p class="name_section">Немного О нас</p>
+<!--                    <p class="name_section">little about us</p>-->
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="about-img">
-                        <img class="img-fluid rounded-circle" src="<?php bloginfo('template_url'); ?>/assets/img/2sec-Vladimir.jpg" alt="">
+            <?php $about_section = new WP_Query([ 'pagename' => 'home' ]); ?>
+            <?php if ( $about_section->have_posts() ) : while ( $about_section->have_posts() ) : $about_section->the_post(); ?>
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="about-img">
+                            <img class="img-fluid rounded-circle" src="<?php the_field('foto_vladimir', $about_section->ID); ?>" alt="Владимир Колесьянкин">
+                        </div>
+                        <ul>
+                            <li><a href="https://www.facebook.com/vladimir.kolesyankin"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="https://vk.com/id146020475"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                            <li><a href="https://www.instagram.com/vladimirkolesiankin"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <?php the_content(); ?>
+<!--                        <p class="about_us-text">--><?php //the_content(); ?><!--</p>-->
+                    </div>
+                    <div class="col-md-3">
+                        <div class="about-img">
+                            <img class="img-fluid rounded-circle" src="<?php the_field('foto_veronika', $about_section->ID); ?>" alt="Вероника Колесьянкина">
+                        </div>
+                        <ul>
+                            <li><a href="https://www.facebook.com/veronika.kolesyankina"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                            <li><a href="https://vk.com/id239774790"><i class="fa fa-vk" aria-hidden="true"></i></a></li>
+                            <li><a href="https://www.instagram.com/vladimirkolesiankin"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                        </ul>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <p class="about_us-text">Авторы проектов детских комнат, участники совместной выставки по мотивам искусства Древнего Египта, которая проходила в 2006 г. в ЦДХ и была высоко оценена телеканалами Россия 1 и Культура: Колесьянкин Владимир, Колесьянкина Вероника , в 2002 г. закончили АХПУ им. В. М. Васнецова, члены Творческого Союза Художников России, секция дизайн. Часть работ в соавторстве с Анной Бену (в проектной части).</p>
-                </div>
-                <div class="col-md-3">
-                    <div class="about-img">
-                        <img class="img-fluid rounded-circle" src="<?php bloginfo('template_url'); ?>/assets/img/2sec-Veronika.jpg" alt="">
-                    </div>
-                </div>
-            </div>
+
+            <?php endwhile; ?>
+            <!-- post navigation -->
+            <?php else: ?>
+            <!-- no posts found -->
+                <?php wp_reset_postdata(); ?>
+            <?php endif; ?>
+
         </div>
-    </div><!--/ About Us-->
+    </div><!--/ -->
+<!-- =====================================
+    ==== End About Us -->
 
 
-    <!--3c1a11-->
-    <!--7f4d34-->
-
-
-
-
-
-    <!--4 section book-->
+<!-- =====================================  4 + 3 section (описание книг  + слоган_1)
+    ==== Start book -->
     <div class="containerMebel book">
 
-        <!--3 section par_slogan_1 узкий блок паралакс изображения с текстовым слоганов-->
+        <!--3 section par_slogan_1 -->
         <div class="containerMebel text-center par_slogan_1" >
             <div class="wrap circle-block">
                 <div class="row">
@@ -61,11 +150,11 @@
                         <p class="check-text">Не верьте на слово - проверяйте.</p>
                     </div>
                     <div class="col-sm-6">
+<!--  Доделать ссылку кнопки - возможно какая-нибудь статья с подробным описанием слогана -->
                         <a class="slogan-button" href="#">
                             Посмотреть
                             <span><img src="<?php bloginfo('template_url'); ?>/assets/img/3-sec-btn2.png" alt=""></span>
                         </a>
-                        <!--<a class="all-buttons" href="#">Проверить1</a>-->
                     </div>
                 </div>
             </div>
@@ -78,18 +167,11 @@
                     <p class="name_section">Книга о композиции</p>
                 </div>
             </div>
-
-
-
-
-
                     <div class="owlBooksCarousel owl-carousel owl-theme">
 
                         <div class="booksItem">
-
                             <div class="row no-gutters">
                                 <div class="book_block d-flex align-content-center">
-
                                     <div class="col-sm-6 book-element">
                                         <div class="book-logo d-flex">
                                             <img src="<?php bloginfo('template_url'); ?>/assets/img/4sec-logo-mebel.jpg" alt="">
@@ -156,7 +238,8 @@
             </div>
         </div>
     </div>
-
+<!-- =====================================
+    ==== End Book -->
 
 
 
@@ -166,9 +249,7 @@
         <div class="homepage-hero-module">
             <div class="video-container">
                 <div class="filter">
-
                     <div class="container">
-
                         <div class="row text-center">
                             <div class="col-12 header-text">
                                 <p class="slogan_section">Мнение покупателей</p>
@@ -176,72 +257,28 @@
                             </div>
                         </div>
                         <div class="row">
-<!--                            <div id="carousel_book-feedback" class="carousel slide" data-ride="carousel">-->
-                            <div id="carousel_book-feedback">
 
-                                <div class="row clients-element">
-                                    <div class="col-md-1"></div>
-
-
-                                <div class="owlFeedbackCarousel owl-carousel owl-theme">
+                            <div class="owlFeedbackCarousel owl-carousel owl-theme">
+                                <?php $books_reviews = bookFeedback_reviews(); ?>
+                                <?php foreach ($books_reviews as $book_review): ?>
                                     <div class="owl-carousel-item ">
-
+                                        <div class="row clients-element">
+                                            <div class="col-md-1"></div>
                                             <div class="col-md-3 col-12 feedback_img-block" >
-                                                <img src="<?php bloginfo('template_url'); ?>/assets/img/4_2sec-Dmitry_Ryabcev.jpg" class="d-block rounded-circle" alt="...">
+                                                <img src="<?php echo $book_review->post_excerpt; ?>" class="d-block rounded-circle" alt="...">
                                             </div>
                                             <div class="col-dm-7 col-8 feedback_text-block">
-                                                <p class="say_2-text">&ldquo;Заказ был принят четко, слаженно и тщательно упакован.
-                                                    Сама книга очень порадовала своим оформлением и содержанием.....&rdquo;</p>
-                                                <p class="say_2-date"><span><i class="far fa-calendar"></i></span> 18 февраля 2017г.</p>
-                                                <p class="say_2-author">Дмитрий Рябцев</p>
+                                                <p class="say_2-text">&ldquo;<?php echo $book_review->post_content; ?>&rdquo;</p>
+                                                <p class="say_2-date"><span><i class="fa fa-calendar"></i></span> <?php echo $book_review->post_date; ?></p>
+                                                <p class="say_2-author"><?php echo $book_review->post_title; ?></p>
                                             </div>
+                                            <div class="col-md-1"></div>
+                                        </div>
                                     </div>
-
-
-                                    <div class="owl-carousel-item ">
-
-                                            <div class="col-md-3 col-12 feedback_img-block">
-                                                <img src="<?php bloginfo('template_url'); ?>/assets/img/4_2sec-Elena_Kacharava.jpg" class="d-block rounded-circle" alt="...">
-                                            </div>
-                                            <div class="col-md-7 col-8 feedback_text-block">
-                                                <p class="say_2-text">&ldquo;Книга "Композиция как она есть" превзошла мои ожидания.Очень интересная, познавательная. Великолепна и полиграфия.....&rdquo;</p>
-                                                <p class="say_2-date"><span><i class="far fa-calendar"></i></span> 29 сентября 2014г.</p>
-                                                <p class="say_2-author">Елена Качарава</p>
-                                            </div>
-
-                                    </div>
-
-
-                                    <div class="owl-carousel-item  ">
-
-                                            <div class="col-md-3 col-12 feedback_img-block" >
-                                                <img src="<?php bloginfo('template_url'); ?>/assets/img/4_2sec-noImg.jpg" class="d-block rounded-circle" alt="...">
-                                            </div>
-                                            <div class="col-md-7 col-8 feedback_text-block">
-                                                <p class="say_2-text">&ldquo;Общение и заказ с мастером прошли замечательно. Согласование заказа и его отправка были произведены оперативно. Отдельно порадовала.....&rdquo;</p>
-                                                <p class="say_2-date"><span><i class="far fa-calendar"></i></span> 01 июня 2016г.</p>
-                                                <p class="say_2-author">EzhekCraftwork (DrogO)</p>
-                                            </div>
-
-                                    </div>
-                                </div>
-
-                                    <div class="col-md-1"></div>
-                                </div>
-
-<!--                                <a class="carousel-control-prev" href="#carousel_book-feedback" role="button" data-slide="prev">-->
-<!--                                    <span class="carousel-control-prev-icon" aria-hidden="true"><i class="fas fa-angle-left"></i></span>-->
-<!--                                    <span class="sr-only">Previous</span>-->
-<!--                                </a>-->
-<!--                                <a class="carousel-control-next" href="#carousel_book-feedback" role="button" data-slide="next">-->
-<!--                                    <span class="carousel-control-next-icon" aria-hidden="true"><i class="fas fa-angle-right"></i></span>-->
-<!--                                    <span class="sr-only">Next</span>-->
-<!--                                </a>-->
-
+                                <?php endforeach;  ?>
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <video autoplay loop muted playsinline src="<?php bloginfo('template_url'); ?>/assets/video/mp4_book.mp4" type="video/mp4" class="fillWidth"></video>
                 <div class="poster hidden">
@@ -249,20 +286,15 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
     </div>
 
 
+<!-- =====================================
+    ==== End book-feedback -->
 
-    <!--
-    6 section our-work примеры рабо по мебели
-    -->
+
+<!-- ===================================== 6 section ( примеры рабо по мебели )
+    ==== Start our-work -->
     <div id="work" class="work">
 
         <!--5 section par_slogan_2 узкий блок паралакс изображения с текстовым слоганов-->
@@ -282,7 +314,7 @@
                         <p class="check-text">Хотите посмотреть примеры работ?</p>
                     </div>
                     <div class="col-sm-6">
-
+<!--  Доделать ссылку кнопки - возможно какая-нибудь статья с подробным описанием слогана -->
                         <a class="slogan-button" href="#">
                             Посмотреть
                             <span><img src="<?php bloginfo('template_url'); ?>/assets/img/5-sec-btn.png" alt=""></span>
@@ -300,11 +332,6 @@
                     <p class="name_section">Галлерея последних работ</p>
                 </div>
             </div>
-
-
-
-
-
 
             <div class="row">
                 <div class="col-md-12 work-menu">
@@ -329,27 +356,16 @@
                     <div class="tab-content" id="myTabContent">
 
                         <div class="tab-pane show active" id="amanti_Mebel" role="tabpanel" aria-labelledby="amanti_Mebel-tab">
-
                             <?php wc_get_template( 'template-parts/content-cat.php' , 'furniture'); ?>
-
                         </div>
-
                         <div class="tab-pane <?php if ( !"active" ): ?>fade <?php endif; ?>" id="amanti_interior" role="tabpanel" aria-labelledby="amanti_interior-tab">
-
                             <?php wc_get_template( 'template-parts/content-cat.php' , 'interior-items'); ?>
-
                         </div>
-
                         <div class="tab-pane <?php if ( !"active" ): ?>fade <?php endif; ?>" id="amanti_decoration" role="tabpanel" aria-labelledby="amanti_decoration-tab">
-
                             <?php wc_get_template( 'template-parts/content-cat.php' , 'decoration'); ?>
-
                         </div>
-
                         <div class="tab-pane <?php if ( !"active" ): ?>fade <?php endif; ?>" id="amanti-sculpture" role="tabpanel" aria-labelledby="namanti-sculpture-tab">
-
                             <?php wc_get_template( 'template-parts/content-cat.php' , 'sculpture'); ?>
-
                         </div>
 
                         <div class="tab-pane <?php if ( !"active" ): ?>fade <?php endif; ?>" id="amanti_render" role="tabpanel" aria-labelledby="amanti_render-tab">
@@ -453,30 +469,22 @@
                             </div><!-- /.gallery -->
 
                         </div>
+
                     </div>
-                </div>
-                <!-- /.col-md-12 -->
+                </div> <!-- /.work-menu -->
             </div>
-
-
-
-
-
-
-
-
-
         </div>
     </div>
+<!-- =====================================
+    ==== End our-work -->
 
 
-    <!--6_2 section products-feedback-->
+<!-- ===================================== 6_2 section ( отзывы по мебели )
+    ==== Start products-feedback -->
     <div class="containerMebel feedbackSection">
-
         <div class="homepage-hero-module">
             <div class="video-container">
                 <div class="filter">
-
                     <div class="container">
                         <div class="row text-center">
                             <div class="col-12 header-text">
@@ -485,105 +493,31 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div id="carousel_products-feedback" class="carousel slide" data-ride="carousel">
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
+                            <div class="owlProductsFeedbackCarousel owl-carousel owl-theme">
+                                <?php $productsAmanty_reviews = productsFeedback_reviews(); ?>
+                                <?php foreach ($productsAmanty_reviews as $product_review): ?>
+                                    <?php //print_r($product_review); ?>
+                                    <div class="owl-carousel-item ">
                                         <div class="row clients-element">
-                                            <div class="col-lg-1"></div>
-                                            <div class="col-lg-3 col-12 feedback_img-block" data-toggle="modal" data-target="#Irina_Korzon-feedback">
-                                                <img src="<?php bloginfo('template_url'); ?>/assets/img/6_2sec-Irina_Korzon.jpg" class="d-block rounded-circle" alt="...">
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-3 col-12 feedback_img-block" >
+                                                <img src="<?php echo $product_review->post_excerpt; ?>" class="d-block rounded-circle" alt="...">
                                             </div>
-                                            <div class="col-lg-7 col-8 feedback_text-block">
-                                                <p class="say_2-title">Манекен-торс женский из дерева "Дариника"</p>
-                                                <p class="say_2-text">&ldquo;Огромное спасибо за проделанную огромную работу! Манекен выполнен очень качественно
-                                                    с учетом всех просьб и пожеланий.....&rdquo;</p>
-                                                <p class="say_2-date"><span><i class="far fa-calendar"></i></span> 31 мая 2015г.</p>
-                                                <p class="say_2-author">Ирина Корзон</p>
+                                            <div class="col-dm-7 col-8 feedback_text-block">
+                                                <?php if( get_field('productsamantifeedback', $product_review->ID )): ?>
+                                                <p class="say_2-title"><?php the_field('productsamantifeedback', $product_review->ID); ?></p>
+                                                <?php endif;  ?>
+                                                <p class="say_2-text">&ldquo;<?php echo $product_review->post_content; ?>&rdquo;</p>
+                                                <p class="say_2-date"><span><i class="fa fa-calendar"></i></span> <?php echo $product_review->post_date; ?></p>
+                                                <p class="say_2-author"><?php echo $product_review->post_title; ?></p>
                                             </div>
-                                            <div class="col-lg-1"></div>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="Irina_Korzon-feedback" tabindex="-1" role="dialog" aria-labelledby="Irina_Korzon-feedbackTitle" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="Irina_Korzon-feedbackTitle"><p class="clients-name">Ирина Корзон</p></h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body text-center">
-                                                            <img class="rounded-circle" src="<?php bloginfo('template_url'); ?>/assets/img/6_2sec-Irina_Korzon.jpg">
-                                                            <p class="clients-message">Россия. Москва</p>
-                                                            <p class="clients-date"><span><i class="far fa-calendar"></i></span> 31 мая 2015г.</p>
-                                                            <p class="clients-message">Огромное спасибо за проделанную огромную работу! Манекен выполнен очень качественно
-                                                                с учетом всех просьб и пожеланий. Вещь наполнена энергией мастера и душой! Это чувствуется!
-                                                                И действительно выполняет попутно функцию украшения интерьера. Еще раз огромное спасибо!!!.</p>
-                                                        </div>
-                                                        <div class="modal-footer d-flex justify-content-between">
-                                                            <a href="https://www.livemaster.ru/aesthetics/feedbacks?status=m&from=20" class="btn-feedback">Другие отзывы</a>
-                                                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Закрыть</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <div class="col-md-1"></div>
                                         </div>
                                     </div>
-                                    <div class="carousel-item">
-                                        <div class="row clients-element">
-                                            <div class="col-lg-1"></div>
-                                            <div class="col-lg-3 col-12 feedback_img-block" data-toggle="modal" data-target="#Catherine-feedback">
-                                                <img src="<?php bloginfo('template_url'); ?>/assets/img/6_2sec-Catherine.jpg" class="d-block rounded-circle" alt="...">
-                                            </div>
-                                            <div class="col-lg-7 col-8 feedback_text-block">
-                                                <p class="say_2-title">стул-пуфик в марокканском стиле</p>
-                                                <p class="say_2-text">&ldquo;Владимир и Вероника! Получила от вас свой второй заказ - стул-пуфик в марокканском стиле в комплект к ранее изготовленному вами столу......&rdquo;</p>
-                                                <p class="say_2-date"><span><i class="far fa-calendar"></i></span> 10 августа 2014г.</p>
-                                                <p class="say_2-author">Catherine</p>
-                                            </div>
-                                            <div class="col-lg-1"></div>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="Catherine-feedback" tabindex="-1" role="dialog" aria-labelledby="Catherine-feedbackTitle" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="Catherine-feedbackTitle"><p class="clients-name">Catherine</p></h5>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body text-center">
-                                                            <img class="rounded-circle" src="<?php bloginfo('template_url'); ?>/assets/img/6_2sec-Catherine.jpg">
-                                                            <p class="clients-message">Россия. Москва</p>
-                                                            <p class="clients-date"><span><i class="far fa-calendar"></i></span> 10 августа 2014г.</p>
-                                                            <p class="clients-message">Владимир и Вероника! Получила от вас свой второй заказ - стул-пуфик в марокканском стиле в комплект к ранее изготовленному вами столу.
-                                                                Стул великолепен, он прекрасно дополняет стол и одновременно является связующим звеном с мягкой мебелью.
-                                                                Качество исполнения высочайшее, как и в первом заказе, узор проработан очень тщательно.
-                                                                Большое спасибо за такие красивые вещи!.</p>
-                                                        </div>
-                                                        <div class="modal-footer d-flex justify-content-between">
-                                                            <a href="https://www.livemaster.ru/aesthetics/feedbacks?status=m&from=20" class="btn-feedback">Другие отзывы</a>
-                                                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Закрыть</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a class="carousel-control-prev" href="#carousel_products-feedback" role="button" data-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"><i class="fas fa-angle-left"></i></span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                                <a class="carousel-control-next" href="#carousel_products-feedback" role="button" data-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"><i class="fas fa-angle-right"></i></span>
-                                    <span class="sr-only">Next</span>
-                                </a>
+                                <?php endforeach;  ?>
                             </div>
                         </div>
-
                     </div>
-
-
                 </div>
                 <video autoplay loop muted playsinline src="<?php bloginfo('template_url'); ?>/assets/video/wood.mp4" type="video/mp4" class="fillWidth"></video>
                 <div class="poster hidden">
@@ -591,22 +525,17 @@
                 </div>
             </div>
         </div>
-
-
-
-
     </div>
 
+<!-- =====================================
+    ==== End products-feedback -->
 
 
-
-
-
-    <!--8 section we_do блог - вывод статей-->
-
+<!-- ===================================== 8+7 section ( блог - статьи - мастеркласы + слоган_3 )
+    ==== Start blog -->
     <div id="blog" class="containerMebel blog">
 
-        <!--7 section clients раздел отзыва клиентов с фоткой и кто и когда оставлял сообщение / паралакс сделать светлей -->
+        <!--7 section par_slogan_3 -->
         <div class="containerMebel text-center par_slogan_3" >
             <div class="wrap">
                 <div class="row">
@@ -622,7 +551,7 @@
                         <p class="check-text">Хотите посмотреть примеры работ?</p>
                     </div>
                     <div class="col-sm-6">
-
+<!--  Доделать ссылку кнопки - возможно какая-нибудь статья с подробным описанием слогана -->
                         <a class="slogan-button" href="#">
                             Посмотреть
                             <span><img src="<?php bloginfo('template_url'); ?>/assets/img/7sec-btn.png" alt=""></span>
@@ -652,52 +581,67 @@
                 <!--</div>-->
                 <!--</div>-->
                 <div class="row">
-                    <div class="col-lg-4 col-md-4">
-                        <div class="amanti-blog animate-box">
-                            <a href="#"><img class="img-responsive" src="<?php bloginfo('template_url'); ?>/assets/img/8sec-blog_1.jpg" alt=""></a>
-                            <div class="blog-text">
-                                <span class="posted_on">Январь 2017</span>
-                                <span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-                                <h3><a href="#">Сказка о Дягиле</a></h3>
-                                <p class="post-description">Удивительными тропами ходит по этой земле человек и бывает, что эти дороги уводят нас в настоящую сказку. И не обязательно быть детьми ..</p>
+<!--                    <div class="owlRecentPostCarousel owl-carousel owl-theme">-->
 
-                                <a class="slogan-button" href="#">
-                                    Читать далее
-                                    <span><img src="<?php bloginfo('template_url'); ?>/assets/img/8blog-btn.png" alt=""></span>
-                                </a>
+                    <?php $queryBlog = new WP_Query( [
+                            'cat'            => 50,
+                            'posts_per_page' => 3
+                    ] ); ?>
+                        <?php if ( $queryBlog->have_posts() ) : while ( $queryBlog->have_posts() ) : $queryBlog->the_post(); ?>
+                            <div class="col-lg-4 col-md-4">
+                                <div class="amanti-blog animate-box">
+                                    <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('blog-thumb'); ?></a>
+                                    <div class="blog-text">
+                                        <span class="posted_on"><?php the_date(); ?></span>
+                                        <span class="comment"><a href="<?php the_permalink(); ?>">21<i class="icon-speech-bubble"></i></a></span>
+                                        <h3><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h3>
+                                        <p class="post-description"><?php the_excerpt(); ?></p>
+
+                                        <a class="slogan-button" href="<?php the_permalink() ?>">
+                                            Читать далее
+                                            <span><img src="<?php bloginfo('template_url'); ?>/assets/img/8blog-btn.png" alt=""></span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4">
-                        <div class="amanti-blog animate-box">
-                            <a href="#"><img class="img-responsive" src="<?php bloginfo('template_url'); ?>/assets/img/8sec-blog_2.jpg" alt=""></a>
-                            <div class="blog-text">
-                                <span class="posted_on">Август 2017</span>
-                                <span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-                                <h3><a href="#">Делаем резной сундук</a></h3>
-                                <p class="post-description">Представляю вашему вниманию мастер-класс по проектированию и воплощению в материале резного сундука из дуба — Времена года.</p>
-                                <a class="slogan-button" href="#">
-                                    Читать далее
-                                    <span><img src="<?php bloginfo('template_url'); ?>/assets/img/8blog-btn.png" alt=""></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4">
-                        <div class="amanti-blog animate-box">
-                            <a href="#"><img class="img-responsive" src="<?php bloginfo('template_url'); ?>/assets/img/8sec-blog_3.jpg" alt=""></a>
-                            <div class="blog-text">
-                                <span class="posted_on">Nov. 15th</span>
-                                <span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>
-                                <h3><a href="#">Это должно было случиться!</a></h3>
-                                <p class="post-description">Мы десятки лет уже, с большим удовольствием режем пряничные доски! А вот сами пряники собрался приготовить впервые только сейчас.</p>
-                                <a class="slogan-button" href="#">
-                                    Читать далее
-                                    <span><img src="<?php bloginfo('template_url'); ?>/assets/img/8blog-btn.png" alt=""></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                        <?php endwhile; ?>
+                        <!-- post navigation -->
+                        <?php else: ?>
+                        <!-- no posts found -->
+                            <?php wp_reset_postdata(); ?>
+                        <?php endif; ?>
+
+<!--                    </div>-->
+<!--                    <div class="col-lg-4 col-md-4">-->
+<!--                        <div class="amanti-blog animate-box">-->
+<!--                            <a href="#"><img class="img-responsive" src="--><?php //bloginfo('template_url'); ?><!--/assets/img/8sec-blog_2.jpg" alt=""></a>-->
+<!--                            <div class="blog-text">-->
+<!--                                <span class="posted_on">Август 2017</span>-->
+<!--                                <span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>-->
+<!--                                <h3><a href="#">Делаем резной сундук</a></h3>-->
+<!--                                <p class="post-description">Представляю вашему вниманию мастер-класс по проектированию и воплощению в материале резного сундука из дуба — Времена года.</p>-->
+<!--                                <a class="slogan-button" href="#">-->
+<!--                                    Читать далее-->
+<!--                                    <span><img src="--><?php //bloginfo('template_url'); ?><!--/assets/img/8blog-btn.png" alt=""></span>-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-4 col-md-4">-->
+<!--                        <div class="amanti-blog animate-box">-->
+<!--                            <a href="#"><img class="img-responsive" src="--><?php //bloginfo('template_url'); ?><!--/assets/img/8sec-blog_3.jpg" alt=""></a>-->
+<!--                            <div class="blog-text">-->
+<!--                                <span class="posted_on">Nov. 15th</span>-->
+<!--                                <span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>-->
+<!--                                <h3><a href="#">Это должно было случиться!</a></h3>-->
+<!--                                <p class="post-description">Мы десятки лет уже, с большим удовольствием режем пряничные доски! А вот сами пряники собрался приготовить впервые только сейчас.</p>-->
+<!--                                <a class="slogan-button" href="#">-->
+<!--                                    Читать далее-->
+<!--                                    <span><img src="--><?php //bloginfo('template_url'); ?><!--/assets/img/8blog-btn.png" alt=""></span>-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>
@@ -824,74 +768,7 @@
     </div>
 
 	
-	<!-- =====================================
-    	==== Start slider -->
 
-	<section class="section-main-slider">
-		<div class="main-slider my-slider slider-pro skin2" id="my-slider-1" data-slider-width="100%" data-slider-height="670">
-		    <div class="sp-slides">
-		        <!-- Slide 1 -->
-		       	<div class="sp-slide section-bg" style="background-image:url(<?php bloginfo('template_url'); ?>/assets/images/slider/home3_slider1.jpg)">
-		           		<span class="sp-layer main-slider__img" data-horizontal="0" data-vertical="100"  data-show-transition="up" data-hide-transition="left" data-show-duration="800" data-show-delay="400" data-hide-delay="400">
-							<img class="img-responsive" src="<?php bloginfo('template_url'); ?>/assets/images/slider/home3_slider1.png" height="593" alt="">
-						</span>
-
-						<div class="sp-layer main-slider__text btn-sale text-white font-bold section-bg hidden-xs hidden-sm" data-horizontal="35%" data-vertical="140"  data-show-transition="up" data-hide-transition="left" data-show-duration="1200" data-show-delay="1200" data-hide-delay="1200" style="background-image:url("<?php bloginfo('template_url'); ?>"/assets/images/slider/home3_slider1_3.png)">
-		                    <span class="btn-sale__title">-ONLY-</span>
-							<span class="btn-sale__price">$56.89</span>
-				        </div>
-
-
-				        <h2 class="sp-layer main-slider__title font-italic" data-horizontal="50%" data-vertical="120" data-show-transition="up" data-hide-transition="left" data-show-duration="800" data-show-delay="800" data-hide-delay="800">
-							The Organic Store
-						</h2>
-						<h2 class="sp-layer main-slider__title color-primary font-bold hidden-md" data-horizontal="50%" data-vertical="210" data-show-transition="up" data-hide-transition="left" data-show-duration="900" data-show-delay="900" data-hide-delay="900">
-							Skin Care
-						</h2>
-				        <div class="sp-layer main-slider__text" data-horizontal="50%" data-vertical="320"  data-show-transition="up" data-hide-transition="left" data-show-duration="1000" data-show-delay="1000" data-hide-delay="1000">
-				            <p class="hidden-xs">
-				           		 Organica we know that washing your face is the most important part <br/>
-								of any skincare routine, but we all use different products to get the job ...
-							</p>
-				            <div class="main-slider__btn-group">
-				                <a class="mt-40 btn btn-features btn-primary btn-radius" href="../product_grid.html">Shop now <i class="fa fa-long-arrow-right" aria-hidden="true"></i> </a>
-				            </div>
-				        </div>
-				        <span class="sp-layer main-slider__img" data-horizontal="80%" data-vertical="500"  data-show-transition="up" data-hide-transition="right" data-show-duration="1200" data-show-delay="1200" data-hide-delay="1200">
-							<img class="img-responsive" src="<?php bloginfo('template_url'); ?>/assets/images/slider/home3_slider1_8.png" height="87" width="198" alt="">
-						</span>
-				</div>
-		        <!-- end sp-slide -->
-
-
-		        <!-- Slide 2-->
-		       	<div class="sp-slide section-bg" style="background-image:url(<?php bloginfo('template_url'); ?>/assets/images/slider/home3_slider2.jpg)">
-			        <h2 class="sp-layer main-slider__title font-italic text-center" data-horizontal="50%" data-vertical="120" data-show-transition="up" data-hide-transition="center" data-show-duration="800" data-show-delay="800" data-hide-delay="800">
-						The Organic Store
-					</h2>
-					<h2 class="sp-layer main-slider__title color-primary font-bold  text-center" data-horizontal="50%" data-vertical="210" data-show-transition="up" data-hide-transition="center" data-show-duration="900" data-show-delay="900" data-hide-delay="900">
-						Skin Care
-					</h2>
-			        <div class="sp-layer main-slider__text text-center" data-horizontal="50%" data-vertical="310"  data-show-transition="up" data-hide-transition="center" data-show-duration="1000" data-show-delay="1000" data-hide-delay="1000">
-			            <p class="hidden-xs">
-			           		 Organica we know that washing your face is the most important part<br/>
-							of any skincare routine, but we all use different products to get the job ...
-						</p>
-			            <div class="main-slider__btn-group">
-			                <a class="mt-40 btn btn-features btn-primary btn-radius" href="../product_grid.html">Shop now <i class="fa fa-long-arrow-right" aria-hidden="true"></i> </a>
-			            </div>
-			        </div>
-			        <div class="sp-layer main-slider__text btn-sale text-white font-bold section-bg hidden-xs hidden-sm" data-horizontal="72%" data-vertical="120"  data-show-transition="up" data-hide-transition="left" data-show-duration="1200" data-show-delay="1200" data-hide-delay="1200" style="background-image:url("<?php bloginfo('template_url'); ?>"/assets/images/slider/home3_slider1_3.png)">
-		                    <span class="btn-sale__title">-ONLY-</span>
-							<span class="btn-sale__price">$56.89</span>
-				        </div>
-				</div>
-		        <!-- end sp-slide -->
-		    </div>
-		</div>
-	</section>
-	<!-- End slider ====
-    	======================================= -->
 
 	<!-- =====================================
     	==== Start features-banner  -->

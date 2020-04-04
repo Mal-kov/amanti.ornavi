@@ -11,6 +11,7 @@ include 'inc/CreamWalkerNavMenu.php';
 
 
 
+
 if ( ! function_exists( 'cream_setup' ) ) :
 
     add_theme_support( 'woocommerce' );
@@ -46,7 +47,8 @@ if ( ! function_exists( 'cream_setup' ) ) :
 		 *
 		 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
 		 */
-		add_theme_support( 'post-thumbnails' );
+//		add_theme_support( 'post-thumbnails' );
+        add_theme_support( 'post-thumbnails', ['book_feedback'] );
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
@@ -87,6 +89,14 @@ if ( ! function_exists( 'cream_setup' ) ) :
 			'flex-width'  => true,
 			'flex-height' => true,
 		) );
+		/**
+         * Добавление миниатюр записей блога для вывода на главной
+         */
+		add_image_size('blog-thumb', 800, 570, true);
+
+
+
+
 	}
 endif;
 add_action( 'after_setup_theme', 'cream_setup' );
@@ -225,6 +235,93 @@ function cream_scripts() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'cream_scripts' );
+
+/**
+ *  Отзывы о книгах
+ */
+function amantiFeedback(){
+    register_post_type('book_feedback', array(
+        'labels'             => array(
+            'name'               => 'Отзывы о книгах', // Основное название типа записи
+            'singular_name'      => 'Отзыв о книге', // отдельное название записи типа Book
+            'add_new'            => 'Добавить новый',
+            'add_new_item'       => 'Добавить новый отзыв',
+            'edit_item'          => 'Редактировать отзыв',
+            'new_item'           => 'Новый отзыв',
+            'view_item'          => 'Посмотреть отзыв',
+            'search_items'       => 'Найти отзыв',
+            'not_found'          => 'Отзывов не найдено',
+            'not_found_in_trash' => 'В корзине книг не найдено',
+            'parent_item_colon'  => '',
+            'menu_name'          => 'Отзывы о книгах'
+
+        ),
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => true,
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => 25,
+        'supports'           => array('title','editor','author','thumbnail','excerpt')
+    ) );
+    register_post_type('products_feedback', array(
+        'labels'             => array(
+            'name'               => 'Отзывы о товарах', // Основное название типа записи
+            'singular_name'      => 'Отзыв о товаре', // отдельное название записи типа Book
+            'add_new'            => 'Добавить новый',
+            'add_new_item'       => 'Добавить новый отзыв',
+            'edit_item'          => 'Редактировать отзыв',
+            'new_item'           => 'Новый отзыв',
+            'view_item'          => 'Посмотреть отзыв',
+            'search_items'       => 'Найти отзыв',
+            'not_found'          => 'Отзывов не найдено',
+            'not_found_in_trash' => 'В корзине отзывов не найдено',
+            'parent_item_colon'  => '',
+            'menu_name'          => 'Отзывы о товарах'
+
+        ),
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => true,
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => 26,
+        'supports'           => array('title','editor','author','thumbnail','excerpt')
+    ) );
+}
+add_action('init', 'amantiFeedback');
+
+/**
+ * Вывод отзывов о книгах и о товарах
+ */
+function bookFeedback_reviews() {
+    $books_reviews = get_posts([
+       'orderby' => 'date',
+       'order'   => 'DESC',
+       'post_type' => 'book_feedback'
+    ]);
+
+    return $books_reviews;
+}
+function productsFeedback_reviews() {
+    $productsAmanty_reviews = get_posts([
+        'orderby' => 'date',
+        'order'   => 'DESC',
+        'post_type' => 'products_feedback'
+    ]);
+
+    return $productsAmanty_reviews;
+}
+
+
 
 /**
  * Implement the Custom Header feature.

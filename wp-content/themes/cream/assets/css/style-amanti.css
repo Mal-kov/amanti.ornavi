@@ -215,6 +215,52 @@ p.about_us-text{
     line-height: 30px;
 }
 
+.about_us ul{
+    float:left;
+    width:100%;
+    margin:0px;
+    padding:0px;
+}
+.about_us ul li{
+    list-style:none;
+    display:inline-block;
+    width:auto;
+    margin:5px;
+}
+.about_us ul li a{
+    font-size: 16px;
+    float:left;
+    width:45px;
+    height:45px;
+    line-height:43px;
+    text-align:center;
+    color:#000000;
+    border:1px solid rgba(77,45,32,0.84);
+    background-color:#ffffff;
+    -webkit-border-radius:100%;
+    -moz-border-radius:100%;
+    border-radius:100%;
+    -webkit-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    transition: all 0.5s;
+}
+.about_us ul li a:hover{
+    background-color:rgba(77,45,32,0.84);
+    color:#ffffff;
+    border:1px solid rgba(77,45,32,0.84);
+    -webkit-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+
+
+
+
 
 @media (max-width: 981px) {
     .about_us{
@@ -410,7 +456,7 @@ a.btn-amanty-submit span img{
 
 a.btn-amanty-submit:hover{
      background-color: transparent;
-     border-color: darken(#ef852f, 20%);
+     border-color: #ef852f;
      color: #3c1a11;
 
 }
@@ -484,7 +530,7 @@ a.btn-amanty-submit:hover{
 
 
 /* ============================= / Book ============================== */
-/* =============================  Book - feedback ============================== */
+/* =============================  Book and Products - feedback  ============================== */
 
 .feedbackSection {
     /*//background:  url("../img/4-sec-bg.jpg") center;*/
@@ -516,10 +562,10 @@ a.btn-amanty-submit:hover{
 .feedbackSection a:hover{
      color: #000;
  }
-.feedbackSection span.carousel-control-prev-icon,
-.feedbackSection span.carousel-control-next-icon {
-    background-image: none;
-}
+/*.feedbackSection span.carousel-control-prev-icon,*/
+/*.feedbackSection span.carousel-control-next-icon {*/
+    /*background-image: none;*/
+/*}*/
 
 a.btn-feedback{
     max-width: 100%;
@@ -566,66 +612,53 @@ p.say_2-author::before{
      background-color: #ef852f;
      display: block;
      position: absolute;
-     bottom: 10px;
+     bottom: 20px;
      left: 15px;
 }
 
-.clients-element{
+.owlFeedbackCarousel .clients-element,
+.owlProductsFeedbackCarousel .clients-element {
     margin: 80px 0;
 }
 
-.owl-carousel .owl-item .feedback_img-block {
+.owlFeedbackCarousel .clients-element .feedback_img-block,
+.owlProductsFeedbackCarousel .clients-element .feedback_img-block {
     position: relative;
     box-sizing: border-box;
     /*cursor: pointer;*/
 }
 
-.owl-carousel .owl-item .feedback_img-block img{
+.owlFeedbackCarousel .clients-element .feedback_img-block img,
+.owlProductsFeedbackCarousel .clients-element .feedback_img-block img{
     position: absolute;
+    width: 150px;
+    height: 150px;
     left: 50%;
     top: 0;
     transform: translateX(-50%);
 }
 
-.feedback_img-block::before{
-     content: "";
-     width: 150px;
-     height: 150px;
-     border-radius: 50%;
-     position: absolute;
-     left: 50%;
-     top: 0;
-     transform: translateX(-50%);
-     background-color: rgba(0, 0, 0, 0.3);
-     display: block;
-     opacity: 0;
-     transition-duration: 500ms;
-     transition-property: opacity;
-     z-index: 10;
- }
-.feedback_img-block:hover::before{
-     opacity: 1;
-}
-
-
-.feedback_img-block p{
+.owlFeedbackCarousel .clients-element p,
+.owlProductsFeedbackCarousel .clients-element p{
     text-align: left;
 }
 
-p.clients-name{
+.owlFeedbackCarousel .clients-element p.clients-name,
+.owlProductsFeedbackCarousel .clients-element p.clients-name{
     font-family: 'Pattaya-Regular', sans-serif;
     font-size: 24px;
     font-weight: 600;
-/*text-transform: uppercase;*/
     color: #333333;
 }
-p.clients-date{
+.owlFeedbackCarousel .clients-element p.clients-date,
+.owlProductsFeedbackCarousel .clients-element p.clients-date{
     font-family: 'Roboto-LightItalic', sans-serif;
     font-size: 15px;
     line-height: 24px;
 }
 
-p.clients-date::after{
+.owlFeedbackCarousel .clients-element p.clients-date::after,
+.owlProductsFeedbackCarousel .clients-element p.clients-date::after{
      content: "";
      width: 60px;
      height: 3px;
@@ -633,14 +666,16 @@ p.clients-date::after{
      display: block;
      margin: 20px 0;
 }
-p.clients-message{
+.owlFeedbackCarousel .clients-element p.clients-message,
+.owlProductsFeedbackCarousel .clients-element p.clients-message{
     font-family: 'Roboto-Regular', sans-serif;
     font-size: 15px;
     line-height: 24px;
     color: #3c1a11;
 }
 
-.carousel-item{
+.owlFeedbackCarousel .clients-element .carousel-item,
+.owlProductsFeedbackCarousel .clients-element .carousel-item{
     height: 300px;
 }
 
@@ -702,14 +737,6 @@ a.carousel-control-prev, a.carousel-control-next{
     height: 100%;
 }
 
-/*.container{*/
-    /*padding-top: 0;*/
-/*}*/
-/*.modal{*/
-/*z-index: 1050;*/
-/*}*/
-
-
 .homepage-hero-module .video-container video {
     position: absolute;
     background: fixed;
@@ -745,7 +772,7 @@ a.carousel-control-prev, a.carousel-control-next{
 }
 
 
-/* ============================= / Book - feedback ============================== */
+/* ============================= / Book and Products - feedback ============================== */
 
 
 

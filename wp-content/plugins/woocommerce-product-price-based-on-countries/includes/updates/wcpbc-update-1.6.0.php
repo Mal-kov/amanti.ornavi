@@ -11,31 +11,28 @@ if ( ! defined( 'ABSPATH' ) )  exit; // Exit if accessed directly
 
 global $wpdb;
 
-$regions = get_option( 'wc_price_based_country_regions', array() );
+foreach ( WCPBC_Pricing_Zones::get_zones() as $wcpbc_zone ) {
 
-foreach ( $regions as $region_id => $region ) {
-	
 	/**
-	 * Remove "_variable" prefix for prices meta keys 
+	 * Remove "_variable" prefix for prices meta keys
 	 */
-	$wpdb->query( "update {$wpdb->postmeta} set meta_key = replace(meta_key, '_variable', '') where meta_key like '_{$region_id}_variable_%'" );
-	
+	$wcpbc_zone_id = $wcpbc_zone->get_zone_id();
+	$wpdb->query( "update {$wpdb->postmeta} set meta_key = replace(meta_key, '_variable', '') where meta_key like '_{$wcpbc_zone_id}_variable_%'" );
+
 	/**
-	 * Sync product prices 
+	 * Sync product prices
 	 */
-	wcpbc_sync_exchange_rate_prices( $region_id, $region['exchange_rate'] );
+	wcpbc_sync_exchange_rate_prices( $wcpbc_zone );
 }
 
 /**
  * Update shipping option
  */
-$wc_price_based_shipping_conversion = get_option('wc_price_based_shipping_conversion', 'no' );
+$wc_price_based_shipping_conversion = get_option( 'wc_price_based_shipping_conversion', 'no' );
 update_option( 'wc_price_based_country_shipping_exchange_rate', $wc_price_based_shipping_conversion );
 
 /**
  * Delete deprecated option
- */ 
+ */
  delete_option( 'wc_price_based_country_hide_ads' );
  delete_option( 'wc_price_based_shipping_conversion' );
-
-?>

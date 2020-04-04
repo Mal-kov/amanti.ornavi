@@ -566,6 +566,7 @@ $('.owlBooksCarousel').owlCarousel({
     loop: true,
     items: 1,
     margin: 10,
+    merge:true,
     responsiveClass: true,
     nav: false,
     smartSpeed: 850
@@ -575,18 +576,48 @@ $('.owlBooksCarousel').owlCarousel({
 
 $('.owlFeedbackCarousel').owlCarousel({
     // animateOut: 'slideOutDown',
-    animateIn: 'flipInX',
+    //animateIn: 'flipInX',
     autoplay: true,
+    dots: false,
     loop: true,
     items: 1,
     margin: 10,
+    merge:true,
     responsiveClass: true,
     nav: false,
-    smartSpeed: 850
+    smartSpeed: 1100
 
 });
 
+$('.owlProductsFeedbackCarousel').owlCarousel({
+    //animateOut: 'slideOutDown',
+    //animateIn: 'flipInY',
+    autoplay: true,
+    dots: false,
+    loop: true,
+    items: 1,
+    margin: 10,
+    merge:true,
+    responsiveClass: true,
+    nav: false,
+    smartSpeed: 1100
 
+});
+
+$('.owlRecentPostCarousel').owlCarousel({
+    //animateOut: 'slideOutDown',
+    //animateIn: 'flipInY',
+    autoplay: true,
+    dots: false,
+    loop: true,
+    items: 3,
+    margin: 10,
+    merge:true,
+    //responsiveClass: true,
+    nav: false,
+    smartSpeed: 1100
+
+});
 
 
 

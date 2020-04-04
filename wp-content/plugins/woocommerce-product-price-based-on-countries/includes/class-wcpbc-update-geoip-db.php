@@ -70,7 +70,6 @@ class WCPBC_Update_GeoIP_DB {
 		if ( count( $matches ) && count( $matches[0] ) ) {
 			$database_url = $matches[0][0];
 		}
-
 		return $database_url;
 	}
 
@@ -171,7 +170,7 @@ class WCPBC_Update_GeoIP_DB {
 
 		} else {
 			$logger->notice(
-				'Unable to download GeoIP Database: ' . $tmp_database_path->get_error_message(),
+				'Unable to download GeoIP Database: ' . $tmp_file->get_error_message(),
 				array( 'source' => 'wcpbc-geolocation' )
 			);
 		}
