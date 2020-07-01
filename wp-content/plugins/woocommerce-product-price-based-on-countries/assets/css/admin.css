@@ -377,6 +377,22 @@ p.wc-price-based-country-upgrade-notice, .woocommerce_options_panel p.wc-price-b
 /* Upgrade notice */
 span.wc_pbc_upgrade_notice {
 	display: block;
+    margin: 0.5em -12px;
+    border-top: 1px solid #ffb900;
+    padding: 10px 12px;
+}
+
+span.wc_pbc_upgrade_notice span.wcpbc-li {
+	display: block;
+	padding: 0.75em 0 0 1em;
+	position: relative;
+}
+
+span.wc_pbc_upgrade_notice span.wcpbc-li::before {
+	content: "\2022";
+	position: absolute;
+	font-size: 1.75em;
+	left: 0;
 }
 
 /* Upgrade to Pro pop-up */

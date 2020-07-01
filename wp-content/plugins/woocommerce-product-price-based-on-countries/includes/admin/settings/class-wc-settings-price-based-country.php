@@ -30,8 +30,8 @@ if ( ! class_exists( 'WC_Settings_Price_Based_Country' ) ) :
 		public function __construct() {
 
 			$this->id      = 'price-based-country';
-			$this->label   = __( 'Zone Pricing', 'wc-price-based-country' );
-			$this->zone_id = empty( $_GET['zone_id'] ) ? false : wc_clean( wp_unslash( $_GET['zone_id'] ) ); // WPCS: CSRF ok.
+			$this->label   = __( 'Zone Pricing', 'woocommerce-product-price-based-on-countries' );
+			$this->zone_id = empty( $_GET['zone_id'] ) ? false : wc_clean( wp_unslash( $_GET['zone_id'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 
 			$this->init_hooks();
 			$this->delete_zone();
@@ -46,6 +46,7 @@ if ( ! class_exists( 'WC_Settings_Price_Based_Country' ) ) :
 			add_action( 'woocommerce_sections_' . $this->id, array( $this, 'update_zone_notice' ), 5 );
 			add_action( 'woocommerce_sections_' . $this->id, array( $this, 'output_sections' ) );
 			add_action( 'woocommerce_settings_save_' . $this->id, array( $this, 'save' ) );
+			add_action( 'update_option_wc_price_based_country_caching_support', array( __CLASS__, 'clear_cache_notice' ) );
 		}
 
 		/**
@@ -55,17 +56,17 @@ if ( ! class_exists( 'WC_Settings_Price_Based_Country' ) ) :
 			if ( ! empty( $_GET['delete_zone'] ) && isset( $_GET['tab'] ) && 'price-based-country' === $_GET['tab'] && isset( $_GET['section'] ) && 'zones' === $_GET['section'] ) { // WPCS: CSRF ok.
 
 				if ( empty( $_GET['_wpnonce'] ) || ! wp_verify_nonce( $_GET['_wpnonce'], 'wc-price-based-country-delete-zone' ) ) { // WPCS: input var ok, sanitization ok.
-					wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'wc-price-based-country' ) );
+					wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'woocommerce-product-price-based-on-countries' ) );
 				}
 
 				$zone = WCPBC_Pricing_Zones::get_zone_by_id( wc_clean( wp_unslash( $_GET['delete_zone'] ) ) );
 				if ( ! $zone ) {
-					wp_die( esc_html__( 'Zone does not exist!', 'wc-price-based-country' ) );
+					wp_die( esc_html__( 'Zone does not exist!', 'woocommerce-product-price-based-on-countries' ) );
 				}
 
 				WCPBC_Pricing_Zones::delete( $zone );
 
-				WC_Admin_Settings::add_message( __( 'Zone have been deleted.', 'wc-price-based-country' ) );
+				WC_Admin_Settings::add_message( __( 'Zone have been deleted.', 'woocommerce-product-price-based-on-countries' ) );
 
 			}
 		}
@@ -88,11 +89,11 @@ if ( ! class_exists( 'WC_Settings_Price_Based_Country' ) ) :
 		 */
 		public function get_sections() {
 			$sections = array(
-				''      => __( 'General options', 'wc-price-based-country' ),
-				'zones' => __( 'Pricing zones', 'wc-price-based-country' ),
+				''      => __( 'General options', 'woocommerce-product-price-based-on-countries' ),
+				'zones' => __( 'Pricing zones', 'woocommerce-product-price-based-on-countries' ),
 			);
 			if ( wcpbc_is_pro() ) {
-				$sections['license'] = __( 'License', 'wc-price-based-country' );
+				$sections['license'] = __( 'License', 'woocommerce-product-price-based-on-countries' );
 			}
 			return $sections;
 		}
@@ -107,56 +108,56 @@ if ( ! class_exists( 'WC_Settings_Price_Based_Country' ) ) :
 				'wc_price_based_country_settings_general',
 				array(
 					array(
-						'title' => __( 'General Options', 'wc-price-based-country' ),
+						'title' => __( 'General Options', 'woocommerce-product-price-based-on-countries' ),
 						'type'  => 'title',
 						'desc'  => '',
 						'id'    => 'general_options',
 					),
 
 					array(
-						'title'    => __( 'Price Based On', 'wc-price-based-country' ),
-						'desc'     => __( 'This controls which address is used to refresh products prices on checkout.', 'wc-price-based-country' ),
+						'title'    => __( 'Price Based On', 'woocommerce-product-price-based-on-countries' ),
+						'desc'     => __( 'This controls which address is used to refresh products prices on checkout.', 'woocommerce-product-price-based-on-countries' ),
 						'id'       => 'wc_price_based_country_based_on',
 						'default'  => 'billing',
 						'type'     => 'select',
 						'class'    => 'wc-enhanced-select',
 						'desc_tip' => true,
 						'options'  => array(
-							'billing'  => __( 'Customer billing country', 'wc-price-based-country' ),
-							'shipping' => __( 'Customer shipping country', 'wc-price-based-country' ),
+							'billing'  => __( 'Customer billing country', 'woocommerce-product-price-based-on-countries' ),
+							'shipping' => __( 'Customer shipping country', 'woocommerce-product-price-based-on-countries' ),
 						),
 					),
 
 					array(
-						'title'   => __( 'Shipping', 'wc-price-based-country' ),
-						'desc'    => __( 'Apply exchange rates to shipping cost.', 'wc-price-based-country' ),
+						'title'   => __( 'Shipping', 'woocommerce-product-price-based-on-countries' ),
+						'desc'    => __( 'Apply exchange rates to shipping cost.', 'woocommerce-product-price-based-on-countries' ),
 						'id'      => 'wc_price_based_country_shipping_exchange_rate',
 						'default' => 'no',
 						'type'    => 'checkbox',
 					),
 
 					array(
-						'title'    => __( 'Caching support', 'wc-price-based-country' ),
-						'desc'     => __( 'Load products price in background.', 'wc-price-based-country' ),
+						'title'    => __( 'Caching support', 'woocommerce-product-price-based-on-countries' ),
+						'desc'     => __( 'Load product prices in the background.', 'woocommerce-product-price-based-on-countries' ),
 						'id'       => 'wc_price_based_country_caching_support',
 						'default'  => 'no',
 						'type'     => 'checkbox',
 						// translators: HTML tags.
-						'desc_tip' => sprintf( __( 'This fired an AJAX request per page (%1$sread more%2$s).', 'wc-price-based-country' ), '<a target="_blank" rel="noopener noreferrer" href="https://www.pricebasedcountry.com/docs/getting-started/geolocation-cache-support/?utm_source=settings&utm_medium=banner&utm_campaign=Docs">', '</a>' ),
+						'desc_tip' => sprintf( __( 'This fires an AJAX request per page (%1$sread more%2$s).', 'woocommerce-product-price-based-on-countries' ), '<a target="_blank" rel="noopener noreferrer" href="https://www.pricebasedcountry.com/docs/getting-started/geolocation-cache-support/?utm_source=settings&utm_medium=banner&utm_campaign=Docs">', '</a>' ),
 					),
 
 					array(
-						'title'    => __( 'Test mode', 'wc-price-based-country' ),
-						'desc'     => __( 'Enable test mode', 'wc-price-based-country' ),
+						'title'    => __( 'Test mode', 'woocommerce-product-price-based-on-countries' ),
+						'desc'     => __( 'Enable test mode', 'woocommerce-product-price-based-on-countries' ),
 						'id'       => 'wc_price_based_country_test_mode',
 						'default'  => 'no',
 						'type'     => 'checkbox',
 						// translators: HTML tags.
-						'desc_tip' => sprintf( __( 'Enable test mode to show pricing for a specific country (%1$sHow to test%2$s).', 'wc-price-based-country' ), '<a target="_blank" rel="noopener noreferrer" href="https://www.pricebasedcountry.com/docs/getting-started/testing/?utm_source=settings&utm_medium=banner&utm_campaign=Docs">', '</a>' ),
+						'desc_tip' => sprintf( __( 'Enable test mode to show pricing for a specific country (%1$sHow to test%2$s).', 'woocommerce-product-price-based-on-countries' ), '<a target="_blank" rel="noopener noreferrer" href="https://www.pricebasedcountry.com/docs/getting-started/testing/?utm_source=settings&utm_medium=banner&utm_campaign=Docs">', '</a>' ),
 					),
 
 					array(
-						'title'   => __( 'Test country', 'wc-price-based-country' ),
+						'title'   => __( 'Test country', 'woocommerce-product-price-based-on-countries' ),
 						'id'      => 'wc_price_based_country_test_country',
 						'default' => wc_get_base_location(),
 						'type'    => 'select',
@@ -235,6 +236,13 @@ if ( ! class_exists( 'WC_Settings_Price_Based_Country' ) ) :
 		}
 
 		/**
+		 * Output the clear cache notice after update "AJAX geolocation"
+		 */
+		public static function clear_cache_notice() {
+			WCPBC_Admin_Notices::add_temp_notice( sprintf( '<strong>%1$s</strong> %2$s', esc_html__( 'Heads up!', 'woocommerce-product-price-based-on-countries' ), esc_html__( 'You have to manually purge the cache of your cache plugin for the changes on the "Caching support" option to take effect.', 'woocommerce-product-price-based-on-countries' ) ) );
+		}
+
+		/**
 		 * Handles output of the pricing zones page in admin.
 		 */
 		protected function output_zones_screen() {
@@ -251,7 +259,7 @@ if ( ! class_exists( 'WC_Settings_Price_Based_Country' ) ) :
 				}
 
 				if ( ! $zone ) {
-					wp_die( esc_html__( 'Zone does not exist!', 'wc-price-based-country' ) );
+					wp_die( esc_html__( 'Zone does not exist!', 'woocommerce-product-price-based-on-countries' ) );
 				}
 
 				$allowed_countries = WCPBC_Pricing_Zones::get_allowed_countries( $zone );
@@ -262,8 +270,8 @@ if ( ! class_exists( 'WC_Settings_Price_Based_Country' ) ) :
 				// Zone list table.
 				include_once WCPBC()->plugin_path() . 'includes/admin/class-wcpbc-admin-zone-list-table.php';
 
-				echo '<h3>' . esc_html__( 'Pricing zones', 'wc-price-based-country' ) . ' <a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=price-based-country&section=zones&zone_id=new' ) ) . '" class="add-new-h2">' . esc_html__( 'Add pricing zone', 'wc-price-based-country' ) . '</a></h3>';
-				echo '<p>' . esc_html__( 'A Pricing Zone is a group of countries to which you sell your products at a different price and (or) currency.', 'wc-price-based-country' ) . '</p>';
+				echo '<h3>' . esc_html__( 'Pricing zones', 'woocommerce-product-price-based-on-countries' ) . ' <a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=price-based-country&section=zones&zone_id=new' ) ) . '" class="add-new-h2">' . esc_html__( 'Add pricing zone', 'woocommerce-product-price-based-on-countries' ) . '</a></h3>';
+				echo '<p>' . esc_html__( 'A Pricing Zone is a group of countries to which you sell your products at a different price and (or) currency.', 'woocommerce-product-price-based-on-countries' ) . '</p>';
 
 				$table_list = new WCPBC_Admin_Zone_List_Table();
 				$table_list->prepare_items();
@@ -289,20 +297,20 @@ if ( ! class_exists( 'WC_Settings_Price_Based_Country' ) ) :
 			}
 
 			if ( ! $zone ) {
-				wp_die( esc_html__( 'Zone does not exist!', 'wc-price-based-country' ) );
+				wp_die( esc_html__( 'Zone does not exist!', 'woocommerce-product-price-based-on-countries' ) );
 			}
 
 			// Fields validation.
 			$pass = false;
 
 			if ( empty( $postdata['name'] ) ) {
-				WC_Admin_Settings::add_error( __( 'Zone name is required.', 'wc-price-based-country' ) );
+				WC_Admin_Settings::add_error( __( 'Zone name is required.', 'woocommerce-product-price-based-on-countries' ) );
 
 			} elseif ( empty( $postdata['countries'] ) ) {
-				WC_Admin_Settings::add_error( __( 'Add at least one country to the list.', 'wc-price-based-country' ) );
+				WC_Admin_Settings::add_error( __( 'Add at least one country to the list.', 'woocommerce-product-price-based-on-countries' ) );
 
 			} elseif ( empty( $postdata['exchange_rate'] ) ) {
-				WC_Admin_Settings::add_error( __( 'Exchange rate must be nonzero.', 'wc-price-based-country' ) );
+				WC_Admin_Settings::add_error( __( 'Exchange rate must be nonzero.', 'woocommerce-product-price-based-on-countries' ) );
 
 			} elseif ( apply_filters( 'wc_price_based_country_settings_zone_validation', true ) ) {
 				$pass = true;
@@ -330,10 +338,10 @@ if ( ! class_exists( 'WC_Settings_Price_Based_Country' ) ) :
 			if ( $this->is_section( 'zones' ) && ! empty( $_GET['updated'] ) ) { // WPCS: CSRF ok.
 				?>
 			<div id="message" class="updated inline">
-				<p><strong><?php esc_html_e( 'Zone updated successfully.', 'wc-price-based-country' ); ?></strong></p>
+				<p><strong><?php esc_html_e( 'Zone updated successfully.', 'woocommerce-product-price-based-on-countries' ); ?></strong></p>
 				<p>
-					<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=price-based-country&section=zones' ) ); ?>">&larr; <?php esc_html_e( 'Back to Zones', 'wc-price-based-country' ); ?></a>
-					<a style="margin-left:15px;" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=price-based-country&section=zones&zone_id=new' ) ); ?>"><?php esc_html_e( 'Add a new zone', 'wc-price-based-country' ); ?></a>
+					<a href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=price-based-country&section=zones' ) ); ?>">&larr; <?php esc_html_e( 'Back to Zones', 'woocommerce-product-price-based-on-countries' ); ?></a>
+					<a style="margin-left:15px;" href="<?php echo esc_url( admin_url( 'admin.php?page=wc-settings&tab=price-based-country&section=zones&zone_id=new' ) ); ?>"><?php esc_html_e( 'Add a new zone', 'woocommerce-product-price-based-on-countries' ); ?></a>
 				</p>
 			</div>
 				<?php

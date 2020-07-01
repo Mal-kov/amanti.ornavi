@@ -1,61 +1,77 @@
-@font-face {
-    font-family: 'Spinners';
-    src:  url('../fonts/spinners.eot?dlptjj');
-    src:  url('../fonts/spinners.eot?dlptjj#iefix') format('embedded-opentype'),
-      url('../fonts/spinners.ttf?dlptjj') format('truetype'),
-      url('../fonts/spinners.woff?dlptjj') format('woff'),
-      url('../fonts/spinners.svg?dlptjj#spinners') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@-webkit-keyframes spinner {
-    0% {
-      -webkit-transform: rotate(0deg);
-              transform: rotate(0deg); }
-    100% {
-      -webkit-transform: rotate(360deg);
-              transform: rotate(360deg); } }
-
-  @keyframes spinner {
-    0% {
-      -webkit-transform: rotate(0deg);
-              transform: rotate(0deg); }
-    100% {
-      -webkit-transform: rotate(360deg);
-              transform: rotate(360deg); } }
-
-
-.wcpbc-price.loading {
-    visibility: hidden;
-    position: relative;
-}
-.wcpbc-price.loading::after {
-    font-family: 'Spinners';
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    text-transform: none;
-    content: '\e980';
-    display: inline-block;
-    visibility: visible;
-    vertical-align: baseline;
-    height: 20px;
-    width: 20px;
-    line-height: 20px;
-    font-size: 20px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -10px;
-    margin-top: -10px;
-    -webkit-animation: spinner 1s linear infinite;
-    animation: spinner 1s linear infinite;
-    color: #6d6d6d;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
+/**
+ * Content.
+ */
 .wcpbc-content {
 	display: none;
+}
+
+.wcpbc-price.loading {
+	display: inline-block;
+	position: relative;
+	visibility: hidden;
+}
+/**
+ * Ajax geolocation spinner.
+ *
+ * @see https://github.com/lukehaas/css-loaders
+ */
+.wcpbc-price.loading .wcpbc-spinner,
+.wcpbc-price.loading .wcpbc-spinner:before,
+.wcpbc-price.loading .wcpbc-spinner:after {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: dotted_spinner 1.8s infinite ease-in-out;
+  animation: dotted_spinner 1.8s infinite ease-in-out;
+}
+.wcpbc-price.loading .wcpbc-spinner{
+	display: block;
+	font-size: 20%;
+	margin: 0;
+	position: absolute;
+	top: 10%;
+	right: 45%;
+	visibility: visible;
+	text-indent: -9999em;
+	-webkit-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	transform: translateZ(0);
+	-webkit-animation-delay: -0.16s;
+	animation-delay: -0.16s;
+}
+.wcpbc-price.loading .wcpbc-spinner:before,
+.wcpbc-price.loading .wcpbc-spinner:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+.wcpbc-price.loading .wcpbc-spinner:before {
+  left: -3.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.wcpbc-price.loading .wcpbc-spinner:after {
+  left: 3.5em;
+}
+@-webkit-keyframes dotted_spinner {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
+@keyframes dotted_spinner {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
 }

@@ -6670,10 +6670,10 @@ a:visited{
 }
  .color-primary {
      display: block;
-     color: #8fac47 !important;
+     color: #ef852f !important;
 }
  .color-primary * {
-     color: #8fac47 !important;
+     color: #ef852f !important;
 }
 /*----------------------------- display -------------------------------*/
  .d-none {
@@ -7267,7 +7267,7 @@ a:visited{
      overflow-y: auto;
      max-height: 300px;
 }
- .site-header .site-header__cart .widget_shopping_cart_content .cart_list > div {
+ .site-header .site-header__cart .widget_shopping_cart_content .cart_list > li {
      position: relative;
 }
  .site-header .site-header__cart .widget_shopping_cart_content .widget-product {

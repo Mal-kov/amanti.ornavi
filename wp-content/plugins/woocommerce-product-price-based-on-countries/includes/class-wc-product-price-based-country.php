@@ -18,7 +18,7 @@ class WC_Product_Price_Based_Country {
 	 *
 	 * @var string
 	 */
-	public $version = '1.8.25';
+	public $version = '2.0.7';
 
 	/**
 	 * The front-end pricing zone
@@ -32,7 +32,14 @@ class WC_Product_Price_Based_Country {
 	 *
 	 * @var string
 	 */
-	protected $min_wc_version = '2.6';
+	protected $min_wc_version = '3.4';
+
+	/**
+	 * Min Pro required version.
+	 *
+	 * @var string
+	 */
+	protected $min_pro_version = '2.8.9';
 
 	/**
 	 * Enviroment alert
@@ -96,7 +103,8 @@ class WC_Product_Price_Based_Country {
 	public function __construct() {
 		$this->includes();
 
-		register_activation_hook( WCPBC_PLUGIN_FILE, array( 'WCPBC_Install', 'install' ) );
+		register_activation_hook( WCPBC_PLUGIN_FILE, array( 'WCPBC_Install', 'plugin_activate' ) );
+		register_deactivation_hook( WCPBC_PLUGIN_FILE, array( 'WCPBC_Install', 'plugin_deactivate' ) );
 
 		add_action( 'init', array( $this, 'load_textdomain' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( WCPBC_PLUGIN_FILE ), array( $this, 'plugin_action_links' ) );
@@ -112,12 +120,13 @@ class WC_Product_Price_Based_Country {
 		include_once $this->plugin_path() . 'includes/class-wcpbc-pricing-zone.php';
 		include_once $this->plugin_path() . 'includes/class-wcpbc-pricing-zones.php';
 		include_once $this->plugin_path() . 'includes/wcpbc-core-functions.php';
-		include_once $this->plugin_path() . 'includes/wcpbc-metadata-functions.php';
 		include_once $this->plugin_path() . 'includes/class-wcpbc-integrations.php';
 		include_once $this->plugin_path() . 'includes/class-wcpbc-frontend.php';
 		include_once $this->plugin_path() . 'includes/class-wcpbc-frontend-pricing.php';
 		include_once $this->plugin_path() . 'includes/class-wcpbc-ajax-geolocation.php';
 		include_once $this->plugin_path() . 'includes/class-wcpbc-update-geoip-db.php';
+		include_once $this->plugin_path() . 'includes/admin/class-wcpbc-admin-analytics.php';
+		include_once $this->plugin_path() . 'includes/class-wcpbc-product-sync.php';
 
 		if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
 			include_once $this->plugin_path() . 'includes/class-wcpbc-install.php';
@@ -138,7 +147,7 @@ class WC_Product_Price_Based_Country {
 	 * @since 1.6.3
 	 */
 	public function load_textdomain() {
-		load_plugin_textdomain( 'wc-price-based-country', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'woocommerce-product-price-based-on-countries', false, dirname( plugin_basename( WCPBC_PLUGIN_FILE ) ) . '/languages/' );
 	}
 
 	/**
@@ -151,11 +160,11 @@ class WC_Product_Price_Based_Country {
 	public function plugin_action_links( $links ) {
 
 		$action_links = array(
-			'settings' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=price-based-country' ) . '" aria-label="' . esc_attr__( 'View Price Based on Country settings', 'wc-price-based-country' ) . '">' . esc_html__( 'Settings', 'wc-price-based-country' ) . '</a>',
+			'settings' => '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=price-based-country' ) . '" aria-label="' . esc_attr__( 'View Price Based on Country settings', 'woocommerce-product-price-based-on-countries' ) . '">' . esc_html__( 'Settings', 'woocommerce-product-price-based-on-countries' ) . '</a>',
 		);
 
 		if ( ! wcpbc_is_pro() ) {
-			$action_links['get-pro'] = '<a target="_blank" rel="noopener noreferrer" style="color:#46b450;" href="https://www.pricebasedcountry.com/pricing/?utm_source=action-link&utm_medium=banner&utm_campaign=Get_Pro" aria-label="' . esc_attr__( 'Get Price Based on Country Pro', 'wc-price-based-country' ) . '">' . esc_html__( 'Get Pro', 'wc-price-based-country' ) . '</a>';
+			$action_links['get-pro'] = '<a target="_blank" rel="noopener noreferrer" style="color:#46b450;" href="https://www.pricebasedcountry.com/pricing/?utm_source=action-link&utm_medium=banner&utm_campaign=Get_Pro" aria-label="' . esc_attr__( 'Get Price Based on Country Pro', 'woocommerce-product-price-based-on-countries' ) . '">' . esc_html__( 'Get Pro', 'woocommerce-product-price-based-on-countries' ) . '</a>';
 		}
 
 		return array_merge( $action_links, $links );
@@ -172,7 +181,7 @@ class WC_Product_Price_Based_Country {
 	public function plugin_row_meta( $links, $file ) {
 		if ( plugin_basename( WCPBC_PLUGIN_FILE ) === $file ) {
 			$row_meta = array(
-				'docs' => '<a href="' . esc_url( 'https://www.pricebasedcountry.com/docs/?utm_source=row-meta&utm_medium=banner&utm_campaign=Docs' ) . '" aria-label="' . esc_attr__( 'View documentation', 'wc-price-based-country' ) . '">' . esc_html__( 'Docs', 'wc-price-based-country' ) . '</a>',
+				'docs' => '<a href="' . esc_url( 'https://www.pricebasedcountry.com/docs/?utm_source=row-meta&utm_medium=banner&utm_campaign=Docs' ) . '" aria-label="' . esc_attr__( 'View documentation', 'woocommerce-product-price-based-on-countries' ) . '">' . esc_html__( 'Docs', 'woocommerce-product-price-based-on-countries' ) . '</a>',
 			);
 
 			return array_merge( $links, $row_meta );
@@ -189,13 +198,24 @@ class WC_Product_Price_Based_Country {
 	private function check_environment() {
 		if ( ! defined( 'WC_VERSION' ) ) {
 			// translators: HTML Tags.
-			$this->environment_alert = sprintf( __( '%1$sPrice Based on Country%2$s requires WooCommerce to be activated to work. Learn how to install Price Based on Country in the %3$sGetting Started Guide%4$s.', 'wc-price-based-country' ), '<strong>', '</strong>', '<a href="https://www.pricebasedcountry.com/docs/getting-started/">', '</a>' );
+			$this->environment_alert = sprintf( __( '%1$sPrice Based on Country%2$s requires WooCommerce to be activated to work. Learn how to install Price Based on Country in the %3$sGetting Started Guide%4$s.', 'woocommerce-product-price-based-on-countries' ), '<strong>', '</strong>', '<a href="https://www.pricebasedcountry.com/docs/getting-started/">', '</a>' );
 			return false;
 		}
 
 		if ( version_compare( WC_VERSION, $this->min_wc_version, '<' ) ) {
 			// translators: HTML Tags.
-			$this->environment_alert = sprintf( __( 'Price Based on Country - The minimum WooCommerce version required for this plugin is %1$s. You are running %2$s.', 'wc-price-based-country' ), $this->min_wc_version, WC_VERSION );
+			$this->environment_alert = sprintf( __( 'The minimum WooCommerce version required for this plugin is %1$s. You are running %2$s.', 'woocommerce-product-price-based-on-countries' ), $this->min_wc_version, WC_VERSION );
+			return false;
+		}
+
+		if ( class_exists( 'WC_Product_Price_Based_Country_Pro' ) && isset( WC_Product_Price_Based_Country_Pro::$version ) && version_compare( WC_Product_Price_Based_Country_Pro::$version, $this->min_pro_version, '<' ) ) {
+			// translators: HTML Tags.
+			$this->environment_alert = sprintf( __( 'You are using a not supported version of %1$sPrice Based on Country Pro%2$s. Update Price Based on Country Pro to the latest version, or the plugin will not work.', 'woocommerce-product-price-based-on-countries' ), '<strong>', '</strong>' );
+
+			if ( class_exists( 'WCPBC_Admin' ) ) {
+				// Admin init to allow users set the license.
+				WCPBC_Admin::init();
+			}
 			return false;
 		}
 
@@ -225,6 +245,11 @@ class WC_Product_Price_Based_Country {
 
 		WCPBC_Frontend::init();
 		WCPBC_Ajax_Geolocation::init();
+		WCPBC_Product_Sync::init();
+
+		if ( $this->is_rest_api( 'wc-analytics' ) ) {
+			WCPBC_Admin_Analytics::init();
+		}
 
 		if ( version_compare( WC_VERSION, '3.4', '>=' ) && version_compare( WC_VERSION, '3.9', '<' ) ) {
 			WCPBC_Update_GeoIP_DB::init();
@@ -240,7 +265,7 @@ class WC_Product_Price_Based_Country {
 	 * Display the environment alert
 	 */
 	public function environment_notice() {
-		echo '<div id="message" class="error"><p>' . wp_kses_post( $this->environment_alert ) . '</p></div>';
+		echo '<div id="message" class="error">' . sprintf( '<p><strong>%1$s</strong></p>%2$s', 'Price Based on Country - ' . esc_html__( 'Heads up!', 'woocommerce-product-price-based-on-countries' ), wp_kses_post( wpautop( $this->environment_alert ) ) ) . '</div>';
 	}
 
 	/**
@@ -260,8 +285,13 @@ class WC_Product_Price_Based_Country {
 	 */
 	public function frontend_init() {
 
-		if ( ! $this->is_request( 'frontend' ) || apply_filters( 'wc_price_based_country_stop_pricing', false ) ) {
-			// Do only if woocommerce frontend have been loaded.
+		if ( $this->is_rest_api_frontend() ) {
+			// Products block support. Needs customer info.
+			$this->initialize_customer();
+		}
+
+		if ( ! $this->is_frontend() || apply_filters( 'wc_price_based_country_stop_pricing', false ) ) {
+			// Do only on frontend requests.
 			return;
 		}
 
@@ -277,27 +307,7 @@ class WC_Product_Price_Based_Country {
 	}
 
 	/**
-	 * What type of request is this?
-	 *
-	 * @param string $type frontend or admin.
-	 * @return bool
-	 */
-	private function is_request( $type ) {
-
-		$ajax_action = defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_REQUEST['action'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ) : false; // phpcs:ignore WordPress.Security.NonceVerification
-
-		switch ( $type ) {
-			case 'frontend':
-				return wcpbc_is_woocommerce_frontend() && ! defined( 'DOING_CRON' ) && ( ! is_admin() || ( $ajax_action && apply_filters( 'wc_price_based_country_is_ajax_frontend', has_action( 'wp_ajax_nopriv_' . $ajax_action ), $ajax_action ) ) );
-			case 'rest_api':
-				return function_exists( 'wc' ) && is_callable( array( wc(), 'is_rest_api_request' ) ) && wc()->is_rest_api_request();
-			case 'admin':
-				return ! defined( 'DOING_CRON' ) && ! $this->is_request( 'rest_api' ) && ! $this->is_request( 'frontend' );
-		}
-	}
-
-	/**
-	 * Init front-end on AJAX calls. Improve compatibility with plugins which adds the "wp_ajax_nopriv_..." action on the 'init' hook.
+	 * Init frontend on AJAX requests. Improve compatibility with plugins which adds the "wp_ajax_nopriv_..." action on the 'init' hook.
 	 */
 	public function ajax_frontend_init() {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX && ! did_action( 'wc_price_based_country_frontend_init' ) ) {
@@ -306,13 +316,88 @@ class WC_Product_Price_Based_Country {
 	}
 
 	/**
-	 * Get regions.
+	 * Is a frontend request?.
 	 *
-	 * @deprecated 1.8.0 No longer needed.
-	 * @return array
+	 * @return bool
 	 */
-	public function get_regions() {
-		_deprecated_function( 'WC_Product_Price_Based_Country::get_regions', '1.8.0', 'WCPBC_Pricing_Zones::get_zones' );
-		return array();
+	private function is_frontend() {
+		return wcpbc_is_woocommerce_frontend() && ! defined( 'DOING_CRON' ) && ( ! is_admin() || $this->is_ajax_frontend() );
+	}
+
+	/**
+	 * Is AJAX frontend request?.
+	 */
+	private function is_ajax_frontend() {
+		$is_ajax_frontend = false;
+		$action           = defined( 'DOING_AJAX' ) && DOING_AJAX && isset( $_REQUEST['action'] ) ? wc_clean( wp_unslash( $_REQUEST['action'] ) ) : false; // phpcs:ignore WordPress.Security.NonceVerification
+		if ( ! $action ) {
+			return $is_ajax_frontend;
+		}
+		$http_referer = str_replace( array( 'https://', 'http://', 'www.' ), '', trailingslashit( wp_get_referer() ) );
+		if ( ! empty( $http_referer ) ) {
+			$admin_url        = str_replace( array( 'https://', 'http://', 'www.' ), '', trailingslashit( admin_url( '/' ) ) );
+			$is_ajax_frontend = ( false === strpos( $http_referer, $admin_url ) );
+		} else {
+			// Check the ajax no priv action.
+			$is_ajax_frontend = has_action( 'wp_ajax_nopriv_' . $action );
+		}
+
+		return apply_filters( 'wc_price_based_country_is_ajax_frontend', $is_ajax_frontend, $action );
+	}
+
+	/**
+	 * Is Rest API request?.
+	 *
+	 * @since 2.0
+	 * @param string $path Path to check. Default ''.
+	 * @return bool
+	 */
+	private function is_rest_api( $path = '' ) {
+		if ( empty( $_SERVER['REQUEST_URI'] ) ) {
+			return false;
+		}
+		$path                = empty( $path ) ? $path : trailingslashit( $path );
+		$rest_prefix         = trailingslashit( rest_get_url_prefix() ) . $path;
+		$is_rest_api_request = ( false !== strpos( $_SERVER['REQUEST_URI'], $rest_prefix ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+		return $is_rest_api_request;
+	}
+
+	/**
+	 * Is Rest API frontend request?.
+	 *
+	 * @since 2.0.0
+	 * @return bool
+	 */
+	private function is_rest_api_frontend() {
+		$is_rest_api_frontend = false;
+
+		if ( $this->is_rest_api() ) {
+
+			$frontend_rest_api_routes = array_merge(
+				array( 'wc/store/' ),
+				apply_filters( 'wc_price_based_country_frontend_rest_routes', array() )
+			);
+
+			foreach ( $frontend_rest_api_routes as $route ) {
+				$is_rest_api_frontend = $this->is_rest_api( $route );
+
+				if ( $is_rest_api_frontend ) {
+					break;
+				}
+			}
+		}
+
+		return $is_rest_api_frontend;
+	}
+
+	/**
+	 * Initialize the customer object.
+	 */
+	private function initialize_customer() {
+		if ( did_action( 'before_woocommerce_init' ) && ! doing_action( 'before_woocommerce_init' ) && function_exists( 'WC' ) && is_callable( array( WC(), 'initialize_session' ) ) && ( is_null( WC()->customer ) || ! WC()->customer instanceof WC_Customer ) ) {
+			WC()->initialize_session();
+			WC()->customer = new WC_Customer( get_current_user_id(), true );
+		}
 	}
 }

@@ -94,8 +94,9 @@ class WCPBC_Admin {
 			return;
 		}
 
-		// JS.
 		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
+		// JS.
 		wp_register_script( 'wc_price_based_country_admin', WCPBC()->plugin_url() . 'assets/js/admin' . $suffix . '.js', array( 'jquery', 'woocommerce_admin', 'accounting' ), WCPBC()->version, true );
 		wp_register_script( 'wc_price_based_country_admin_notices', WCPBC()->plugin_url() . 'assets/js/admin-notices' . $suffix . '.js', array( 'jquery' ), WCPBC()->version, true );
 		wp_register_script( 'wc_price_based_country_admin_system_report', WCPBC()->plugin_url() . 'assets/js/admin-system-report' . $suffix . '.js', array( 'jquery' ), WCPBC()->version, false );
@@ -104,13 +105,12 @@ class WCPBC_Admin {
 			'wc_price_based_country_admin',
 			'wc_price_based_country_admin_params',
 			array(
-				'ajax_url'                   => admin_url( 'admin-ajax.php' ),
-				'product_type_supported'     => array_keys( wcpbc_product_types_supported() ),
-				'product_type_third_party'   => array_keys( wcpbc_product_types_supported( 'third-party' ) ),
-				'is_pro'                     => wcpbc_is_pro() ? '1' : '',
-				'i18n_delete_zone_alert'     => __( 'Are you sure you want to delete this zone? This action cannot be undone', 'wc-price-based-country' ),
-				'i18n_caching_support_alert' => __( 'You must clear cache after enabling this option.', 'wc-price-based-country' ),
-				'i18n_default_zone_name'     => __( 'Zone', 'wc-price-based-country' ),
+				'ajax_url'                 => admin_url( 'admin-ajax.php' ),
+				'product_type_supported'   => array_keys( wcpbc_product_types_supported() ),
+				'product_type_third_party' => array_keys( wcpbc_product_types_supported( 'third-party' ) ),
+				'is_pro'                   => wcpbc_is_pro() ? '1' : '',
+				'i18n_delete_zone_alert'   => __( 'Are you sure you want to delete this zone? This action cannot be undone', 'woocommerce-product-price-based-on-countries' ),
+				'i18n_default_zone_name'   => __( 'Zone', 'woocommerce-product-price-based-on-countries' ),
 			)
 		);
 		wp_localize_script(
@@ -127,7 +127,9 @@ class WCPBC_Admin {
 				'ajax_url'                => admin_url( 'admin-ajax.php' ),
 				'remote_addr_check_nonce' => wp_create_nonce( 'remote-addr-check' ),
 				// Translators: PHP Code.
-				'define_constant_alert'   => sprintf( esc_html__( 'Your server does not include the customer IP in HTTP_X_FORWARDED_FOR. Fix it by adding %s to your config.php.', 'wc-price-based-country' ), "<code>define( 'WCPBC_USE_REMOTE_ADDR', true );</code>" ),
+				'define_constant_alert'   => sprintf( esc_html__( 'Your server does not include the customer IP in HTTP_X_FORWARDED_FOR. Fix it by adding %s to your config.php.', 'woocommerce-product-price-based-on-countries' ), "<code>define( 'WCPBC_USE_REMOTE_ADDR', true );</code>" ),
+				'ip_no_match'             => esc_html__( 'The first IP not empty of your server variables does not match with your real IP.', 'woocommerce-product-price-based-on-countries' ),
+				'geoipdb_required'        => esc_html__( 'The MaxMind GeoIP database is required.', 'woocommerce-product-price-based-on-countries' ),
 			)
 		);
 
@@ -143,7 +145,7 @@ class WCPBC_Admin {
 		}
 
 		// Styles.
-		wp_enqueue_style( 'wwc_price_based_country_admin_styles', WCPBC()->plugin_url() . 'assets/css/admin.css', array(), WCPBC()->version );
+		wp_enqueue_style( 'wwc_price_based_country_admin_styles', WCPBC()->plugin_url() . 'assets/css/admin' . $suffix . '.css', array(), WCPBC()->version );
 	}
 
 
@@ -168,12 +170,17 @@ class WCPBC_Admin {
 			wp_die( -1 );
 		}
 		$external_ip = isset( $_POST['external_ip'] ) ? wcpbc_sanitize_server_var( $_POST['external_ip'] ) : false; // WPCS: sanitization ok, CSRF ok.
-		$remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? wcpbc_sanitize_server_var( $_SERVER['REMOTE_ADDR'] ) : false; // WPCS: sanitization ok, CSRF ok.
+		if ( isset( $_POST['remote_addr'] ) ) {
+			$remote_addr = wcpbc_sanitize_server_var( $_POST['remote_addr'] ); // phpcs:ignore WordPress.Security.NonceVerification
+		} else {
+			$remote_addr = isset( $_SERVER['REMOTE_ADDR'] ) ? wcpbc_sanitize_server_var( $_SERVER['REMOTE_ADDR'] ) : false; // WPCS: sanitization ok, CSRF ok.
+		}
 
 		if ( $external_ip && $remote_addr ) {
-			$external_ip_country = WC_Geolocation::geolocate_ip( $external_ip );
-			$remote_addr_country = WC_Geolocation::geolocate_ip( $remote_addr );
-			wp_send_json( array( 'result' => $external_ip_country === $remote_addr_country ? '1' : '0' ) );
+			$external_ip_country = WC_Geolocation::geolocate_ip( $external_ip, false, false );
+			$remote_addr_country = WC_Geolocation::geolocate_ip( $remote_addr, false, false );
+
+			wp_send_json( array( 'result' => ( $external_ip_country['country'] === $remote_addr_country['country'] ? '1' : '0' ) ) );
 		}
 
 		wp_send_json( array( 'result' => '0' ) );
@@ -230,12 +237,12 @@ class WCPBC_Admin {
 	 */
 	public static function debug_tools( $debug_tools ) {
 		$debug_tools['wcpbc_db_update'] = array(
-			'name'     => __( 'Price Based on Country Update database', 'wc-price-based-country' ),
-			'button'   => __( 'Update database', 'wc-price-based-country' ),
+			'name'     => __( 'Price Based on Country Update database', 'woocommerce-product-price-based-on-countries' ),
+			'button'   => __( 'Update database', 'woocommerce-product-price-based-on-countries' ),
 			'desc'     => sprintf(
 				'<strong class="red">%1$s</strong> %2$s',
-				__( 'Note:', 'wc-price-based-country' ),
-				__( 'This tool will update your Price Based on Country database to the latest version. Please ensure you make sufficient backups before proceeding.', 'wc-price-based-country' )
+				__( 'Note:', 'woocommerce-product-price-based-on-countries' ),
+				__( 'This tool will update your Price Based on Country database to the latest version. Please ensure you make sufficient backups before proceeding.', 'woocommerce-product-price-based-on-countries' )
 			),
 			'callback' => array( 'WCPBC_Install', 'update_database' ),
 		);

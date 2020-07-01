@@ -33,9 +33,9 @@ class WCPBC_Frontend_Pricing {
 	 */
 	private static function init_hooks() {
 		self::add_product_properties_filters();
-		add_filter( 'get_post_metadata', array( __CLASS__, 'get_price_metadata' ), 10, 4 );
+
 		add_filter( 'woocommerce_currency', array( __CLASS__, 'get_currency' ), 100 );
-		add_filter( 'woocommerce_get_variation_prices_hash', array( __CLASS__, 'get_variation_prices_hash' ), 10, 3 );
+		add_filter( 'woocommerce_get_variation_prices_hash', array( __CLASS__, 'get_variation_prices_hash' ) );
 		add_filter( 'woocommerce_add_cart_item', array( __CLASS__, 'set_cart_item_price' ), -10 );
 		add_filter( 'woocommerce_get_cart_item_from_session', array( __CLASS__, 'set_cart_item_price' ), -10 );
 		add_filter( 'woocommerce_get_catalog_ordering_args', array( __CLASS__, 'get_catalog_ordering_args' ) );
@@ -45,116 +45,118 @@ class WCPBC_Frontend_Pricing {
 		add_filter( 'woocommerce_price_filter_meta_keys', array( __CLASS__, 'price_filter_meta_keys' ) );
 		add_filter( 'woocommerce_price_filter_sql', array( __CLASS__, 'price_filter_sql' ) );
 		add_filter( 'pre_transient_wc_products_onsale', array( __CLASS__, 'product_ids_on_sale' ), 10, 2 );
+		add_filter( 'woocommerce_shortcode_products_query', array( __CLASS__, 'get_variation_prices_hash' ) );
 		add_filter( 'woocommerce_package_rates', array( __CLASS__, 'package_rates' ), 10, 2 );
 		add_filter( 'woocommerce_shipping_zone_shipping_methods', array( __CLASS__, 'shipping_zone_shipping_methods' ), 10, 4 );
 		add_filter( 'woocommerce_adjust_non_base_location_prices', array( __CLASS__, 'adjust_non_base_location_prices' ) );
 		add_action( 'woocommerce_coupon_loaded', array( __CLASS__, 'coupon_loaded' ) );
-		add_action( 'woocommerce_checkout_update_order_meta', array( __CLASS__, 'update_order_meta' ), 10, 2 );
+		add_action( 'woocommerce_new_order', array( __CLASS__, 'update_order_meta' ) );
 	}
 
 	/**
-	 * Add product properties filters. WC 3.6 compatibility.
+	 * Add product properties filters.
 	 */
 	public static function add_product_properties_filters() {
-		if ( version_compare( WC_VERSION, '3.6', '<' ) ) {
-			return;
+
+		foreach ( array( 'regular_price', 'sale_price', 'price' ) as $prop ) {
+			add_filter( 'woocommerce_product_get_' . $prop, array( __CLASS__, 'get_product_price_property' ), 5, 2 );
+			add_filter( 'woocommerce_product_variation_get_' . $prop, array( __CLASS__, 'get_product_price_property' ), 5, 2 );
+			add_filter( 'woocommerce_variation_prices_' . $prop, array( __CLASS__, 'get_product_price_property' ), 5, 2 );
 		}
 
-		$props = array( 'regular_price', 'sale_price', 'price', 'date_on_sale_from', 'date_on_sale_to' );
-
-		foreach ( $props as $prop ) {
-			add_filter( 'woocommerce_product_get_' . $prop, array( __CLASS__, 'get_product_property' ), 5, 2 );
-			add_filter( 'woocommerce_product_variation_get_' . $prop, array( __CLASS__, 'get_product_property' ), 5, 2 );
+		foreach ( array( 'date_on_sale_from', 'date_on_sale_to' ) as $prop ) {
+			add_filter( 'woocommerce_product_get_' . $prop, array( __CLASS__, 'get_product_date_property' ), 5, 2 );
+			add_filter( 'woocommerce_product_variation_get_' . $prop, array( __CLASS__, 'get_product_date_property' ), 5, 2 );
 		}
+
 	}
 
 	/**
-	 * Retrun the product property. WC 3.6 compatibility.
+	 * Is a supported product type?
 	 *
-	 * @since 1.8.0
+	 * @param WC_Product $product Product instance.
+	 * @return bool
+	 */
+	private static function is_supported_product( $product ) {
+		$support = array_unique( apply_filters( 'wc_price_based_country_product_types_overriden', array( 'simple', 'variable', 'external', 'variation' ) ) );
+		$type    = is_callable( array( $product, 'get_type' ) ) ? $product->get_type() : false;
+
+		return ( in_array( $type, $support, true ) );
+	}
+
+	/**
+	 * Returns the current metakey for the currenty filter.
+	 *
+	 * @param WC_Product $product Product instance.
+	 * @return string Property name or False if overwrite is no needed.
+	 */
+	private static function get_metakey_from_filter( $product ) {
+		$metakey = false;
+		$prop    = str_replace( array( 'woocommerce_variation_prices_', 'woocommerce_product_variation_get_', 'woocommerce_product_get_' ), '', current_filter() );
+
+		if ( ! array_key_exists( $prop, $product->get_changes() ) && self::is_supported_product( $product ) ) {
+			$metakey    = $prop;
+			$date_props = array(
+				'date_on_sale_from' => 'sale_price_dates_from',
+				'date_on_sale_to'   => 'sale_price_dates_to',
+			);
+
+			if ( isset( $date_props[ $prop ] ) ) {
+				$metakey = $date_props[ $prop ];
+			}
+
+			$metakey = '_' === substr( $metakey, 0, 1 ) ? $metakey : '_' . $metakey;
+		}
+		return $metakey;
+	}
+
+	/**
+	 * Retrun a product price property.
+	 *
+	 * @since 1.9.0
 	 * @param mixed      $value Property value.
 	 * @param WC_Product $product Product instance.
 	 * @return mixed
 	 */
-	public static function get_product_property( $value, $product ) {
-		if ( in_array( $product->get_type(), array_unique( apply_filters( 'wc_price_based_country_product_types_overriden', array( 'simple', 'variable', 'external' ) ) ), true ) ) {
-
-			$prop = str_replace( 'woocommerce_product_get_', '', str_replace( 'woocommerce_product_variation_get_', '', current_filter() ) );
-
-			if ( ! array_key_exists( $prop, $product->get_changes() ) ) {
-
-				$date_props = array(
-					'date_on_sale_from' => 'sale_price_dates_from',
-					'date_on_sale_to'   => 'sale_price_dates_to',
-				);
-
-				if ( isset( $date_props[ $prop ] ) ) {
-					$prop = $date_props[ $prop ];
-				}
-
-				$meta_key = '_' === substr( $prop, 0, 1 ) ? $prop : '_' . $prop;
-				$value    = self::get_price_metadata( $value, $product->get_id(), $meta_key, true );
-
-				if ( in_array( $prop, $date_props, true ) && is_numeric( $value ) ) {
-					$value = self::get_date_prop( $value );
-				}
-			}
+	public static function get_product_price_property( $value, $product ) {
+		$meta_key = self::get_metakey_from_filter( $product );
+		if ( ! $meta_key ) {
+			return $value;
 		}
-		return $value;
+
+		return wcpbc_the_zone()->get_price_prop( $product, $value, $meta_key );
 	}
 
 	/**
-	 * Return a date property.
+	 * Retrun a product date property.
 	 *
-	 * @param string $value Date value as integer.
-	 * @return WC_DateTime
+	 * @since 1.9.0
+	 * @param mixed      $value Property value.
+	 * @param WC_Product $product Product instance.
+	 * @return mixed
 	 */
-	private static function get_date_prop( $value ) {
-		$datetime = new WC_DateTime( "@{$value}", new DateTimeZone( 'UTC' ) );
+	public static function get_product_date_property( $value, $product ) {
+		$meta_key = self::get_metakey_from_filter( $product );
 
-		// Set local timezone or offset.
-		if ( get_option( 'timezone_string' ) ) {
-			$datetime->setTimezone( new DateTimeZone( wc_timezone_string() ) );
-		} else {
-			$datetime->set_utc_offset( wc_timezone_offset() );
+		if ( ! $meta_key ) {
+			return $value;
 		}
 
-		return $datetime;
+		return wcpbc_the_zone()->get_date_prop( $product, $value, $meta_key );
 	}
 
 	/**
 	 * Return price meta data value
 	 *
+	 * @deprecated 1.9.0
 	 * @param null|array|string $meta_value The value get_metadata() should return - a single metadata value or an array of values.
 	 * @param int               $object_id Object ID.
 	 * @param string            $meta_key Meta key.
 	 * @param bool              $single Whether to return only the first value of the specified $meta_key.
 	 */
 	public static function get_price_metadata( $meta_value, $object_id, $meta_key, $single ) {
-
-		if ( $single && in_array( $meta_key, wcpbc_get_overwrite_meta_keys(), true ) ) {
-
-			// Remove filter to not going into an endless loop.
-			remove_filter( 'get_post_metadata', array( __CLASS__, 'get_price_metadata' ), 10, 4 );
-
-			if ( in_array( $meta_key, wcpbc_get_date_on_sale_meta_keys(), true ) && 'manual' === wcpbc_the_zone()->get_postmeta( $object_id, '_sale_price_dates' ) ) {
-
-				$meta_value = wcpbc_the_zone()->get_postmeta( $object_id, $meta_key );
-
-			} elseif ( in_array( $meta_key, wcpbc_get_price_meta_keys(), true ) ) {
-
-				$meta_value = wcpbc_the_zone()->get_post_price( $object_id, $meta_key );
-
-			} elseif ( ! in_array( $meta_key, wcpbc_get_date_on_sale_meta_keys(), true ) ) {
-
-				$meta_value = wcpbc_the_zone()->get_postmeta( $object_id, $meta_key );
-			}
-
-			// Add filter.
-			add_filter( 'get_post_metadata', array( __CLASS__, 'get_price_metadata' ), 10, 4 );
-		}
-
-		return $meta_value;
+		wc_deprecated_function( 'WCPBC_Frontend_Pricing::get_price_metadata', '1.9.0' );
+		return wcpbc_the_zone()->get_post_price( $object_id, $meta_key );
 	}
 
 	/**
@@ -170,18 +172,16 @@ class WCPBC_Frontend_Pricing {
 	/**
 	 * Returns unique cache key to store variation child prices
 	 *
-	 * @param array      $price_hash Unique cache key.
-	 * @param WC_Product $product Product instance.
-	 * @param bool       $display If taxes should be calculated or not.
+	 * @param array $price_hash Unique cache key.
 	 * @return array
 	 */
-	public static function get_variation_prices_hash( $price_hash, $product, $display ) {
+	public static function get_variation_prices_hash( $price_hash ) {
 		$price_hash[] = wcpbc_the_zone()->get_postmetakey() . wcpbc_the_zone()->get_currency() . wcpbc_the_zone()->get_exchange_rate();
 		return $price_hash;
 	}
 
 	/**
-	 * WC 3.6 compatibility. Set pricing zone price for items in the cart. Fix compatibility issue for plugins that uses 'edit' context to get the price.
+	 * Set pricing zone price for items in the cart. Fix compatibility issue for plugins that uses 'edit' context to get the price.
 	 *
 	 * @since 1.8.4
 	 * @param array $cart_item Cart item.
@@ -195,19 +195,31 @@ class WCPBC_Frontend_Pricing {
 	/**
 	 * Set the product price to the pricing zone price.
 	 *
+	 * Fixed issues with discounts plugins.
+	 *
 	 * @param WC_Product $product Product instance.
 	 */
 	public static function adjust_product_price( &$product ) {
-		if ( version_compare( WC_VERSION, '3.6', '>=' ) && in_array( $product->get_type(), array_unique( apply_filters( 'wc_price_based_country_product_types_overriden', array( 'simple', 'variable', 'external' ) ) ), true ) ) {
-			// Force change on the prices properties updating it with a ridiculous value.
-			$product->set_price( -9999 );
-			$product->set_regular_price( -9999 );
-			$product->set_sale_price( -9999 );
+		if ( ! self::is_supported_product( $product ) ) {
+			return;
+		}
 
-			// Set the price.
-			$product->set_price( self::get_price_metadata( null, $product->get_id(), '_price', true ) );
-			$product->set_regular_price( self::get_price_metadata( null, $product->get_id(), '_regular_price', true ) );
-			$product->set_sale_price( self::get_price_metadata( null, $product->get_id(), '_sale_price', true ) );
+		foreach ( array( '_price', '_regular_price', '_sale_price' ) as $meta_key ) {
+			$getter = 'get' . $meta_key;
+			$setter = 'set' . $meta_key;
+			$value  = $product->{$getter}( 'edit' );
+
+			// Force change on the prices properties updating it with a ridiculous value.
+			$product->{$setter}( -9999 );
+
+			// Set the real price.
+			$product->{$setter}(
+				wcpbc_the_zone()->get_price_prop(
+					$product,
+					$value,
+					$meta_key
+				)
+			);
 		}
 	}
 
@@ -258,7 +270,7 @@ class WCPBC_Frontend_Pricing {
 	public static function filter_price_post_clauses( $args, $wp_query ) {
 		global $wpdb;
 
-		if ( version_compare( WC_VERSION, '3.6', '<' ) || ! $wp_query->is_main_query() || ( ! isset( $_GET['max_price'] ) && ! isset( $_GET['min_price'] ) ) ) { // WPCS: CSRF ok.
+		if ( version_compare( WC_VERSION, '3.6', '<' ) || ! $wp_query->is_main_query() || ( ! isset( $_GET['max_price'] ) && ! isset( $_GET['min_price'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return $args;
 		}
 
@@ -364,17 +376,16 @@ class WCPBC_Frontend_Pricing {
 	public static function product_ids_on_sale( $value, $transient = false ) {
 		global $wpdb;
 
-		$cache_key = 'wcpbc_products_onsale_' . wcpbc_the_zone()->get_zone_id();
-
 		// Load from cache.
-		$product_ids_on_sale = get_transient( $cache_key );
+		$ids_on_sale = get_transient( 'wcpbc_products_onsale' );
 
 		// Valid cache found.
-		if ( false !== $product_ids_on_sale ) {
-			return $product_ids_on_sale;
+		if ( false !== $ids_on_sale && is_array( $ids_on_sale ) && isset( $ids_on_sale[ wcpbc_the_zone()->get_id() ] ) ) {
+			return $ids_on_sale[ wcpbc_the_zone()->get_id() ];
 		}
 
-		$decimals = absint( wc_get_price_decimals() );
+		$ids_on_sale = is_array( $ids_on_sale ) ? $ids_on_sale : array();
+		$decimals    = absint( wc_get_price_decimals() );
 
 		$on_sale_posts = $wpdb->get_results(
 			$wpdb->prepare(
@@ -396,11 +407,11 @@ class WCPBC_Frontend_Pricing {
 			)
 		);
 
-		$product_ids_on_sale = array_unique( array_map( 'absint', array_merge( wp_list_pluck( $on_sale_posts, 'ID' ), array_diff( wp_list_pluck( $on_sale_posts, 'post_parent' ), array( 0 ) ) ) ) );
+		$ids_on_sale[ wcpbc_the_zone()->get_id() ] = array_unique( array_map( 'absint', array_merge( wp_list_pluck( $on_sale_posts, 'ID' ), array_diff( wp_list_pluck( $on_sale_posts, 'post_parent' ), array( 0 ) ) ) ) );
 
-		set_transient( $cache_key, $product_ids_on_sale, DAY_IN_SECONDS * 30 );
+		set_transient( 'wcpbc_products_onsale', $ids_on_sale, DAY_IN_SECONDS * 30 );
 
-		return $product_ids_on_sale;
+		return $ids_on_sale[ wcpbc_the_zone()->get_id() ];
 	}
 
 	/**
@@ -417,12 +428,16 @@ class WCPBC_Frontend_Pricing {
 			foreach ( $rates as $rate ) {
 				$change = false;
 
+				if ( ! isset( $rate->cost ) ) {
+					continue;
+				}
+
 				if ( ! isset( $rate->wcpbc_data ) ) {
 
 					$rate->wcpbc_data = array(
 						'exchange_rate' => wcpbc_the_zone()->get_exchange_rate(),
 						'orig_cost'     => $rate->cost,
-						'orig_taxes'    => $rate->taxes,
+						'orig_taxes'    => isset( $rate->taxes ) ? $rate->taxes : array(),
 					);
 
 					$change = true;
@@ -430,6 +445,7 @@ class WCPBC_Frontend_Pricing {
 				} elseif ( wcpbc_the_zone()->get_exchange_rate() !== $rate->wcpbc_data['exchange_rate'] ) {
 
 					$rate->wcpbc_data['exchange_rate'] = wcpbc_the_zone()->get_exchange_rate();
+
 					$change = true;
 
 				}
@@ -437,13 +453,13 @@ class WCPBC_Frontend_Pricing {
 				if ( $change ) {
 					// Apply exchange rate.
 					if ( ! wc_prices_include_tax() ) {
-						$rate->cost = wcpbc_the_zone()->get_exchange_rate_price( $rate->cost );
+						$rate->cost = wcpbc_the_zone()->get_exchange_rate_price( $rate->cost, true, 'shipping', $rate );
 					} else {
 						$rate->cost = wcpbc_the_zone()->get_exchange_rate_price( $rate->cost, false );
 					}
 
 					// Recalculate taxes.
-					$rate_taxes = $rate->taxes;
+					$rate_taxes = isset( $rate->taxes ) ? $rate->taxes : array();
 					foreach ( $rate->wcpbc_data['orig_taxes'] as $i => $tax ) {
 						$rate_taxes[ $i ] = ( $tax / $rate->wcpbc_data['orig_cost'] ) * $rate->cost;
 					}
@@ -465,14 +481,13 @@ class WCPBC_Frontend_Pricing {
 	 * @return array
 	 */
 	public static function shipping_zone_shipping_methods( $methods, $raw_methods, $allowed_classes, $shipping ) {
-		if ( 'yes' === get_option( 'wc_price_based_country_shipping_exchange_rate', 'no' ) ) {
+		if ( apply_filters( 'wc_price_based_country_free_shipping_exchange_rate', true ) ) {
 			foreach ( $methods as $instance_id => $method ) {
-				if ( 'free_shipping' === $method->id ) {
-					$method->min_amount = wcpbc_the_zone()->get_exchange_rate_price( $method->min_amount );
+				if ( isset( $method->id ) && ! empty( $method->min_amount ) && 'free_shipping' === $method->id ) {
+					$method->min_amount = wcpbc_the_zone()->get_exchange_rate_price( $method->min_amount, true, 'free_shipping', $method->id );
 				}
 			}
 		}
-
 		return $methods;
 	}
 
@@ -495,58 +510,35 @@ class WCPBC_Frontend_Pricing {
 	 * @param WC_Coupon $coupon Coupon instance.
 	 */
 	public static function coupon_loaded( $coupon ) {
-		$_back = version_compare( WC_VERSION, '3.0', '<' );
-
-		$discount_type  = $_back ? $coupon->discount_type : $coupon->get_discount_type();
-		$coupon_id      = $_back ? $coupon->id : $coupon->get_id();
-		$coupon_amount  = $_back ? $coupon->coupon_amount : $coupon->get_amount();
-		$minimum_amount = $_back ? $coupon->minimum_amount : $coupon->get_minimum_amount();
-		$maximum_amount = $_back ? $coupon->maximum_amount : $coupon->get_maximum_amount();
-
-		$zone_pricing_type = get_post_meta( $coupon_id, 'zone_pricing_type', true );
-
-		if ( wcpbc_is_exchange_rate( $zone_pricing_type ) && 'percent' !== $discount_type ) {
-			$amount = wcpbc_the_zone()->get_exchange_rate_price( $coupon_amount );
-			self::set_coupon_prop( $coupon, 'coupon_amount', $amount, $_back );
+		if ( ! is_callable( array( $coupon, 'get_id' ) ) ) {
+			return;
 		}
 
-		if ( $minimum_amount ) {
-			$amount = wcpbc_the_zone()->get_exchange_rate_price( $minimum_amount );
-			self::set_coupon_prop( $coupon, 'minimum_amount', $amount, $_back );
+		$zone_pricing_type = get_post_meta( $coupon->get_id(), 'zone_pricing_type', true );
+
+		if ( wcpbc_is_exchange_rate( $zone_pricing_type ) && 'percent' !== $coupon->get_discount_type() ) {
+			$amount = wcpbc_the_zone()->get_exchange_rate_price( $coupon->get_amount(), true, 'coupon', $coupon->get_id() );
+			$coupon->set_amount( $amount );
+		}
+
+		if ( $coupon->get_minimum_amount() ) {
+			$amount = wcpbc_the_zone()->get_exchange_rate_price( $coupon->get_minimum_amount(), true, 'coupon', $coupon->get_id() );
+			$coupon->set_minimum_amount( $amount );
 
 		}
-		if ( $maximum_amount ) {
-			$amount = wcpbc_the_zone()->get_exchange_rate_price( $maximum_amount );
-			self::set_coupon_prop( $coupon, 'maximum_amount', $amount, $_back );
-		}
-	}
-
-	/**
-	 * Set a coupon property value
-	 *
-	 * @since 1.7
-	 * @param WC_Coupon $coupon Coupon instance.
-	 * @param string    $prop The property to set.
-	 * @param mixed     $value Value of property.
-	 * @param boolean   $wc_old Is WC Version minor thant 3.0?.
-	 */
-	private static function set_coupon_prop( $coupon, $prop, $value, $wc_old ) {
-		if ( $wc_old ) {
-			$coupon->{$prop} = $value;
-		} else {
-			$setter = 'coupon_amount' === $prop ? 'set_amount' : 'set_' . $prop;
-			$coupon->{$setter}( $value );
+		if ( $coupon->get_maximum_amount() ) {
+			$amount = wcpbc_the_zone()->get_exchange_rate_price( $coupon->get_maximum_amount(), true, 'coupon', $coupon->get_id() );
+			$coupon->set_maximum_amount( $amount );
 		}
 	}
 
 	/**
 	 * Add zone data to order meta
 	 *
-	 * @since 1.7.4
-	 * @param int   $order_id Order ID.
-	 * @param array $data Order metadata.
+	 * @since 1.9
+	 * @param int $order_id Order ID.
 	 */
-	public static function update_order_meta( $order_id, $data ) {
+	public static function update_order_meta( $order_id ) {
 		update_post_meta( $order_id, '_wcpbc_base_exchange_rate', wcpbc_the_zone()->get_base_currency_amount( 1 ) );
 		update_post_meta( $order_id, '_wcpbc_pricing_zone', wcpbc_the_zone()->get_data() );
 	}

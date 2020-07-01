@@ -9,7 +9,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Return the current pricing zone. Alias of WCPBC()->current_zone.
+ * Return the current pricing zone or false if the customer country does not match in a pricing zone.
+ *
+ * Alias of WCPBC()->current_zone.
  *
  * @since 1.8
  * @return WCPBC_Pricing_Zone
@@ -17,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 function wcpbc_the_zone() {
 	if ( wcpbc()->current_zone ) {
 		return wcpbc()->current_zone;
-	};
+	}
 	return false;
 }
 
@@ -54,12 +56,15 @@ function wcpbc_is_exchange_rate( $value = false ) {
 /**
  * Return the object property value. Add compatibility with WC 2.6
  *
+ * @deprecated 1.9.0
  * @since 1.8.0
  * @param mixed  $object The object instance.
  * @param string $prop_name Property name.
  * @return mixed
  */
 function wcpbc_get_prop_value( $object, $prop_name ) {
+	wc_deprecated_function( 'wcpbc_get_prop_value', '1.9.0' );
+
 	$props   = is_array( $prop_name ) ? $prop_name : array( $prop_name );
 	$value   = array();
 	$mapping = array(
@@ -126,7 +131,7 @@ function wcpbc_get_woocommerce_country() {
 
 	if ( wcpbc_is_woocommerce_frontend() ) {
 
-		$country          = wcpbc_get_prop_value( wc()->customer, 'billing_country' );
+		$country          = wc()->customer->get_billing_country();
 		$shipping_country = wc()->customer->get_shipping_country();
 		if ( ! empty( $shipping_country ) && $country !== $shipping_country && 'shipping' === get_option( 'wc_price_based_country_based_on', 'billing' ) ) {
 			$country = $shipping_country;
@@ -147,13 +152,13 @@ function wcpbc_set_woocommerce_country( $country ) {
 		return;
 	}
 
-	$billing_country = wcpbc_get_prop_value( wc()->customer, 'billing_country' );
+	$billing_country = wc()->customer->get_billing_country();
 	$shipping_county = wc()->customer->get_shipping_country();
 
 	if ( $billing_country !== $shipping_county && 'shipping' === get_option( 'wc_price_based_country_based_on', 'shipping' ) && apply_filters( 'woocommerce_ship_to_different_address_checked', get_option( 'woocommerce_ship_to_destination' ) === 'shipping' ? 1 : 0 ) ) {
 		wc()->customer->set_shipping_country( $country );
 	} else {
-		wcpbc_set_prop_value( wc()->customer, 'billing_country', $country );
+		wc()->customer->set_billing_country( $country );
 		wc()->customer->set_shipping_country( $country );
 	}
 }
@@ -304,8 +309,8 @@ function wcpbc_product_types_supported( $source = '', $context = '' ) {
  */
 function wcpbc_price_method_options() {
 	return array(
-		'exchange_rate' => __( 'Calculate prices by the exchange rate', 'wc-price-based-country' ),
-		'manual'        => __( 'Set prices manually', 'wc-price-based-country' ),
+		'exchange_rate' => __( 'Calculate prices by the exchange rate', 'woocommerce-product-price-based-on-countries' ),
+		'manual'        => __( 'Set prices manually', 'woocommerce-product-price-based-on-countries' ),
 	);
 }
 
@@ -352,7 +357,7 @@ function wcpbc_pricing_input( $field, $zone ) {
 	$field['name']           = empty( $field['name'] ) ? '_price_method' : $field['name'];
 	$field['id']             = empty( $field['id'] ) ? str_replace( array( '[', ']' ), array( '_', '' ), $field['name'] ) : $field['id'];
 	$field['value']          = empty( $field['value'] ) ? $zone->get_postmeta( $thepostid, $field['name'] ) : $field['value'];
-	$field['label']          = empty( $field['label'] ) ? __( 'Price for', 'wc-price-based-country' ) : $field['label'];
+	$field['label']          = empty( $field['label'] ) ? __( 'Price for', 'woocommerce-product-price-based-on-countries' ) : $field['label'];
 	$field['fields']         = isset( $field['fields'] ) && is_array( $field['fields'] ) ? $field['fields'] : array();
 	$field['wrapper']        = isset( $field['wrapper'] ) ? $field['wrapper'] : true;
 	$field['wrapper_class']  = empty( $field['wrapper_class'] ) ? '' : $field['wrapper_class'];
@@ -442,9 +447,9 @@ function wcpbc_update_product_pricing( $post_id, $zone, $data = array() ) {
 	if ( empty( $data['_price_method'] ) || wcpbc_is_exchange_rate( $data['_price_method'] ) ) {
 		// Exchange rate.
 		$data['_price_method']          = 'exchange_rate';
-		$data['_regular_price']         = $zone->get_exchange_rate_price_by_post( $post_id, '_regular_price', false );
-		$data['_sale_price']            = $zone->get_exchange_rate_price_by_post( $post_id, '_sale_price', false );
-		$data['_price']                 = $zone->get_exchange_rate_price_by_post( $post_id, '_price', false );
+		$data['_regular_price']         = $zone->get_exchange_rate_price_by_post( $post_id, '_regular_price' );
+		$data['_sale_price']            = $zone->get_exchange_rate_price_by_post( $post_id, '_sale_price' );
+		$data['_price']                 = $zone->get_exchange_rate_price_by_post( $post_id, '_price' );
 		$data['_sale_price_dates']      = 'default';
 		$data['_sale_price_dates_from'] = '';
 		$data['_sale_price_dates_to']   = '';
@@ -544,26 +549,29 @@ function wcpbc_built_query_case( $field, $rates ) {
  * @since 1.8.0
  * @param string $from_table From table name.
  * @param string $join_type Join type (INNER, LEFT or RIGHT).
+ * @param string $id_field Order ID field. Default "ID".
  * @return string
  */
-function wcpbc_built_join_meta_currency( $from_table = false, $join_type = 'INNER' ) {
+function wcpbc_built_join_meta_currency( $from_table = false, $join_type = 'INNER', $id_field = 'ID' ) {
 	global $wpdb;
 
 	$from_table = $from_table ? $from_table : 'posts';
-	return ' ' . $join_type . " JOIN {$wpdb->postmeta} AS meta__order_currency ON ( {$from_table}.ID = meta__order_currency.post_id AND meta__order_currency.meta_key = '_order_currency' ) ";
+	return ' ' . $join_type . " JOIN {$wpdb->postmeta} AS meta__order_currency ON ( {$from_table}.{$id_field} = meta__order_currency.post_id AND meta__order_currency.meta_key = '_order_currency' ) ";
 }
 
 /**
- * Refresh the WooCommerce transient version for the product group.
+ * Returns the parent product types (variable, grouped).
  *
- * @since 1.8.4
+ * @return array
  */
-function wcpbc_refresh_product_transient_version() {
-	if ( defined( 'WCPBC_CACHE_AJAXGEO_RESPONSE' ) && WCPBC_CACHE_AJAXGEO_RESPONSE && 'yes' === get_option( 'wc_price_based_country_caching_support', 'no' ) && is_callable( array( 'WC_Cache_Helper', 'get_transient_version' ) ) ) {
-		// Increments the transient version to invalidate cache.
-		WC_Cache_Helper::get_transient_version( 'product', true );
+function wcpbc_get_parent_product_types() {
+	wc_deprecated_function( 'wcpbc_get_parent_product_types', '2.0.0', 'WCPBC_Product_Sync::get_parent_product_types' );
+	if ( is_callable( array( 'WCPBC_Product_Sync', 'get_parent_product_types' ) ) ) {
+		return WCPBC_Product_Sync::get_parent_product_types();
 	}
+	return array();
 }
+
 
 /**
  * Return a a array with all currencies avaiables in WooCommerce with associate countries

@@ -16,134 +16,146 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WCPBC_Install {
 
 	/**
-	 * Min version that required a database update.
-	 *
-	 * @var string
-	 */
-	private static $update_version = '1.8.21';
-
-	/**
 	 * Database update files.
 	 *
 	 * @var array
 	 */
 	private static $db_updates = array(
-		'1.3.2'  => 'updates/wcpbc-update-1.3.2.php',
-		'1.4.0'  => 'updates/wcpbc-update-1.4.0.php',
-		'1.5.0'  => 'updates/wcpbc-update-1.5.0.php',
-		'1.6.0'  => 'updates/wcpbc-update-1.6.0.php',
-		'1.6.2'  => 'updates/wcpbc-update-1.6.2.php',
-		'1.7.4'  => 'updates/wcpbc-update-1.7.4.php',
-		'1.8.2'  => 'updates/wcpbc-update-1.8.2.php',
-		'1.8.21' => 'updates/wcpbc-update-1.8.21.php',
+		'1.3.2'  => 'wcpbc_update_132',
+		'1.6.0'  => 'wcpbc_update_160',
+		'1.6.2'  => 'wcpbc_update_162',
+		'1.8.21' => 'wcpbc_update_1821',
+		'2.0.0'  => 'wcpbc_update_200',
+		'2.0.3'  => 'wcpbc_update_200',
 	);
 
 	/**
 	 * Hooks.
 	 */
 	public static function init() {
-		add_action( 'admin_init', array( __CLASS__, 'update_actions' ), 5 );
-		add_action( 'admin_init', array( __CLASS__, 'check_version' ) );
+		add_action( 'admin_init', array( __CLASS__, 'update_db' ), 5 );
+		add_action( 'admin_init', array( __CLASS__, 'check_version' ), 10 );
 		add_action( 'in_plugin_update_message-woocommerce-product-price-based-on-countries/woocommerce-product-price-based-on-countries.php', array( __CLASS__, 'in_plugin_update_message' ) );
+	}
+
+	/**
+	 * Update database to the last version.
+	 */
+	public static function update_db() {
+		if ( empty( $_GET['update_wc_price_based_country_nonce'] ) ) {
+			return;
+		}
+
+		check_admin_referer( 'do_update_wc_price_based_country', 'update_wc_price_based_country_nonce' );
+
+		include_once dirname( __FILE__ ) . '/wcpbc-update-functions.php';
+
+		$current_version = self::get_install_version();
+		foreach ( self::$db_updates as $version => $callback ) {
+			if ( version_compare( $current_version, $version, '<' ) ) {
+				if ( function_exists( $callback ) ) {
+					call_user_func( $callback );
+				}
+			}
+		}
+
+		self::update_wcpbc_version();
+
+		WCPBC_Admin_Notices::add_notice( 'updated' );
+	}
+
+	/**
+	 * Check version and run the updater is required.
+	 */
+	public static function check_version() {
+		if ( defined( 'IFRAME_REQUEST' ) ) {
+			return;
+		}
+
+		$current_db_version = self::get_install_version();
+		$needs_db_update    = false;
+
+		if ( false !== $current_db_version && version_compare( $current_db_version, WCPBC()->version, '<' ) ) {
+			$update_versions = array_keys( self::$db_updates );
+			$needs_db_update = version_compare( $current_db_version, end( $update_versions ), '<' );
+
+			if ( $needs_db_update ) {
+				WCPBC_Admin_Notices::add_temp_notice( 'update_db' );
+			}
+		}
+
+		if ( ! $needs_db_update && WCPBC()->version !== $current_db_version ) {
+
+			self::update_wcpbc_version();
+
+			if ( false === $current_db_version ) {
+
+				// New install. Update GeoIP database for WC<3.9.
+				if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '3.4', '>=' ) && version_compare( WC_VERSION, '3.9', '<' ) ) {
+					WCPBC_Update_GeoIP_DB::install();
+				}
+
+				do_action( 'wc_price_based_country_installed' );
+			}
+		}
+	}
+
+	/**
+	 * Update WCPBC version to current.
+	 */
+	private static function update_wcpbc_version() {
+		delete_option( 'wc_price_based_country_version' );
+		add_option( 'wc_price_based_country_version', WCPBC()->version );
 	}
 
 	/**
 	 * Get version installed.
 	 */
 	private static function get_install_version() {
-		$install_version = get_option( 'wc_price_based_country_version', null );
-		if ( is_null( $install_version ) && get_option( '_oga_wppbc_countries_groups' ) ) {
+		$install_version = get_option( 'wc_price_based_country_version', false );
+		if ( false === $install_version && get_option( '_oga_wppbc_countries_groups' ) ) {
 			$install_version = '1.3.1';
 		}
-
 		return $install_version;
 	}
 
 	/**
-	 * Update WCPBC version.
+	 * Plugin activation. Check if the product version has changed.
 	 */
-	private static function update_wcpbc_version() {
-		update_option( 'wc_price_based_country_version', WCPBC()->version );
-	}
-
-	/**
-	 * Sync exchange rate prices.
-	 */
-	public static function sync_exchange_rate_prices() {
-		$zones = get_option( 'wc_price_based_country_regions', array() );
-		foreach ( WCPBC_Pricing_Zones::get_zones() as $zone ) {
-			wcpbc_sync_exchange_rate_prices( $zone );
-		}
-	}
-
-	/**
-	 * Install function
-	 */
-	public static function install() {
-		$current_version = self::get_install_version();
-
-		if ( null !== $current_version && version_compare( $current_version, self::$update_version, '<' ) ) {
-			WCPBC_Admin_Notices::add_notice( 'update_db' );
-		} else {
-			// Update version.
-			self::update_wcpbc_version();
-
-			// Sync exchange rate prices.
-			self::sync_exchange_rate_prices();
-
-			// Update database for WC<3.9.
-			if ( defined( 'WC_VERSION' ) && version_compare( WC_VERSION, '3.4', '>=' ) && version_compare( WC_VERSION, '3.9', '<' ) ) {
-				WCPBC_Update_GeoIP_DB::install();
+	public static function plugin_activate() {
+		$unistall_version = get_transient( 'wcpbc_unistall' );
+		if ( $unistall_version && is_callable( array( 'WC_Cache_Helper', 'get_transient_version' ) ) ) {
+			$product_version = WC_Cache_Helper::get_transient_version( 'product' );
+			if ( $product_version && $product_version !== $unistall_version ) {
+				// Sync all because products have changed.
+				WCPBC_Product_Sync::sync_all();
 			}
 		}
+		delete_transient( 'wcpbc_unistall' );
 	}
 
 	/**
-	 * Check_version function.
+	 * Plugin deactivation.
 	 */
-	public static function check_version() {
-		$install_version = self::get_install_version();
-
-		if ( ! defined( 'IFRAME_REQUEST' ) && version_compare( $install_version, self::$update_version, '<' ) ) {
-			WCPBC_Admin_Notices::add_notice( 'update_db' );
-		} elseif ( version_compare( $install_version, wcpbc()->version, '<' ) ) {
-			// Update version.
-			self::update_wcpbc_version();
+	public static function plugin_deactivate() {
+		if ( is_callable( array( 'WC_Cache_Helper', 'get_transient_version' ) ) ) {
+			$product_version = WC_Cache_Helper::get_transient_version( 'product' );
+			set_transient( 'wcpbc_unistall', $product_version, DAY_IN_SECONDS * 30 );
 		}
 	}
 
 	/**
-	 * Handle updates.
-	 */
-	public static function update_actions() {
-
-		if ( ! empty( $_GET['do_update_wc_price_based_country'] ) ) { // WPCS: CSRF ok.
-
-			$install_version = self::get_install_version();
-
-			foreach ( self::$db_updates as $version => $updater ) {
-				if ( version_compare( $install_version, $version, '<' ) ) {
-					include_once $updater;
-				}
-			}
-
-			self::update_wcpbc_version();
-
-			WCPBC_Admin_Notices::remove_notice( 'update_db' );
-			WCPBC_Admin_Notices::add_notice( 'updated' );
-		}
-	}
-
-	/**
-	 * Update the Price Based on Country database to the latest version.
+	 * Run the last update db.
 	 *
 	 * @since 1.8.8
 	 */
 	public static function update_database() {
-		$updater = end( self::$db_updates );
-		include_once $updater;
+		include_once dirname( __FILE__ ) . '/wcpbc-update-functions.php';
+		$callback = end( self::$db_updates );
+		call_user_func( $callback );
 		self::update_wcpbc_version();
-		return __( 'Price Based on Country database update complete. Thank you for updating to the latest version!', 'wc-price-based-country' );
+
+		return __( 'Price Based on Country database update complete. Thank you for updating to the latest version!', 'woocommerce-product-price-based-on-countries' );
 	}
 
 	/**

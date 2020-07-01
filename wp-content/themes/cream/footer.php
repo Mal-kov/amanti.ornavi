@@ -14,16 +14,17 @@
 
 <!-- =====================================
    ==== Start footer -->
-<footer class="site-footer site-footer-3 clearfix">
-    <div class="site-footer__main section-bg" style="background-image:url(../assets/images/bg_footer.jpg)">
+
+<footer>
+    <div class="ornavi-footer">
         <div class="container">
-            <div class="col-md-5 col-sm-6 col-xs-12 footer-block pb-30">
-                <img src="<?php bloginfo('template_url'); ?>/assets/images/logo.png" alt="">
-                <p class="address pt-30">Office: 972 Sylvan Street South Angelina, NL S0B2V9<br/>
-                    Phone: (633) 497-1888 / (062) 109-9222<br/>
-                    Email: example.com
-                </p>
-                <ul class="social pt-10">
+            <div class="col-md-4 col-sm-6 col-xs-12 footer-block pb-30">
+                <img src="<?php bloginfo('template_url'); ?>/assets/img/logo_left_light.png" alt="">
+<!--                <p class="address pt-30">Office: 972 Sylvan Street South Angelina, NL S0B2V9<br/>-->
+<!--                    Phone: (633) 497-1888 / (062) 109-9222<br/>-->
+<!--                    Email: example.com-->
+<!--                </p>-->
+                <ul class="social pt-30">
                     <li>
                         <a href="#"><i class="fa fa-facebook"></i></a>
                     </li>
@@ -41,8 +42,9 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-2 col-sm-6 col-xs-12 footer-block pb-30">
-                <h3 class="widget-title">Quick Links</h3>
+            <div class="col-md-4 col-sm-6 col-xs-12 footer-block pb-30">
+<!--                <h3 class="widget-title">Разделы магазина</h3>-->
+
                 <ul>
                     <li><a href="../about.html">About Us</a></li>
                     <li><a href="../contact.html">Contact Us</a></li>
@@ -52,58 +54,67 @@
                     <li><a href="../account.html">Register</a></li>
                 </ul>
             </div>
-
-            <div class="col-md-2 col-sm-6 col-xs-12 footer-block pb-30">
-                <h3 class="widget-title">Merchant Central</h3>
-                <ul>
-                    <li><a href="../product_sidebar.html">Cleansers & Toners</a></li>
-                    <li><a href="../product_sidebar.html">Serums & Boosters</a></li>
-                    <li><a href="../product_sidebar.html">Day Care</a></li>
-                    <li><a href="../product_sidebar.html">Night Care</a></li>
-                    <li><a href="../product_sidebar.html">Eye Care</a></li>
-                    <li><a href="../product_sidebar.html">Sun Protection</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12 footer-block pb-30">
-                <h3 class="widget-title">CONNECT WITH US</h3>
+            <div class="col-md-4 col-sm-6 col-xs-12 footer-block pb-30">
+<!--                <h3 class="widget-title">CONNECT WITH US</h3>-->
                 <div class="features skin1">
                     <div class="features_list">
                         <div class="features-images">
-                            <img src="<?php bloginfo('template_url'); ?>/assets/images/icon_mail.png" alt="">
+                            <img src="<?php bloginfo('template_url'); ?>/assets/img/icon_mail.png" alt="">
                         </div>
                         <div class="features-description">
-                            <h4>Do you have any question?</h4>
-                            <p>
-                                email.example@gmail.com
-                            </p>
+                            <h4>Пишите</h4>
+                            <a href="emailto:<?php echo get_option('mainEmail');?>"><?php echo get_option('mainEmail');?></a>
+
                         </div>
                     </div>
                     <div class="features_list">
                         <div class="features-images">
-                            <img src="<?php bloginfo('template_url'); ?>/assets/images/icon_phone.png" alt="">
+                            <img src="<?php bloginfo('template_url'); ?>/assets/img/icon_phone.png" alt="">
                         </div>
                         <div class="features-description">
-                            <h4>1800-1314-1009</h4>
-                            <p>
-                                1800-1314-1009
-                            </p>
+                            <h4>Звоните</h4>
+                            <a href="tel:<?php echo get_option('mainPhone');?>"><?php echo get_option('mainPhone');?></a>
                         </div>
                     </div>
                 </div>
-                <div class="payment pt-20">
-                    <img src="<?php bloginfo('template_url'); ?>/assets/images/payment.png" alt="">
-                </div>
             </div>
+
+
+
         </div>
+
     </div>
+
     <div class="site-footer__copyright">
         <div class="container">
-            <div class="copyright pull-left">
-                © 2018. All rights reserved.<a href="#" target="_blank">Enercos</a>
+            <div class="copyright_item">
+                © 2011 - <?php echo date('Y'); ?> AMANTI ORNAVI
+            </div>
+            <div class="copyright_item">
+                <a href="#">Политика конфидециальности</a>
             </div>
         </div>
     </div>
+
+
 </footer>
+
+
+
+
+
+<!--<footer class="site-footer site-footer-3 clearfix">-->
+<!--    <div class="site-footer__main section-bg" style="background-image:url(../assets/images/bg_footer.jpg)">-->
+<!--        <div class="container">-->
+<!--            -->
+<!--            -->
+<!---->
+<!--            -->
+<!--            -->
+<!--        </div>-->
+<!--    </div>-->
+<!--   -->
+<!--</footer>-->
 <!-- =====================================
     ==== End footer -->
 
@@ -166,24 +177,5 @@
 </script>
 
 
-
-<!--	</div><!-- #content -->
-
-<!--	<footer id="colophon" class="site-footer">-->
-<!--		<div class="site-info">-->
-<!--			<a href="--><?php //echo esc_url( __( 'https://wordpress.org/', 'cream' ) ); ?><!--">-->
-<!--				--><?php
-//				/* translators: %s: CMS name, i.e. WordPress. */
-//				printf( esc_html__( 'Proudly powered by %s', 'cream' ), 'WordPress' );
-//				?>
-<!--			</a>-->
-<!--			<span class="sep"> | </span>-->
-<!--				--><?php
-//				/* translators: 1: Theme name, 2: Theme author. */
-//				printf( esc_html__( 'Theme: %1$s by %2$s.', 'cream' ), 'cream', '<a href="http://underscores.me/">Underscores.me</a>' );
-//				?>
-<!--		</div><!-- .site-info -->
-<!--	</footer><!-- #colophon -->
-<!--</div><!-- #page -->
 
 

@@ -3,7 +3,7 @@
  * Handle compatibility with WPML
  *
  * @package WCPBC
- * @version 1.8.0
+ * @version 2.0.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,13 +14,18 @@ defined( 'ABSPATH' ) || exit;
 class WCPBC_Admin_Translation_Management {
 
 	/**
+	 * Returns the metakeys.
+	 */
+	private static function get_metakeys() {
+		return array( '_price', '_regular_price', '_sale_price', '_sale_price_dates_from', '_sale_price_dates_to', '_price_method', '_sale_price_dates' );
+	}
+	/**
 	 * Get Custom plugin fields.
 	 *
 	 * @param array $wpml_config WPML config array.
 	 */
 	public static function add_custom_fields( $wpml_config ) {
-		$meta_keys = wcpbc_get_overwrite_meta_keys();
-		array_push( $meta_keys, '_price_method', '_sale_price_dates' );
+		$meta_keys = self::get_metakeys();
 
 		foreach ( WCPBC_Pricing_Zones::get_zones() as $zone ) {
 			foreach ( $meta_keys as $field ) {
@@ -42,7 +47,8 @@ class WCPBC_Admin_Translation_Management {
 	 * @param array $fields Fields.
 	 */
 	public static function js_lock_fields_ids( $fields ) {
-		$meta_keys = wcpbc_get_overwrite_meta_keys();
+		$meta_keys = self::get_metakeys();
+
 		foreach ( WCPBC_Pricing_Zones::get_zones() as $zone ) {
 			foreach ( $meta_keys as $field ) {
 				$fields[] = $zone->get_postmetakey( $field );

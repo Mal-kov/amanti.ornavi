@@ -20,11 +20,12 @@ class WCPBC_Ajax_Geolocation {
 	 * Init hooks
 	 */
 	public static function init() {
-		if ( self::is_enabled() ) {
-			add_filter( 'woocommerce_get_price_html', array( __CLASS__, 'price_html_wrapper' ), 0, 2 );
-			add_action( 'wc_ajax_wcpbc_get_location', array( __CLASS__, 'get_customer_location' ) );
-			add_filter( 'wc_price_based_country_ajax_geolocation_widget_content', array( __CLASS__, 'widget_content' ), 10, 2 );
+		if ( ! self::is_enabled() ) {
+			return;
 		}
+		add_filter( 'woocommerce_get_price_html', array( __CLASS__, 'price_html_wrapper' ), 0, 2 );
+		add_action( 'wc_ajax_wcpbc_get_location', array( __CLASS__, 'get_customer_location' ) );
+		add_filter( 'wc_price_based_country_ajax_geolocation_widget_content', array( __CLASS__, 'widget_content' ), 10, 2 );
 	}
 
 	/**
@@ -61,10 +62,16 @@ class WCPBC_Ajax_Geolocation {
 			return $price_html;
 		}
 
-		$class      = defined( 'DOING_AJAX' ) && DOING_AJAX ? '' : ' loading';
+		$class   = '';
+		$spinner = '';
+
+		if ( ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+			$class   = ' loading';
+			$spinner = '<span class="wcpbc-spinner"></span>';
+		}
 		$product_id = version_compare( WC_VERSION, '3.0', '<' ) ? $product->id : $product->get_id();
 
-		return sprintf( '<span class="wcpbc-price wcpbc-price-%2$s%1$s" data-product-id="%2$s">%3$s</span>', $class, $product_id, $price_html );
+		return sprintf( '<span class="wcpbc-price wcpbc-price-%2$s%1$s" data-product-id="%2$s">%3$s%4$s</span>', $class, $product->get_id(), $price_html, $spinner );
 	}
 
 	/**
@@ -145,6 +152,15 @@ class WCPBC_Ajax_Geolocation {
 	}
 
 	/**
+	 * Whether or not the AJAX geolocation should use the caching layer.
+	 *
+	 * @return boolean Whether or not to utilize caching.
+	 */
+	protected static function should_use_cache() {
+		return ! is_user_logged_in() && defined( 'WCPBC_CACHE_AJAXGEO_RESPONSE' ) && WCPBC_CACHE_AJAXGEO_RESPONSE;
+	}
+
+	/**
 	 * Set the cached version.
 	 *
 	 * @param array $postdata POST array.
@@ -152,10 +168,9 @@ class WCPBC_Ajax_Geolocation {
 	 * @return array|bool
 	 */
 	private static function set_cached_version( $postdata, $reponse ) {
-		if ( ! ( defined( 'WCPBC_CACHE_AJAXGEO_RESPONSE' ) && WCPBC_CACHE_AJAXGEO_RESPONSE ) ) {
+		if ( ! self::should_use_cache() ) {
 			return false;
 		}
-		unset( $postdata['country'] );
 
 		$transient_name    = self::get_transient_name( $postdata );
 		$transient_version = WC_Cache_Helper::get_transient_version( 'product' );
@@ -177,7 +192,7 @@ class WCPBC_Ajax_Geolocation {
 	 * @return array|bool
 	 */
 	private static function get_cached_version( $postdata ) {
-		if ( ! ( defined( 'WCPBC_CACHE_AJAXGEO_RESPONSE' ) && WCPBC_CACHE_AJAXGEO_RESPONSE ) ) {
+		if ( ! self::should_use_cache() ) {
 			return false;
 		}
 
@@ -203,11 +218,12 @@ class WCPBC_Ajax_Geolocation {
 	private static function get_transient_name( $postdata ) {
 		unset( $postdata['country'] );
 
-		return 'pbc_gcl_' . md5(
+		return 'pbc_ajaxgeo_' . md5(
 			wp_json_encode(
 				array(
 					'data'    => $postdata,
 					'country' => wcpbc_get_woocommerce_country(),
+					'version' => wcpbc()->version . ( wcpbc_is_pro() && isset( WC_Product_Price_Based_Country_Pro::$version ) ? '.' . WC_Product_Price_Based_Country_Pro::$version : '' ),
 				)
 			)
 		);

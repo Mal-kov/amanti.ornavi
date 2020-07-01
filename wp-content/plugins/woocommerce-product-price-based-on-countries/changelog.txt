@@ -1,9 +1,58 @@
+= 2.0.7 (2020-05-22) =
+* Added: Geolocation cache support via AJAX compatible with Variation Swatches for WooCommerce Pro by Emran Ahmed.
+* Added: Geolocation cache support via AJAX compatible with Flatsome Infinite Scroll.
+* Fixed: PHP error - Undefined function on WooCommerce < 3.6
+* Fixed: Incorrect domain path.
+
+= 2.0.6 (2020-05-14) =
+* Fixed: Deprecated use of "implode" in the pricing zones table.
+* Added: Improve compatibility with WooCommerce UPS Shipping method.
+
+= 2.0.5 (2020-05-01) =
+* Added: Tested up WooCommerce 4.1.
+* Fixed: The option "Convert by exchange rate" of coupons is not saved on coupon update.
+* Fixed: The geolocation test detects false positives.
+* Tweak: Admin notices improvements.
+* Tweak: Improve compatibility with object cache plugins.
+
+= 2.0.4 (2020-04-21) =
+* Fixed: Issue on the "caching support" option that could affect to discount plugins.
+* Fixed: Geolocation function only returns countries included in the allowed countries option.
+* Tweak: New admin notice after update the "caching support" option.
+* Dev: new filter wc_price_based_country_free_shipping_exchange_rate.
+
+= 2.0.3 (2020-04-16) =
+* Fixed: Bug on WooCommerce Admin (Analytics) query.
+* Fixed: Compatibility issues with WooCommerce Dynamic Pricing & Discounts by RightPress.
+
+= 2.0.2 (2020-04-11) =
+* Fixed: Bug reading the "sale date from" and "sale date to" fields when the value is empty.
+* Fixed: Bug calculating the coupon amount by the exchange rate.
+* Fixed: The geolocation test fails when the external IP is a IP6.
+* Tweak: Display all countries of the pricing zones in the country switcher widget.
+* Dev: new filter wc_price_based_country_allow_all_countries.
+
+= 2.0.1 (2020-04-09) =
+* Fixed: PHP error - undefined function wcpbc_get_overwrite_meta_keys in the "WPML" integration.
+
+= 2.0.0 (2020-04-09) =
+* Required WooCommerce 3.4 or higher.
+* Added: Compatibility with "WooCommerce Admin".
+* Added: Compatibility with "WooCommerce Blocks".
+* Added: Improvements in the product price synchronization: DB updates in the background. No more timeout errors.
+* Added: Remove the frontend JavaScript that refreshes the minicart on country switcher change.
+* Added: Replace the font spinner by a pure CSS spinner (to improve the page load time).
+* Added: Cache the AJAX geolocation response when the site is using a object cache.
+* Fixed: Force mini cart refresh when the pricing zone change by extending the cart hash.
+* Fixed: Refresh the minicart on checkout page when the country change.
+* Fixed: The product shortcode cache does not store a value by pricing zone.
+
 = 1.8.25 (2020-03-16) =
 * Tweak: Additional check to prevent a JavaScript error when the Cookies jQuery plugin is not set.
 
 = 1.8.24 (2020-03-11) =
 * Tweak: Tested up WooCommerce 4.0
-* Fixed: the option "Convert by exchange rate" of coupons is not saved on coupon update.
+* Fixed: The option "Convert by exchange rate" of coupons is not saved on coupon update.
 * Fixed: Warning on install fuction when WooCommerce is not active.
 * Fixed: Remove empty row from the System Status table.
 

@@ -16,12 +16,8 @@
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!--	<link rel="profile" href="https://gmpg.org/xfn/11">-->
-
 	<?php wp_head(); ?>
 </head>
-
 
 <body <?php body_class(); ?>>
 <!-- =====================================
@@ -33,11 +29,11 @@
             <div class="top-bar site-header -icon">
 
                 <!-- acount -->
-                <div class="site-header__account">
-                    <a href="../account.html" class="account-btn">
-                        <img src="<?php bloginfo('template_url'); ?>/assets/images/icon_account.png" alt="">
-                    </a>
-                </div>
+<!--                <div class="site-header__account">-->
+<!--                    <a href="../account.html" class="account-btn">-->
+<!--                        <img src="--><?php //bloginfo('template_url'); ?><!--/assets/images/icon_account.png" alt="">-->
+<!--                    </a>-->
+<!--                </div>-->
                 <!-- search -->
                 <div class="site-header__search">
                     <div class="ps-search-btn">
@@ -60,26 +56,8 @@
                         </div>
                     </div>
                 </div>
-<!--                <div class="header-language item-dropdown">-->
-<!--                    <a href="#" class="top-bar__item">English-->
-<!--                        <i class="fa fa-angle-down"></i>-->
-<!--                    </a>-->
-<!--                    <ul class="content-dropdown">-->
-<!--                        <li class="active"><a href="#">English</a></li>-->
-<!--                        <li><a href="#">French</a></li>-->
-<!--                        <li><a href="#">German</a></li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-                <div class="header-currency item-dropdown">
-                    <a href="#" class="top-bar__item">USD
-                        <i class="fa fa-angle-down"></i>
-                    </a>
-                    <ul class="content-dropdown">
-                        <li><a href="#"><span class="symbol">€</span>EUR</a></li>
-                        <li class="active"><a href="#"><span class="symbol">$</span>USD</a></li>
-                        <li><a href="#"><span class="symbol">£</span>GBP</a></li>
-                    </ul>
-                </div>
+
+
             </div>
             <div class="otf-flex-item"></div>
 
@@ -104,75 +82,11 @@
 
                 <div class="site-header__cart item-dropdown">
                     <a href="/cart" class="site-header__cart-toggle">
-
                         <span class="cartcount"><?php echo WC()->cart->cart_contents_count; ?></span>
                         <i class="fa fa-shopping-basket" aria-hidden="true"></i>
                         <span class="cartcost"><span class="money" data-currency-usd=""><?php echo WC()->cart->get_cart_total(); ?></span></span>
                     </a>
-                    <div class="widget_shopping_cart_content  content-dropdown">
-                        <div class="cart_list ">
-<!--                            <div class="media widget-product">-->
-<!--                                <div class="media-left">-->
-<!--                                    <a href="../product_single.html" class="image pull-left">-->
-<!--                                        <img src="--><?php //bloginfo('template_url'); ?><!--/assets/images/product/product_1.jpg" alt="">-->
-<!--                                    </a>-->
-<!--                                </div>-->
-<!--                                <div class="cart-main-content media-body">-->
-<!--                                    <h3 class="name">-->
-<!--                                        <a href="../product_single.html">-->
-<!--                                            Sport Standard edition-->
-<!--                                        </a>-->
-<!--                                    </h3>-->
-<!--                                    <p class="cart-item">-->
-<!--                                        <span class="quantity">2 × <span class="price-amount amount"><span class="price-currencySymbol">$</span>100.00</span></span>-->
-<!--                                    </p>-->
-<!--                                    <a href="#" class="remove" title="Remove this item">×</a>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="media widget-product">-->
-<!--                                <div class="media-left">-->
-<!--                                    <a href="../product_single.html" class="image pull-left">-->
-<!--                                        <img src="--><?php //bloginfo('template_url'); ?><!--/assets/images/product/product_2.jpg" alt="">-->
-<!--                                    </a>-->
-<!--                                </div>-->
-<!--                                <div class="cart-main-content media-body">-->
-<!--                                    <h3 class="name">-->
-<!--                                        <a href="../product_single.html">-->
-<!--                                            Casual Premium edition-->
-<!--                                        </a>-->
-<!--                                    </h3>-->
-<!--                                    <p class="cart-item">-->
-<!--                                        <span class="quantity">1× <span class="price-amount amount"><span class="price-currencySymbol">$</span>50.00</span></span>           </p>-->
-<!--                                    <a href="#" class="remove" title="Remove this item">×</a>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="media widget-product">-->
-<!--                                <div class="media-left">-->
-<!--                                    <a href="../product_single.html" class="image pull-left">-->
-<!--                                        <img src="--><?php //bloginfo('template_url'); ?><!--/assets/images/product/product_3.jpg" alt="">-->
-<!--                                    </a>-->
-<!--                                </div>-->
-<!--                                <div class="cart-main-content media-body">-->
-<!--                                    <h3 class="name">-->
-<!--                                        <a href="../product_single.html">-->
-<!--                                            Gold Limited edition-->
-<!--                                        </a>-->
-<!--                                    </h3>-->
-<!--                                    <p class="cart-item">-->
-<!--                                        <span class="quantity">2 × <span class="price-amount amount"><span class="price-currencySymbol">$</span>100.00</span></span>           </p>-->
-<!--                                    <a href="#" class="remove" title="Remove this item">×</a>-->
-<!--                                </div>-->
-<!--                            </div>-->
-                        </div>
-                        <p class="total"><strong>Subtotal:</strong>
-                            <span class="price-amount amount">
-							    <span class="price-currencySymbol">$</span>450.00</span>
-                        </p>
-                        <p class="buttons clearfix">
-                            <a href="../cart.html" class="btn view-cart btn-default btn-normal pull-right">View Cart</a>
-                            <a href="../checkout.html" class="btn check-out btn-primary btn-normal pull-left">Checkout</a>
-                        </p>
-                    </div>
+                    <div class="widget_shopping_cart_content content-dropdown"></div>
                 </div>
             </div>
         </div>

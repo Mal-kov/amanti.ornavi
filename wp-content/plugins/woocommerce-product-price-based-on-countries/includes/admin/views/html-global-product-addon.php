@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <table style="display:none;">	
 	<tr id="wcpbc-addon-pricing">
 		<th>
-			<label for="wcpbc-addons"><?php _e( 'Add-ons zone pricing', 'wc-price-based-country' ); ?></label>
+			<label for="wcpbc-addons"><?php _e( 'Add-ons zone pricing', 'woocommerce-product-price-based-on-countries' ); ?></label>
 		</th>
 		<td class="postbox">
 			<?php echo $get_pro; ?>

@@ -468,7 +468,7 @@ class WCPBC_Tracker {
         <div class="pbc-dr-modal" id="<?php echo self::$tracker_id; ?>-pbc-dr-modal">
             <div class="pbc-dr-modal-wrap">
                 <div class="pbc-dr-modal-header">
-                    <h3><?php _e( 'If you have a moment, please let us know why you are deactivating:', 'wc-price-based-country' ); ?></h3>
+                    <h3><?php _e( 'If you have a moment, please let us know why you are deactivating:', 'woocommerce-product-price-based-on-countries' ); ?></h3>
                 </div>
 
                 <div class="pbc-dr-modal-body">
@@ -482,9 +482,9 @@ class WCPBC_Tracker {
                 </div>
 
                 <div class="pbc-dr-modal-footer">
-                    <a href="#" class="dont-bother-me"><?php _e( 'I rather wouldn\'t say', 'wc-price-based-country' ); ?></a>
-                    <button class="button-secondary"><?php _e( 'Submit & Deactivate', 'wc-price-based-country' ); ?></button>
-                    <button class="button-primary"><?php _e( 'Cancel', 'wc-price-based-country' ); ?></button>
+                    <a href="#" class="dont-bother-me"><?php _e( 'I rather wouldn\'t say', 'woocommerce-product-price-based-on-countries' ); ?></a>
+                    <button class="button-secondary"><?php _e( 'Submit & Deactivate', 'woocommerce-product-price-based-on-countries' ); ?></button>
+                    <button class="button-primary"><?php _e( 'Cancel', 'woocommerce-product-price-based-on-countries' ); ?></button>
                 </div>
             </div>
         </div>

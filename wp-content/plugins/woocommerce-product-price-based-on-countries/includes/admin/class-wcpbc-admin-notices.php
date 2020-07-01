@@ -26,12 +26,20 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 		private static $notices = false;
 
 		/**
+		 * Flag notices change.
+		 *
+		 * @var bool
+		 */
+		private static $changed = false;
+
+		/**
 		 * Init notices
 		 */
 		public static function init() {
 			add_action( 'admin_init', array( __CLASS__, 'hide_notice' ) );
 			add_action( 'admin_head', array( __CLASS__, 'enqueue_notices' ) );
 			add_action( 'wp_ajax_wcpbc_hide_notice', array( __CLASS__, 'ajax_hide_notice' ) );
+			add_action( 'shutdown', array( __CLASS__, 'save' ) );
 
 			// Product type not supported.
 			add_action( 'woocommerce_product_options_general_product_data', array( __CLASS__, 'display_product_type_not_supported' ), 9 );
@@ -43,16 +51,15 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 		private static function init_notices() {
 			if ( ! self::$notices ) {
 
+				self::$notices = array();
+				self::$changed = false;
+
 				$notices = apply_filters(
 					'wc_price_based_country_admin_notices',
 					array(
 						'welcome'                    => array( 'hide' => 'no' ),
 						'tracking'                   => array( 'hide' => 'no' ),
-						'update_db'                  => array( 'hide' => 'yes' ),
-						'updated'                    => array(
-							'hide'    => 'yes',
-							'screens' => array( 'woocommerce_page_wc-settings' ),
-						),
+						'updated'                    => array( 'hide' => 'yes' ),
 						'geolocation'                => array(
 							'hide'    => 'no',
 							'screens' => array( 'woocommerce_page_wc-settings' ),
@@ -72,7 +79,6 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 							'hide'     => 'yes',
 							'interval' => '+21 days',
 						),
-						'check_pro_version'          => array( 'hide' => 'no' ),
 					)
 				);
 
@@ -82,7 +88,9 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 				}
 
 				foreach ( $notices as $key => $notice ) {
-					self::$notices[ $key ] = wp_parse_args( empty( $store_notices[ $key ] ) ? array() : $store_notices[ $key ], $notice );
+					self::$notices[ $key ]               = $notice;
+					self::$notices[ $key ]['hide']       = isset( $store_notices[ $key ]['hide'] ) ? $store_notices[ $key ]['hide'] : self::$notices[ $key ]['hide'];
+					self::$notices[ $key ]['display_at'] = isset( $store_notices[ $key ]['display_at'] ) ? $store_notices[ $key ]['display_at'] : '';
 				}
 
 				// Add the product type not supported notices store in the user meta.
@@ -127,7 +135,7 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 					if ( is_callable( $callback ) ) {
 						if ( 'woocommerce_page_wc-settings' === $screen_id ) {
 							$current_tab = empty( $_GET['tab'] ) ? 'general' : sanitize_title( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
-							add_action( 'woocommerce_sections_' . $current_tab, $callback );
+							add_action( 'woocommerce_settings_' . $current_tab, $callback, 0 );
 						} else {
 							add_action( 'admin_notices', $callback );
 						}
@@ -158,7 +166,7 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 					self::$notices[ $notice ]['display_at'] = strtotime( self::$notices[ $notice ]['interval'] );
 				}
 
-				update_user_meta( get_current_user_id(), 'wc_price_based_country_admin_notices', self::$notices );
+				self::$changed = true;
 			}
 		}
 
@@ -201,7 +209,20 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 			self::$notices[ $notice ]['interval']   = '';
 			self::$notices[ $notice ]['display_at'] = '';
 
-			update_user_meta( get_current_user_id(), 'wc_price_based_country_admin_notices', self::$notices );
+			self::$changed = true;
+		}
+
+		/**
+		 * Save notices in shutdown.
+		 */
+		public static function save() {
+			if ( self::$changed ) {
+				if ( isset( self::$notices['temp'] ) ) {
+					unset( self::$notices['temp'] );
+				}
+
+				update_user_meta( get_current_user_id(), 'wc_price_based_country_admin_notices', self::$notices );
+			}
 		}
 
 		/**
@@ -214,7 +235,7 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 			if ( isset( $_POST['notice'] ) ) {
 
 				if ( ! current_user_can( 'manage_woocommerce' ) ) {
-					wp_die( esc_html__( 'Cheatin&#8217; huh?', 'wc-price-based-country' ) );
+					wp_die( esc_html__( 'Cheatin&#8217; huh?', 'woocommerce-product-price-based-on-countries' ) );
 				}
 
 				$notice = sanitize_text_field( wp_unslash( $_POST['notice'] ) );
@@ -229,6 +250,7 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 			wp_die();
 		}
 
+
 		/**
 		 * Hide a notice.
 		 */
@@ -236,10 +258,10 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 			if ( isset( $_GET['pbc-hide-notice'] ) && isset( $_GET['_wpnonce'] ) ) { // WPCS: CSRF ok.
 
 				if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_GET['_wpnonce'] ) ), 'pbc_hide_notice_nonce' ) ) { // WPCS: CSRF ok.
-					wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'wc-price-based-country' ) );
+					wp_die( esc_html__( 'Action failed. Please refresh the page and retry.', 'woocommerce-product-price-based-on-countries' ) );
 				}
 				if ( ! current_user_can( 'manage_woocommerce' ) ) {
-					wp_die( esc_html__( 'You don&#8217;t have permission to do this.', 'wc-price-based-country' ) );
+					wp_die( esc_html__( 'You don&#8217;t have permission to do this.', 'woocommerce-product-price-based-on-countries' ) );
 				}
 
 				$hide_notice = wc_clean( wp_unslash( $_GET['pbc-hide-notice'] ) ); // WPCS: CSRF ok.
@@ -277,9 +299,14 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 				return;
 			}
 			foreach ( self::$notices['temp']['notices'] as $notice ) {
-				$type    = $notice['type'];
-				$message = $notice['message'];
-				include_once dirname( __FILE__ ) . '/views/html-notice-default.php';
+				$callback = 'display_' . wc_clean( $notice['message'] ) . '_notice';
+				if ( is_callable( array( __CLASS__, $callback ) ) ) {
+					self::{$callback}();
+				} else {
+					$type    = $notice['type'];
+					$message = $notice['message'];
+					include_once dirname( __FILE__ ) . '/views/html-notice-default.php';
+				}
 			}
 		}
 
@@ -345,7 +372,7 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 			global $woocommerce_wpml;
 
 			// translators: 1,2: bold HTML tag, 3: Plugin name.
-			$message = __( 'It looks like another multicurrency plugin is active on your site. %1$sPrice Based on Country will not work properly%2$s. We recomended you disable %3$s.', 'wc-price-based-country' );
+			$message = __( 'It looks like another multicurrency plugin is active on your site. %1$sPrice Based on Country will not work properly%2$s. We recomended you disable %3$s.', 'woocommerce-product-price-based-on-countries' );
 
 			$plugins = array(
 				'Alg_WC_Currency_Switcher' => 'Currency Switcher for WooCommerce by Algoritmika Ltd',
@@ -371,7 +398,7 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 
 			// WPML multi-currency enable.
 			if ( ! empty( $woocommerce_wpml->settings['enable_multi_currency'] ) ) {
-				$message_text = sprintf( $message, '<span style="color:#a00;">', '</span>', '<a href="' . admin_url( 'admin.php?page=wpml-wcml&tab=multi-currency' ) . '">' . __( 'WooCommerce Multilingual multiple currencies option', 'wc-price-based-country' ) . '</a>' );
+				$message_text = sprintf( $message, '<span style="color:#a00;">', '</span>', '<a href="' . admin_url( 'admin.php?page=wpml-wcml&tab=multi-currency' ) . '">' . __( 'WooCommerce Multilingual multiple currencies option', 'woocommerce-product-price-based-on-countries' ) . '</a>' );
 				include_once dirname( __FILE__ ) . '/views/html-notice-incompatible-multicurrency.php';
 			}
 		}
@@ -423,7 +450,7 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 
 					echo '<div class="notice notice-info"><p>';
 					// Translators: Shop base currency.
-					echo esc_html( sprintf( __( 'Totals in different currency to %s has been calculate by following exchange rates:', 'wc-price-based-country' ), $base_currency ) ) . ' ' . wp_kses_post( $rates_string );
+					echo esc_html( sprintf( __( 'Totals in different currency to %s has been calculate by following exchange rates:', 'woocommerce-product-price-based-on-countries' ), $base_currency ) ) . ' ' . wp_kses_post( $rates_string );
 					echo '</p></div>';
 				}
 			}
@@ -450,17 +477,6 @@ if ( ! class_exists( 'WCPBC_Admin_Notices', false ) ) :
 						include dirname( __FILE__ ) . '/views/html-notice-product-type-not-supported.php';
 					}
 				}
-			}
-		}
-
-		/**
-		 * Output the Pro min version required warning.
-		 */
-		public static function display_check_pro_version_notice() {
-			if ( class_exists( 'WC_Product_Price_Based_Country_Pro' ) && ( empty( WC_Product_Price_Based_Country_Pro::$version ) || version_compare( WC_Product_Price_Based_Country_Pro::$version, '2.5.0', '<' ) ) ) {
-				// translators: 1, 2 HTML Tags. 3 version.
-				$message = sprintf( __( '%1$sWarning!%2$s Price Based on Country - You have to update %1$sPrice Based on Country Pro Add-on to %3$s%2$s. The plugin is not working. Update the Pro add-on or deactivate it.', 'wc-price-based-country' ), '<strong>', '</strong>', '2.5.0' );
-				echo '<div id="message" class="error"><p>' . wp_kses_post( $message ) . '</p></div>';
 			}
 		}
 	}

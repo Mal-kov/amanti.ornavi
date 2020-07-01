@@ -14,10 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php
 	if ( 'third-party' === $class ) {
 		// translators: HTML tags.
-		printf( esc_html( __( 'Hi, %1$sPrice Based on Country%2$s is compatible with this product type by a third party development. %3$sGreat!, hide this alert%4$s.', 'wc-price-based-country' ) ), '<strong>', '</strong>', '<a class="pbc-hide-notice" data-nonce="' . esc_attr( wp_create_nonce( 'pbc-hide-notice' ) ) . '" data-notice="' . esc_attr( $notice ) . '" href="#">', '</a>' );
+		printf( esc_html( __( 'Hi, %1$sPrice Based on Country%2$s is compatible with this product type by a third party development. %3$sGreat!, hide this alert%4$s.', 'woocommerce-product-price-based-on-countries' ) ), '<strong>', '</strong>', '<a class="pbc-hide-notice" data-nonce="' . esc_attr( wp_create_nonce( 'pbc-hide-notice' ) ) . '" data-notice="' . esc_attr( $notice ) . '" href="#">', '</a>' );
 	} else {
 		// translators: HTML tags.
-		printf( esc_html( __( 'Hi, this product type is not supported by %1$sPrice Based on Country%2$s. Use it with caution.', 'wc-price-based-country' ) ), '<strong>', '</strong>' );
+		printf( esc_html( __( 'Hi, this product type is not supported by %1$sPrice Based on Country%2$s. Use it with caution.', 'woocommerce-product-price-based-on-countries' ) ), '<strong>', '</strong>' );
 	}
 	?>
 </p>

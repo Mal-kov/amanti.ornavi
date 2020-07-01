@@ -1,0 +1,2 @@
+2020-05-28T11:08:41+00:00 CRITICAL Out of memory (allocated 46137344) (tried to allocate 20480 bytes) in C:\OSPanel\domains\shop1-woo-cream.local\wp-content\plugins\woocommerce\includes\wc-template-functions.php on line 1912
+

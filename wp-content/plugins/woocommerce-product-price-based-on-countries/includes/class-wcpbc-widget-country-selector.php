@@ -27,26 +27,26 @@ class WCPBC_Widget_Country_Selector extends WC_Widget {
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->widget_description = __( 'A country switcher for your store.', 'wc-price-based-country' );
+		$this->widget_description = __( 'A country switcher for your store.', 'woocommerce-product-price-based-on-countries' );
 		$this->widget_id          = 'wcpbc_country_selector';
-		$this->widget_name        = __( 'WooCommerce Country Switcher', 'wc-price-based-country' );
+		$this->widget_name        = __( 'WooCommerce Country Switcher', 'woocommerce-product-price-based-on-countries' );
 		$this->settings           = apply_filters(
 			'wc_price_based_country_widget_settings',
 			array(
 				'title'                      => array(
 					'type'  => 'text',
-					'std'   => __( 'Country', 'wc-price-based-country' ),
-					'label' => __( 'Title', 'wc-price-based-country' ),
+					'std'   => __( 'Country', 'woocommerce-product-price-based-on-countries' ),
+					'label' => __( 'Title', 'woocommerce-product-price-based-on-countries' ),
 				),
 				'other_countries_text'       => array(
 					'type'  => 'text',
-					'std'   => __( 'Other countries', 'wc-price-based-country' ),
-					'label' => __( 'Other countries text', 'wc-price-based-country' ),
+					'std'   => __( 'Other countries', 'woocommerce-product-price-based-on-countries' ),
+					'label' => __( 'Other countries text', 'woocommerce-product-price-based-on-countries' ),
 				),
 				'remove_other_countries_pro' => array(
 					'type'  => 'wcpbc_remove_other_countries_pro',
 					'std'   => '',
-					'label' => __( 'Remove "Other countries" from switcher.', 'wc-price-based-country' ),
+					'label' => __( 'Remove "Other countries" from switcher.', 'woocommerce-product-price-based-on-countries' ),
 				),
 			)
 		);
@@ -72,7 +72,7 @@ class WCPBC_Widget_Country_Selector extends WC_Widget {
 			<span style="display: block; font-size: 12px; font-style: italic; margin-left: 22px;">
 				<?php
 					// Translators: HTML tags.
-					printf( esc_html__( '%1$sUpgrade to Pro to remove Other countries%2$s', 'wc-price-based-country' ), '<a target="_blank" rel="noopener noreferrer" class="cta-button" href="https://www.pricebasedcountry.com/pricing/?utm_source=widget&amp;utm_medium=banner&amp;utm_campaign=Get_Pro">', '</a>' );
+					printf( esc_html__( '%1$sUpgrade to Pro to remove Other countries%2$s', 'woocommerce-product-price-based-on-countries' ), '<a target="_blank" rel="noopener noreferrer" class="cta-button" href="https://www.pricebasedcountry.com/pricing/?utm_source=widget&amp;utm_medium=banner&amp;utm_campaign=Get_Pro">', '</a>' );
 				?>
 			</span>
 		</p>
@@ -83,20 +83,24 @@ class WCPBC_Widget_Country_Selector extends WC_Widget {
 	 * Widget function.
 	 *
 	 * @see WP_Widget
+	 * @version 1.9 Check the countries of the widget are in the allowed countries.
 	 * @param array $args Array of arguments.
 	 * @param array $instance Widget instance.
 	 * @return void
 	 */
 	public function widget( $args, $instance ) {
+		$allowed_countries = apply_filters( 'wc_price_based_country_allow_all_countries', false ) ? WC()->countries->get_countries() : WC()->countries->get_allowed_countries();
+		$all_countries     = WC()->countries->get_countries();
+		$base_country      = wc_get_base_location();
+		$countries         = array();
 
-		$all_countries = WC()->countries->get_countries();
-		$base_country  = wc_get_base_location();
-
-		$countries[ $base_country['country'] ] = $all_countries[ $base_country['country'] ];
+		if ( isset( $base_country['country'] ) && array_key_exists( $base_country['country'], $allowed_countries ) && array_key_exists( $base_country['country'], $all_countries ) ) {
+			$countries[ $base_country['country'] ] = $all_countries[ $base_country['country'] ];
+		}
 
 		foreach ( WCPBC_Pricing_Zones::get_zones() as $zone ) {
 			foreach ( $zone->get_countries() as $country ) {
-				if ( ! array_key_exists( $country, $countries ) ) {
+				if ( ! array_key_exists( $country, $countries ) && isset( $all_countries[ $country ] ) ) {
 					$countries[ $country ] = $all_countries[ $country ];
 				}
 			}
@@ -106,7 +110,7 @@ class WCPBC_Widget_Country_Selector extends WC_Widget {
 
 		// Add other countries.
 		$other_country               = key( array_diff_key( $all_countries, $countries ) );
-		$countries[ $other_country ] = empty( $instance['other_countries_text'] ) ? apply_filters( 'wcpbc_other_countries_text', __( 'Other countries', 'wc-price-based-country' ) ) : $instance['other_countries_text'];
+		$countries[ $other_country ] = empty( $instance['other_countries_text'] ) ? apply_filters( 'wcpbc_other_countries_text', __( 'Other countries', 'woocommerce-product-price-based-on-countries' ) ) : $instance['other_countries_text'];
 
 		/**
 		 * Allow developers filter the list of countries

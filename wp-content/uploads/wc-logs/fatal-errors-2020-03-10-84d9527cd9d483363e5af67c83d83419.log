@@ -1,2 +1,0 @@
-2020-03-10T13:41:49+00:00 CRITICAL Out of memory (allocated 2097152) (tried to allocate 32768 bytes) in C:\OSPanel\domains\shop1-woo-cream.local\wp-content\plugins\woocommerce\packages\woocommerce-rest-api\src\Controllers\Version1\class-wc-rest-products-v1-controller.php on line 1499
-

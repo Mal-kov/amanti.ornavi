@@ -23,10 +23,10 @@
 define( 'DB_NAME', 'wp_woo_cream' );
 
 /** MySQL database username */
-define( 'DB_USER', 'root_cream' );
+define( 'DB_USER', 'root' );
 
 /** MySQL database password */
-define( 'DB_PASSWORD', '32768' );
+define( 'DB_PASSWORD', '' );
 
 /** MySQL hostname */
 define( 'DB_HOST', 'localhost' );

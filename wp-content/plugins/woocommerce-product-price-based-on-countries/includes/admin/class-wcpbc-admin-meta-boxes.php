@@ -23,7 +23,6 @@ class WCPBC_Admin_Meta_Boxes {
 		add_action( 'woocommerce_process_product_meta_simple', array( __CLASS__, 'process_product_meta' ) );
 		add_action( 'woocommerce_process_product_meta_external', array( __CLASS__, 'process_product_meta' ) );
 		add_action( 'woocommerce_save_product_variation', array( __CLASS__, 'process_product_meta' ), 10, 2 );
-		add_action( 'woocommerce_process_product_meta_grouped', array( __CLASS__, 'process_product_meta_grouped' ) );
 		add_action( 'woocommerce_product_quick_edit_save', array( __CLASS__, 'product_quick_edit_save' ) );
 		add_action( 'woocommerce_product_bulk_edit_save', array( __CLASS__, 'product_quick_edit_save' ), 20 );
 		add_action( 'woocommerce_product_import_inserted_product_object', array( __CLASS__, 'import_inserted_product_object' ), 20, 2 );
@@ -50,12 +49,12 @@ class WCPBC_Admin_Meta_Boxes {
 					array(
 						'name'  => '_regular_price',
 						// Translators: currency symbol.
-						'label' => __( 'Regular price (%s)', 'wc-price-based-country' ),
+						'label' => __( 'Regular price (%s)', 'woocommerce-product-price-based-on-countries' ),
 					),
 					array(
 						'name'  => '_sale_price',
 						// Translators: currency symbol.
-						'label' => __( 'Sale price (%s)', 'wc-price-based-country' ),
+						'label' => __( 'Sale price (%s)', 'woocommerce-product-price-based-on-countries' ),
 						'class' => 'wcpbc_sale_price',
 					),
 					array(
@@ -63,10 +62,10 @@ class WCPBC_Admin_Meta_Boxes {
 						'type'          => 'radio',
 						'default_value' => 'default',
 						'class'         => 'wcpbc_sale_price_dates',
-						'label'         => __( 'Sale price dates', 'wc-price-based-country' ),
+						'label'         => __( 'Sale price dates', 'woocommerce-product-price-based-on-countries' ),
 						'options'       => array(
-							'default' => __( 'Same as default price', 'wc-price-based-country' ),
-							'manual'  => __( 'Set specific dates', 'wc-price-based-country' ),
+							'default' => __( 'Same as default price', 'woocommerce-product-price-based-on-countries' ),
+							'manual'  => __( 'Set specific dates', 'woocommerce-product-price-based-on-countries' ),
 						),
 					),
 					array(
@@ -75,7 +74,7 @@ class WCPBC_Admin_Meta_Boxes {
 						'data_type'     => 'date',
 						'class'         => 'sale_price_dates_from',
 						'wrapper_class' => 'sale_price_dates_fields wcpbc_hide_if_sale_dates_default',
-						'placeholder'   => _x( 'From&hellip;', 'placeholder', 'wc-price-based-country' ) . ' YYYY-MM-DD',
+						'placeholder'   => _x( 'From&hellip;', 'placeholder', 'woocommerce-product-price-based-on-countries' ) . ' YYYY-MM-DD',
 					),
 					array(
 						'name'          => '_sale_price_dates_to',
@@ -83,7 +82,7 @@ class WCPBC_Admin_Meta_Boxes {
 						'data_type'     => 'date',
 						'class'         => 'sale_price_dates_to',
 						'wrapper_class' => 'sale_price_dates_fields wcpbc_hide_if_sale_dates_default',
-						'placeholder'   => _x( 'To&hellip;', 'placeholder', 'wc-price-based-country' ) . ' YYYY-MM-DD',
+						'placeholder'   => _x( 'To&hellip;', 'placeholder', 'woocommerce-product-price-based-on-countries' ) . ' YYYY-MM-DD',
 					),
 				),
 				apply_filters( 'wc_price_based_country_product_simple_fields', array() )
@@ -113,13 +112,13 @@ class WCPBC_Admin_Meta_Boxes {
 					'_regular_price'         => array(
 						'name'          => "_variable_regular_price[$loop]",
 						// Translators: currency symbol.
-						'label'         => __( 'Regular price (%s)', 'wc-price-based-country' ),
+						'label'         => __( 'Regular price (%s)', 'woocommerce-product-price-based-on-countries' ),
 						'wrapper_class' => 'form-row form-row-first _variable_regular_price_wcpbc_field',
 					),
 					'_sale_price'            => array(
 						'name'          => "_variable_sale_price[$loop]",
 						// Translators: currency symbol.
-						'label'         => __( 'Sale price (%s)', 'wc-price-based-country' ),
+						'label'         => __( 'Sale price (%s)', 'woocommerce-product-price-based-on-countries' ),
 						'class'         => 'wcpbc_sale_price',
 						'wrapper_class' => 'form-row form-row-last _variable_sale_price_wcpbc_field',
 					),
@@ -129,27 +128,27 @@ class WCPBC_Admin_Meta_Boxes {
 						'class'         => 'wcpbc_sale_price_dates',
 						'wrapper_class' => 'wcpbc_sale_price_dates_wrapper',
 						'default_value' => 'default',
-						'label'         => __( 'Sale price dates', 'wc-price-based-country' ),
+						'label'         => __( 'Sale price dates', 'woocommerce-product-price-based-on-countries' ),
 						'options'       => array(
-							'default' => __( 'Same as default price', 'wc-price-based-country' ),
-							'manual'  => __( 'Set specific dates', 'wc-price-based-country' ),
+							'default' => __( 'Same as default price', 'woocommerce-product-price-based-on-countries' ),
+							'manual'  => __( 'Set specific dates', 'woocommerce-product-price-based-on-countries' ),
 						),
 					),
 					'_sale_price_dates_from' => array(
 						'name'          => "_variable_sale_price_dates_from[$loop]",
-						'label'         => __( 'Sale start date', 'wc-price-based-country' ),
+						'label'         => __( 'Sale start date', 'woocommerce-product-price-based-on-countries' ),
 						'data_type'     => 'date',
 						'class'         => 'sale_price_dates_from',
 						'wrapper_class' => 'form-row form-row-first sale_price_dates_fields wcpbc_hide_if_sale_dates_default',
-						'placeholder'   => _x( 'From&hellip;', 'placeholder', 'wc-price-based-country' ) . ' YYYY-MM-DD',
+						'placeholder'   => _x( 'From&hellip;', 'placeholder', 'woocommerce-product-price-based-on-countries' ) . ' YYYY-MM-DD',
 					),
 					'_sale_price_dates_to'   => array(
 						'name'          => "_variable_sale_price_dates_to[$loop]",
-						'label'         => __( 'Sale end date', 'wc-price-based-country' ),
+						'label'         => __( 'Sale end date', 'woocommerce-product-price-based-on-countries' ),
 						'data_type'     => 'date',
 						'class'         => 'sale_price_dates_to',
 						'wrapper_class' => 'form-row form-row-last sale_price_dates_fields wcpbc_hide_if_sale_dates_default',
-						'placeholder'   => _x( 'To&hellip;', 'placeholder', 'wc-price-based-country' ) . ' YYYY-MM-DD',
+						'placeholder'   => _x( 'To&hellip;', 'placeholder', 'woocommerce-product-price-based-on-countries' ) . ' YYYY-MM-DD',
 					),
 				),
 				apply_filters( 'wc_price_based_country_product_variation_fields', array(), $loop )
@@ -190,33 +189,15 @@ class WCPBC_Admin_Meta_Boxes {
 	}
 
 	/**
-	 * Save meta data product grouped
-	 *
-	 * @param int $post_id Post ID.
-	 */
-	public static function process_product_meta_grouped( $post_id ) {
-		foreach ( WCPBC_Pricing_Zones::get_zones() as $zone ) {
-			wcpbc_zone_grouped_product_sync( $zone, $post_id );
-		}
-	}
-
-	/**
 	 * Quick and Bulk product edit.
 	 *
 	 * @param WC_Product $product Product instance.
 	 */
 	public static function product_quick_edit_save( $product ) {
-		$_product = (object) wcpbc_get_prop_value( $product, array( 'id', 'parent_id', 'type' ) );
-
 		foreach ( WCPBC_Pricing_Zones::get_zones() as $zone ) {
-			if ( $zone->is_exchange_rate_price( $_product->id ) ) {
+			if ( $zone->is_exchange_rate_price( $product->get_id() ) ) {
 
-				wcpbc_update_product_pricing( $_product->id, $zone );
-
-				// Sync grouped parent product.
-				if ( ! empty( $_product->parent_id ) && 'simple' === $_product->type ) {
-					wcpbc_zone_grouped_product_sync( $zone, $_product->id );
-				}
+				wcpbc_update_product_pricing( $product->get_id(), $zone );
 			}
 		}
 	}
@@ -228,7 +209,7 @@ class WCPBC_Admin_Meta_Boxes {
 	 * @param array      $data CSV data read for the product.
 	 */
 	public static function import_inserted_product_object( $product, $data ) {
-		if ( in_array( $product->get_type(), wcpbc_get_parent_product_types(), true ) ) {
+		if ( in_array( $product->get_type(), WCPBC_Product_Sync::get_parent_product_types(), true ) ) {
 			return;
 		}
 
@@ -272,9 +253,9 @@ class WCPBC_Admin_Meta_Boxes {
 			array(
 				'id'          => 'zone_pricing_type',
 				'cbvalue'     => 'exchange_rate',
-				'label'       => __( 'Calculate amount by exchange rate', 'wc-price-based-country' ),
+				'label'       => __( 'Calculate amount by exchange rate', 'woocommerce-product-price-based-on-countries' ),
 				// Translators: HTML tags.
-				'description' => sprintf( __( 'Check this box if for the countries defined in zone pricing the coupon amount should be calculated using exchange rate. %1$s(%2$sUpgrade to Price Based on Country Pro to set copupon amount by zone%3$s)', 'wc-price-based-country' ), '<br />', '<a target="_blank" el="noopener noreferrer" href="https://www.pricebasedcountry.com/pricing/?utm_source=coupon&utm_medium=banner&utm_campaign=Get_Pro">', '</a>' ),
+				'description' => sprintf( __( 'Check this box if, for the pricing zones, the coupon amount must be calculated using the exchange rate. %1$s(%2$sUpgrade to Price Based on Country Pro to set copupon amount by zone%3$s)', 'woocommerce-product-price-based-on-countries' ), '<br />', '<a target="_blank" el="noopener noreferrer" href="https://www.pricebasedcountry.com/pricing/?utm_source=coupon&utm_medium=banner&utm_campaign=Get_Pro">', '</a>' ),
 			)
 		);
 	}
@@ -286,9 +267,8 @@ class WCPBC_Admin_Meta_Boxes {
 	 * @param int $post_id Post ID.
 	 */
 	public static function coupon_options_save( $post_id ) {
-		$type              = get_post_meta( $post_id, 'discount_type', true );
-		$type              = empty( $type ) && ! empty( $_POST['discount_type'] ) ? wc_clean( wp_unslash( $_POST['discount_type'] ) ) : false; // phpcs:ignore WordPress.Security.NonceVerification
-		$zone_pricing_type = in_array( $type, array( 'fixed_cart', 'fixed_product' ), true ) && isset( $_POST['zone_pricing_type'] ) ? 'exchange_rate' : 'nothig'; // WPCS: CSRF ok.
+		$discount_type     = empty( $_POST['discount_type'] ) ? 'fixed_cart' : wc_clean( wp_unslash( $_POST['discount_type'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+		$zone_pricing_type = in_array( $discount_type, array( 'fixed_cart', 'fixed_product' ), true ) && isset( $_POST['zone_pricing_type'] ) ? 'exchange_rate' : 'nothig'; // phpcs:ignore WordPress.Security.NonceVerification
 		update_post_meta( $post_id, 'zone_pricing_type', $zone_pricing_type );
 	}
 }

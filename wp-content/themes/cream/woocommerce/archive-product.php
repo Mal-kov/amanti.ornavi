@@ -12,60 +12,140 @@
         <div class="main-slider my-slider slider-pro skin2" id="my-slider-1" data-slider-width="100%" data-slider-height="670">
             <div class="sp-slides">
                 <!-- Slide 1 -->
-                <div class="sp-slide section-bg" style="background-image:url(<?php bloginfo('template_url'); ?>/assets/images/slider/home3_slider1.jpg)">
-		           		<span class="sp-layer main-slider__img" data-horizontal="0" data-vertical="100"  data-show-transition="up" data-hide-transition="left" data-show-duration="800" data-show-delay="400" data-hide-delay="400">
-							<img class="img-responsive" src="<?php bloginfo('template_url'); ?>/assets/images/slider/home3_slider1.png" height="593" alt="">
+                <div class="sp-slide section-bg"
+                     style="background-image:url(<?php bloginfo('template_url'); ?>/assets/img/slider/slide_01.jpg)">
+		           		<span class="sp-layer main-slider__img" data-horizontal="0" data-vertical="100"
+                              data-show-transition="up" data-hide-transition="left" data-show-duration="800"
+                              data-show-delay="400" data-hide-delay="400">
+							<img class="img-responsive"
+                                 src="<?php bloginfo('template_url'); ?>/assets/img/slider/slider1_8.png" height="593"
+                                 alt="">
 						</span>
 
-                    <div class="sp-layer main-slider__text btn-sale text-white font-bold section-bg hidden-xs hidden-sm" data-horizontal="35%" data-vertical="140"  data-show-transition="up" data-hide-transition="left" data-show-duration="1200" data-show-delay="1200" data-hide-delay="1200" style="background-image:url("<?php bloginfo('template_url'); ?>"/assets/images/slider/home3_slider1_3.png)">
-                    <span class="btn-sale__title">-ONLY-</span>
-                    <span class="btn-sale__price">$56.89</span>
-                </div>
+                    <div class="sp-layer main-slider__text btn-sale text-white font-bold section-bg hidden-xs hidden-sm"
+                         data-horizontal="35%" data-vertical="140" data-show-transition="up" data-hide-transition="left"
+                         data-show-duration="1200" data-show-delay="1200" data-hide-delay="1200"
+                         style="background-image:url(<?php bloginfo('template_url'); ?>/assets/img/slider/slider1_2.png);width: 250px; height: 50%">
+                        <!--                    <span class="btn-sale__title">-ONLY-</span>-->
+                        <!--                    <span class="btn-sale__price">$56.89</span>-->
+                        <!--                    <span class="sp-layer main-slider__img" data-horizontal="35%" data-vertical="140"  data-show-transition="up" data-hide-transition="right" data-show-duration="1200" data-show-delay="1200" data-hide-delay="1200">-->
+                        <!--							<img class="img-responsive" src="-->
+                        <?php //bloginfo('template_url'); ?><!--/assets/img/slider/slider1_2.png" alt="">-->
+                        <!--						</span>-->
+                        <!--                </div>-->
 
-
-                <h2 class="sp-layer main-slider__title font-italic" data-horizontal="50%" data-vertical="120" data-show-transition="up" data-hide-transition="left" data-show-duration="800" data-show-delay="800" data-hide-delay="800">
-                    The Organic Store
-                </h2>
-                <h2 class="sp-layer main-slider__title color-primary font-bold hidden-md" data-horizontal="50%" data-vertical="210" data-show-transition="up" data-hide-transition="left" data-show-duration="900" data-show-delay="900" data-hide-delay="900">
-                    Skin Care
-                </h2>
-                <div class="sp-layer main-slider__text" data-horizontal="50%" data-vertical="320"  data-show-transition="up" data-hide-transition="left" data-show-duration="1000" data-show-delay="1000" data-hide-delay="1000">
-                    <p class="hidden-xs">
-                        Organica we know that washing your face is the most important part <br/>
-                        of any skincare routine, but we all use different products to get the job ...
-                    </p>
-                    <div class="main-slider__btn-group">
-                        <a class="mt-40 btn btn-features btn-primary btn-radius" href="../product_grid.html">Shop now <i class="fa fa-long-arrow-right" aria-hidden="true"></i> </a>
                     </div>
-                </div>
-                <span class="sp-layer main-slider__img" data-horizontal="80%" data-vertical="500"  data-show-transition="up" data-hide-transition="right" data-show-duration="1200" data-show-delay="1200" data-hide-delay="1200">
-							<img class="img-responsive" src="<?php bloginfo('template_url'); ?>/assets/images/slider/home3_slider1_8.png" height="87" width="198" alt="">
+
+
+                    <h2 class="sp-layer main-slider__title font-italic" data-horizontal="50%" data-vertical="120"
+                        data-show-transition="up" data-hide-transition="left" data-show-duration="800"
+                        data-show-delay="800" data-hide-delay="800">
+                        Мебель ручной работы
+                    </h2>
+                    <h2 class="sp-layer main-slider__title color-primary font-bold hidden-md" data-horizontal="50%"
+                        data-vertical="210" data-show-transition="up" data-hide-transition="left"
+                        data-show-duration="900" data-show-delay="900" data-hide-delay="900">
+                        Делаем с душой
+                    </h2>
+                    <div class="sp-layer main-slider__text" data-horizontal="50%" data-vertical="320"
+                         data-show-transition="up" data-hide-transition="left" data-show-duration="1000"
+                         data-show-delay="1000" data-hide-delay="1000">
+                        <!--                    <p class="hidden-xs">-->
+                        <!--                        Organica we know that washing your face is the most important part <br/>-->
+                        <!--                        of any skincare routine, but we all use different products to get the job ...-->
+                        <!--                    </p>-->
+<!--                        <div class="main-slider__btn-group">-->
+<!--                            <a class="mt-40 btn btn-features btn-primary btn-radius" href="../product_grid.html">Shop-->
+<!--                                now <i class="fa fa-long-arrow-right" aria-hidden="true"></i> </a>-->
+<!--                        </div>-->
+                    </div>
+                    <span class="sp-layer main-slider__img" data-horizontal="80%" data-vertical="500"
+                          data-show-transition="up" data-hide-transition="right" data-show-duration="1200"
+                          data-show-delay="1200" data-hide-delay="1200">
+							<img class="img-responsive"
+                                 src="<?php bloginfo('template_url'); ?>/assets/img/slider/slider1_1.png" alt="">
 						</span>
-            </div>
+                </div>
             <!-- end sp-slide -->
 
+                <!-- Slide 2 -->
+                <div class="sp-slide section-bg"
+                     style="background-image:url(<?php bloginfo('template_url'); ?>/assets/img/slider/slide_02.jpg)">
+		           		<span class="sp-layer main-slider__img" data-horizontal="0" data-vertical="100"
+                              data-show-transition="up" data-hide-transition="left" data-show-duration="800"
+                              data-show-delay="400" data-hide-delay="400">
+<!--							<img class="img-responsive"-->
+<!--                                 src="--><?php //bloginfo('template_url'); ?><!--/assets/img/slider/slider2_3.png" height="593"-->
+<!--                                 alt="">-->
+						</span>
 
-            <!-- Slide 2-->
-            <div class="sp-slide section-bg" style="background-image:url(<?php bloginfo('template_url'); ?>/assets/images/slider/home3_slider2.jpg)">
-                <h2 class="sp-layer main-slider__title font-italic text-center" data-horizontal="50%" data-vertical="120" data-show-transition="up" data-hide-transition="center" data-show-duration="800" data-show-delay="800" data-hide-delay="800">
-                    The Organic Store
-                </h2>
-                <h2 class="sp-layer main-slider__title color-primary font-bold  text-center" data-horizontal="50%" data-vertical="210" data-show-transition="up" data-hide-transition="center" data-show-duration="900" data-show-delay="900" data-hide-delay="900">
-                    Skin Care
-                </h2>
-                <div class="sp-layer main-slider__text text-center" data-horizontal="50%" data-vertical="310"  data-show-transition="up" data-hide-transition="center" data-show-duration="1000" data-show-delay="1000" data-hide-delay="1000">
-                    <p class="hidden-xs">
-                        Organica we know that washing your face is the most important part<br/>
-                        of any skincare routine, but we all use different products to get the job ...
-                    </p>
-                    <div class="main-slider__btn-group">
-                        <a class="mt-40 btn btn-features btn-primary btn-radius" href="../product_grid.html">Shop now <i class="fa fa-long-arrow-right" aria-hidden="true"></i> </a>
+                    <div class="sp-layer main-slider__text btn-sale text-white font-bold section-bg hidden-xs hidden-sm"
+                         data-horizontal="20%" data-vertical="140" data-show-transition="up" data-hide-transition="left"
+                         data-show-duration="1100" data-show-delay="1100" data-hide-delay="1200"
+                         style="background-image:url(<?php bloginfo('template_url'); ?>/assets/img/slider/slider2_3.png);width: 250px; height: 70%">
                     </div>
+
+
+                    <h2 class="sp-layer main-slider__title font-italic" data-horizontal="50%" data-vertical="120"
+                        data-show-transition="up" data-hide-transition="left" data-show-duration="800"
+                        data-show-delay="800" data-hide-delay="800">
+                        Украшения и скульптура
+                    </h2>
+                    <h2 class="sp-layer main-slider__title color-primary font-bold hidden-md" data-horizontal="50%"
+                        data-vertical="210" data-show-transition="up" data-hide-transition="left"
+                        data-show-duration="900" data-show-delay="900" data-hide-delay="900">
+                        из дерева
+                    </h2>
+                    <div class="sp-layer main-slider__text" data-horizontal="50%" data-vertical="320"
+                         data-show-transition="up" data-hide-transition="left" data-show-duration="1000"
+                         data-show-delay="1000" data-hide-delay="1000">
+                        <!--                    <p class="hidden-xs">-->
+                        <!--                        Organica we know that washing your face is the most important part <br/>-->
+                        <!--                        of any skincare routine, but we all use different products to get the job ...-->
+                        <!--                    </p>-->
+<!--                        <div class="main-slider__btn-group">-->
+<!--                            <a class="mt-40 btn btn-features btn-primary btn-radius" href="../product_grid.html">Shop-->
+<!--                                now <i class="fa fa-long-arrow-right" aria-hidden="true"></i> </a>-->
+<!--                        </div>-->
+                    </div>
+                    <span class="sp-layer main-slider__img" data-horizontal="70%" data-vertical="400"
+                          data-show-transition="up" data-hide-transition="right" data-show-duration="1200"
+                          data-show-delay="1200" data-hide-delay="1200">
+							<img class="img-responsive"
+                                 src="<?php bloginfo('template_url'); ?>/assets/img/slider/slider2_1.png" alt="">
+						</span>
                 </div>
-                <div class="sp-layer main-slider__text btn-sale text-white font-bold section-bg hidden-xs hidden-sm" data-horizontal="72%" data-vertical="120"  data-show-transition="up" data-hide-transition="left" data-show-duration="1200" data-show-delay="1200" data-hide-delay="1200" style="background-image:url("<?php bloginfo('template_url'); ?>"/assets/images/slider/home3_slider1_3.png)">
-                <span class="btn-sale__title">-ONLY-</span>
-                <span class="btn-sale__price">$56.89</span>
-            </div>
+                <!-- end sp-slide -->
+
+
+            <!-- Slide 3-->
+                <div class="sp-slide section-bg"
+                     style="background-image:url(<?php bloginfo('template_url'); ?>/assets/img/slider/slide_03.jpg)">
+
+
+                    <div class="sp-layer main-slider__text btn-sale text-white font-bold section-bg hidden-xs hidden-sm"
+                         data-horizontal="20%" data-vertical="240" data-show-transition="up" data-hide-transition="left"
+                         data-show-duration="900" data-show-delay="900" data-hide-delay="1200"
+                         style="background-image:url(<?php bloginfo('template_url'); ?>/assets/img/slider/slider3_3.png); width: 250px; height: 70%">
+                    </div>
+                    <div class="sp-layer main-slider__text btn-sale text-white font-bold section-bg hidden-xs hidden-sm"
+                         data-horizontal="80%" data-vertical="140" data-show-transition="up" data-hide-transition="left"
+                         data-show-duration="1100" data-show-delay="1100" data-hide-delay="1100"
+                         style="background-image:url(<?php bloginfo('template_url'); ?>/assets/img/slider/slider3_4.png); width: 250px; height: 70%">
+                    </div>
+
+
+                    <h2 class="sp-layer main-slider__title font-italic text-center" data-horizontal="50%"
+                        data-vertical="120" data-show-transition="up" data-hide-transition="center"
+                        data-show-duration="800" data-show-delay="800" data-hide-delay="800">
+                        Наша мебель
+                    </h2>
+                    <h2 class="sp-layer main-slider__title color-primary font-bold  text-center" data-horizontal="50%"
+                        data-vertical="210" data-show-transition="up" data-hide-transition="center"
+                        data-show-duration="900" data-show-delay="900" data-hide-delay="900">
+                        Наполнит Ваш дом сказкой
+                    </h2>
+
         </div>
         <!-- end sp-slide -->
         </div>
@@ -78,13 +158,12 @@
 <!-- ===================================== 2 section
     ==== Start About Us -->
     <div class="containerMebel text-center about_us">
+        <div class="about_us-bg"></div>
         <div class="container">
             <div class="row">
                 <div class="col-12 header-text">
                     <p class="slogan_section">Мебель и Интерьер</p>
-<!--                    <p class="slogan_section">Furniture and Interior</p>-->
                     <p class="name_section">Немного О нас</p>
-<!--                    <p class="name_section">little about us</p>-->
                 </div>
             </div>
             <?php $about_section = new WP_Query([ 'pagename' => 'home' ]); ?>
@@ -103,7 +182,6 @@
                     </div>
                     <div class="col-md-6">
                         <?php the_content(); ?>
-<!--                        <p class="about_us-text">--><?php //the_content(); ?><!--</p>-->
                     </div>
                     <div class="col-md-3">
                         <div class="about-img">
@@ -258,11 +336,14 @@
                         </div>
                         <div class="row">
 
-                            <div class="owlFeedbackCarousel owl-carousel owl-theme">
+<!--                            <div class="owlFeedbackCarousel owl-carousel owl-theme">-->
+                            <div class="owlBooksCarousel owl-carousel owl-theme">
                                 <?php $books_reviews = bookFeedback_reviews(); ?>
                                 <?php foreach ($books_reviews as $book_review): ?>
-                                    <div class="owl-carousel-item ">
+                                    <div class="carouselItem">
                                         <div class="row clients-element">
+
+
                                             <div class="col-md-1"></div>
                                             <div class="col-md-3 col-12 feedback_img-block" >
                                                 <img src="<?php echo $book_review->post_excerpt; ?>" class="d-block rounded-circle" alt="...">
@@ -493,11 +574,12 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="owlProductsFeedbackCarousel owl-carousel owl-theme">
+                            <div class="owlBooksCarousel owl-carousel owl-theme">
+<!--                            <div class="owlProductsFeedbackCarousel owl-carousel owl-theme">-->
                                 <?php $productsAmanty_reviews = productsFeedback_reviews(); ?>
                                 <?php foreach ($productsAmanty_reviews as $product_review): ?>
                                     <?php //print_r($product_review); ?>
-                                    <div class="owl-carousel-item ">
+                                    <div class="carouselItem ">
                                         <div class="row clients-element">
                                             <div class="col-md-1"></div>
                                             <div class="col-md-3 col-12 feedback_img-block" >
@@ -574,74 +656,52 @@
 
         <div id="amanti-blog" class="fh5co-bg-section">
             <div class="container">
-                <!--<div class="row animate-box">-->
-                <!--<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">-->
-                <!--<h2>Recent Post</h2>-->
-                <!--<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>-->
-                <!--</div>-->
-                <!--</div>-->
                 <div class="row">
-<!--                    <div class="owlRecentPostCarousel owl-carousel owl-theme">-->
 
+                    <?php $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1; ?>
                     <?php $queryBlog = new WP_Query( [
                             'cat'            => 50,
-                            'posts_per_page' => 3
+                            'posts_per_page' => 3,
+                            'paged'          => $paged
                     ] ); ?>
-                        <?php if ( $queryBlog->have_posts() ) : while ( $queryBlog->have_posts() ) : $queryBlog->the_post(); ?>
-                            <div class="col-lg-4 col-md-4">
-                                <div class="amanti-blog animate-box">
-                                    <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('blog-thumb'); ?></a>
-                                    <div class="blog-text">
-                                        <span class="posted_on"><?php the_date(); ?></span>
-                                        <span class="comment"><a href="<?php the_permalink(); ?>">21<i class="icon-speech-bubble"></i></a></span>
-                                        <h3><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h3>
-                                        <p class="post-description"><?php the_excerpt(); ?></p>
+                    <?php if ( $queryBlog->have_posts() ) : while ( $queryBlog->have_posts() ) : $queryBlog->the_post(); ?>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="amanti-blog animate-box">
+                                <a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('blog-thumb'); ?></a>
+                                <div class="blog-text">
+                                    <span class="posted_on"><?php the_date(); ?></span>
+                                    <span class="comment"><a href="<?php the_permalink(); ?>">21<i class="icon-speech-bubble"></i></a></span>
+                                    <h3><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h3>
+                                    <p class="post-description"><?php the_excerpt(); ?></p>
 
-                                        <a class="slogan-button" href="<?php the_permalink() ?>">
-                                            Читать далее
-                                            <span><img src="<?php bloginfo('template_url'); ?>/assets/img/8blog-btn.png" alt=""></span>
-                                        </a>
-                                    </div>
+                                    <a class="slogan-button" href="<?php the_permalink() ?>">
+                                        Читать далее
+                                        <span><img src="<?php bloginfo('template_url'); ?>/assets/img/8blog-btn.png" alt=""></span>
+                                    </a>
                                 </div>
                             </div>
-                        <?php endwhile; ?>
-                        <!-- post navigation -->
-                        <?php else: ?>
-                        <!-- no posts found -->
-                            <?php wp_reset_postdata(); ?>
-                        <?php endif; ?>
+                        </div>
+                    <?php endwhile; ?>
 
-<!--                    </div>-->
-<!--                    <div class="col-lg-4 col-md-4">-->
-<!--                        <div class="amanti-blog animate-box">-->
-<!--                            <a href="#"><img class="img-responsive" src="--><?php //bloginfo('template_url'); ?><!--/assets/img/8sec-blog_2.jpg" alt=""></a>-->
-<!--                            <div class="blog-text">-->
-<!--                                <span class="posted_on">Август 2017</span>-->
-<!--                                <span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>-->
-<!--                                <h3><a href="#">Делаем резной сундук</a></h3>-->
-<!--                                <p class="post-description">Представляю вашему вниманию мастер-класс по проектированию и воплощению в материале резного сундука из дуба — Времена года.</p>-->
-<!--                                <a class="slogan-button" href="#">-->
-<!--                                    Читать далее-->
-<!--                                    <span><img src="--><?php //bloginfo('template_url'); ?><!--/assets/img/8blog-btn.png" alt=""></span>-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-4 col-md-4">-->
-<!--                        <div class="amanti-blog animate-box">-->
-<!--                            <a href="#"><img class="img-responsive" src="--><?php //bloginfo('template_url'); ?><!--/assets/img/8sec-blog_3.jpg" alt=""></a>-->
-<!--                            <div class="blog-text">-->
-<!--                                <span class="posted_on">Nov. 15th</span>-->
-<!--                                <span class="comment"><a href="">21<i class="icon-speech-bubble"></i></a></span>-->
-<!--                                <h3><a href="#">Это должно было случиться!</a></h3>-->
-<!--                                <p class="post-description">Мы десятки лет уже, с большим удовольствием режем пряничные доски! А вот сами пряники собрался приготовить впервые только сейчас.</p>-->
-<!--                                <a class="slogan-button" href="#">-->
-<!--                                    Читать далее-->
-<!--                                    <span><img src="--><?php //bloginfo('template_url'); ?><!--/assets/img/8blog-btn.png" alt=""></span>-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                        <!-- post pagination -->
+<!--                        --><?php //amanty_pagination();?>
+<!--                        --><?php //$GLOBALS['wp_query'] = $queryBlog; ?>
+<!--                        --><?php //the_posts_pagination( array(
+//                            'end_size'     => 1,
+//                            'mid_size'     => 2,
+//                            'type'         => 'list'
+//                        )); ?>
+                        <!-- / post pagination -->
+
+
+                    <!-- post navigation -->
+
+
+                    <?php else: ?>
+                    <!-- no posts found -->
+
+                        <?php wp_reset_postdata(); ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -749,488 +809,6 @@
 
 
 
-
-
-
-
-
-    <!--10 section форма обратной связи  + API Instagram-->
-    <div id="map" class="containerMebel maps">
-        <div class="row">
-            <div class="col-12">
-                <iframe src="https://www.google.com/maps/embed?pb=" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-
-            </div>
-            <!--<div class="col-sm-6">-->
-
-            <!--</div>-->
-        </div>
-    </div>
-
-	
-
-
-	<!-- =====================================
-    	==== Start features-banner  -->
-	<section class="features-banner section-bg pt-120 pb-60 clearfix" style="background-image:url(<?php bloginfo('template_url'); ?>/assets/images/bg_0.jpg)">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6 pb-60">
-					<div class="features-heading">
-			            <img class="features-heading__image" src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature.png" alt="">
-						<h2 class="features-heading__title">What is the Enercos ?</h2>
-						<p class="features-heading__description">
-							Apparently we had reached a great height in the<br/>
-							atmosphere, for the sky was a dead black, and the stars<br/>
-							had ceased to twinkle.
-						</p>
-					</div>
-					<a class="btn btn-primary btn-radius btn-features" href="../about.html">Read more <i class="fa fa-long-arrow-right" aria-hidden="true"></i> </a>
-				</div>
-				<div class="col-md-6 pb-60">
-					<img src="<?php bloginfo('template_url'); ?>/assets/images/banner1.jpg" alt="">
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- =====================================
-    	==== End features-banner  -->
-
-
-    <!-- =====================================
-    	==== Start features-skin  -->
-	<section class="features skin1 features-skin section-bg pt-100 pb-40 clearfix" style="background-image:url(<?php bloginfo('template_url'); ?>/assets/images/bg_1.jpg)">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6 col-sm-3"></div>
-				<div class="col-md-6 col-sm-9">
-					<div class="features-heading">
-			            <img class="features-heading__image" src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature.png" alt="">
-						<h2 class="features-heading__title">Natural Organic Skin Care</h2>
-						<p class="features-heading__description">
-							Every treatment is specifically designed to offer a unique
-							experience, using powerful massage sequences.
-						</p>
-					</div>
-				   	<div class="features_list">
-						<div class="features-images">
-							<img src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature_1.png" alt="">
-						</div>
-						<div class="features-description">
-							<h4>No Chemicals, 100% Pure</h4>
-							<p>
-								Every treatment is specifically designed to offer a unique
-								experience, using powerful massage sequences.
-							</p>
-						</div>
-					</div>	
-					<div class="features_list">
-						<div class="features-images">
-							<img src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature_2.png" alt="">
-						</div>
-						<div class="features-description">
-							<h4>Real Purity</h4>
-							<p>
-								Uses only the highest quality botanicals, plant-derived to make
-								naturally good-for-you cosmetics at affordable!
-							</p>
-						</div>
-					</div>	
-					<div class="features_list">
-						<div class="features-images">
-							<img src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature_3.png" alt="">
-						</div>
-						<div class="features-description">
-							<h4>Afterglow Cosmetics</h4>
-							<p>
-								Uses only the highest quality botanicals, plant-derived to make
-								naturally good-for-you cosmetics at affordable!
-							</p>
-						</div>
-					</div>	
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- =====================================
-    	====End features-skin  -->
-
-
-	 <!-- =====================================
-    	==== Start features-step  -->
-	<section class="features skin1 features-step section-bg pt-100 pb-100 clearfix" style="background-image:url(<?php bloginfo('template_url'); ?>/assets/images/bg_4.jpg)">
-		<div class="container">
-			<div class="features-heading">
-	            <img class="features-heading__image" src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature.png" alt="">
-				<h2 class="features-heading__title">How to use Enercos</h2>
-			</div>
-			<div class="row">
-				<div class="col-md-6 col-sm-9">
-					<div class="features_list">
-						<div class="features-images">
-							<img src="<?php bloginfo('template_url'); ?>/assets/images/step/home3_step_1.png" alt="">
-						</div>
-						<div class="features-description">
-							<h4>Step #1 - Cleanse</h4>
-							<p>
-								Splash warm water on your face or even better, take a shower
-								to open up your pores to allow dirt out.
-							</p>
-						</div>
-					</div>
-					<div class="features_list">
-						<div class="features-images">
-							<img src="<?php bloginfo('template_url'); ?>/assets/images/step/home3_step_2.png" alt="">
-						</div>
-						<div class="features-description">
-							<h4>Step #2 - Moisturize</h4>
-							<p>
-								Uses only the highest quality botanicals, plant-derived to make
-								naturally good-for-you cosmetics at affordable!
-							</p>
-						</div>
-					</div>
-					<div class="features_list">
-						<div class="features-images">
-							<img src="<?php bloginfo('template_url'); ?>/assets/images/step/home3_step_3.png" alt="">
-						</div>
-						<div class="features-description">
-							<h4>Step 3 - Congratulation</h4>
-							<p>
-								You body care starts with a hot shower, allowing dirt and bad
-								oils to be easily excreted.
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6 col-sm-3">
-				</div>
-			</div>
-		</div>
-	</section>
-	 <!-- =====================================
-    	==== End features-step  -->
-
-
-	<section class="features skin1 bg-feature2 section-bg pt-100 pb-60 clearfix" style="background-image:url(<?php bloginfo('template_url'); ?>/assets/images/bg_2.jpg)">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6"></div>
-				<div class="col-md-6">
-					<div class="features-heading pb-60">
-			            <img class="features-heading__image" src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature.png" alt="">
-						<h2 class="features-heading__title">Main advantages of Enercos</h2>
-					</div>
-				   	<div class="features_list">
-						<div class="features-images">
-							<img src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature_4.png" alt="">
-						</div>
-						<div class="features-description">
-							<h4>Completely natural</h4>
-							<p>
-								After cleansing and toning, before sun exposure, apply half
-								dollar sized amount to skin of face and neck.
-							</p>
-						</div>
-					</div>	
-					<div class="features_list">
-						<div class="features-images">
-							<img src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature_5.png" alt="">
-						</div>
-						<div class="features-description">
-							<h4>Affordable</h4>
-							<p>
-								So I think it's time that we kill the idea of "beauty" altogether
-								and take it a step back to affordable beauty.
-							</p>
-						</div>
-					</div>	
-					<div class="features_list">
-						<div class="features-images">
-							<img src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature_6.png" alt="">
-						</div>
-						<div class="features-description">
-							<h4>Active at all levels</h4>
-							<p>
-								There are plenty of actives that suit wash off or low frequency
-								use conditions
-							</p>
-						</div>
-					</div>	
-				</div>
-				
-			</div>
-		</div>
-	</section>
-
-	 <!-- =====================================
-    	==== Start testimonials  -->
-	<section class="testimonials pt-100 clearfix">
-		<div class="container">
-			<div class="row">
-				<div class="features-heading pb-60 text-center">
-		            <img class="features-heading__image" src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature.png" alt="">
-					<h2 class="features-heading__title">Our Clients Say</h2>
-				</div>
-				<div class="testimonials_content text-center">
-	 				<div class="owl-carousel owl-theme" data-pagination="true" data-nav="flase" data-items="3" data-large="3" data-medium="3" data-smallmedium="2" data-extrasmall="1" data-verysmall="1" data-autoplay="true">
-			            <div class="item">
-			             	<div class="testimonial_item">
-				            	<img src="<?php bloginfo('template_url'); ?>/assets/images/testimonials/testimonials1.png" alt="">
-				                <div class="testimonials__content">
-				                	Build trust with prospective clients,
-									delight existing customers, and increase the efficiency and collaboration within
-								</div>
-				                <div class="testimonials__name">Alex MacCaw</div>
-				                <div class="testimonials__job">Co-Founder & CEO </div>
-				            </div>
-			            </div>
-			            <div class="item">
-			            	<div class="testimonial_item">
-				            	<img src="<?php bloginfo('template_url'); ?>/assets/images/testimonials/testimonials2.png" alt="">
-				                <div class="testimonials__content">
-				                	I couldn't be happier with the results. I have my skin and my confidence back! Everyone in Enercos have been so...
-								</div>
-				                 <div class="testimonials__name">Amanda Mayhem</div>
-				                <div class="testimonials__job">Product Manager</div>
-				            </div>
-			            </div>
-			            <div class="item">
-			            	<div class="testimonial_item">
-				            	<img src="<?php bloginfo('template_url'); ?>/assets/images/testimonials/testimonials3.png" alt="">
-				                <div class="testimonials__content">
-				                	I go there regularly for my psoriasis and have always had wonderful
-									customer
-									service.
-								</div>
-				                <div class="testimonials__name">Daniel Moore</div>
-				                <div class="testimonials__job">Daniel Moore</div>
-				            </div>
-			            </div>
-			            <div class="item">
-			            	<div class="testimonial_item">
-				            	<img src="<?php bloginfo('template_url'); ?>/assets/images/testimonials/testimonials2.png" alt="">
-				                <div class="testimonials__content">
-				                	I couldn't be happier with the results. I have my skin and my confidence back! Everyone in Enercos have been so...
-								</div>
-				                 <div class="testimonials__name">Amanda Mayhem</div>
-				                <div class="testimonials__job">Product Manager</div>
-				            </div>
-			            </div>
-			            <div class="item">
-			            	<div class="testimonial_item">
-				            	<img src="<?php bloginfo('template_url'); ?>/assets/images/testimonials/testimonials3.png" alt="">
-				                <div class="testimonials__content">
-				                	I go there regularly for my psoriasis and have always had wonderful
-									customer
-									service.
-								</div>
-				                <div class="testimonials__name">Daniel Moore</div>
-				                <div class="testimonials__job">Daniel Moore</div>
-				            </div>
-			            </div>
-			            <div class="item">
-			             	<div class="testimonial_item">
-				            	<img src="<?php bloginfo('template_url'); ?>/assets/images/testimonials/testimonials1.png" alt="">
-				                <div class="testimonials__content">
-				                	Build trust with prospective clients,
-									delight existing customers, and increase the efficiency and collaboration within
-								</div>
-				                <div class="testimonials__name">Alex MacCaw</div>
-				                <div class="testimonials__job">Co-Founder & CEO </div>
-				            </div>
-			            </div>
-			            <div class="item">
-			            	<div class="testimonial_item">
-				            	<img src="<?php bloginfo('template_url'); ?>/assets/images/testimonials/testimonials2.png" alt="">
-				                <div class="testimonials__content">
-				                	I couldn't be happier with the results. I have my skin and my confidence back! Everyone in Enercos have been so...
-								</div>
-				                 <div class="testimonials__name">Amanda Mayhem</div>
-				                <div class="testimonials__job">Product Manager</div>
-				            </div>
-			            </div>
-			        </div>
-	 			</div>
-			</div>
-		</div>
-	</section>
-	<!-- =====================================
-    	==== End testimonials  -->
-
-    <!-- =====================================
-    	==== Start features-policy  -->
-	<section class="features features-policy clearfix mt-20 mb-60">
-		<div class="container">
-			<div class="row">
-				<div class="features-border">
-					<div class="col-md-3 col-sm-6">
-					   	<div class="features_list text-center pb-40">
-							<div class="features-images">
-								<img src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature_7.png" alt="">
-							</div>
-							<div class="features-description">
-								<h4>Free Shipping</h4>
-								<p>
-									Free Shipping
-								</p>
-							</div>
-						</div>	
-					</div>
-					<div class="col-md-3 col-sm-6">
-					   	<div class="features_list text-center pb-40">
-							<div class="features-images">
-								<img src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature_8.png" alt="">
-							</div>
-							<div class="features-description">
-								<h4>Free Samples</h4>
-								<p>
-									With every order*
-								</p>
-							</div>
-						</div>	
-					</div>
-					<div class="col-md-3 col-sm-6">
-					   	<div class="features_list text-center pb-40">
-							<div class="features-images">
-								<img src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature_9.png" alt="">
-							</div>
-							<div class="features-description">
-								<h4>Pecial Offers</h4>
-								<p>
-									All year long
-								</p>
-							</div>
-						</div>	
-					</div>
-					<div class="col-md-3 col-sm-6">
-					   	<div class="features_list text-center pb-40">
-							<div class="features-images">
-								<img src="<?php bloginfo('template_url'); ?>/assets/images/feature/icon_feature_10.png" alt="">
-							</div>
-							<div class="features-description">
-								<h4>24/7 support online</h4>
-								<p>
-									We support online 24/24 on day
-								</p>
-							</div>
-						</div>	
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- =====================================
-    	==== End features-policy  -->
-
-	 <!-- =====================================
-    	====Start product-feature  -->
-	<section class="product-feature section-bg section-bg-fix pt-160 pb-160 clearfix" style="background-image:url(<?php bloginfo('template_url'); ?>/assets/images/bg_3.jpg)">
-		<div class="container">
-	 		<div class="feature-product text-white">
-	 			<div class="col-md-6">
-	 				<div class="feature-product__images">
-			 		 	<img src="<?php bloginfo('template_url'); ?>/assets/images/product_feature.png" alt="">
-			 		</div>
-			 	</div>
-	 			<div class="col-md-6">
-					<h2 class="feature-product__title">Green Apple Brightening Eye Cream</h2>
-					<p class="feature-product__description">
-							Organic products are grown under a system of agriculture
-						without the use of chemical fertilizers and pesticides
-					</p>
-					<div class="product-feature__meta">
-						<div class="product-price">
-							<span class="amout">
-								<span class="money" data-currency-usd="$78.19">$78.19</span>
-								<span class="old-price">$108.89</span>
-							</span>
-						</div>
-						<a href="../product_single.html" class="btn btn-primary btn-radius btn-features">Add to Cart<i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- =====================================
-    	==== End product-feature -->
-
-	<!-- =====================================
-    	====Start instagram  -->
-	<div class="widget-instagram-feed pt-80 clearfix">
-		<div class="container">
-	        <ul class="instagram-content clearfix">            
-				<li class="item">
-					<a href="#">
-						<img src="<?php bloginfo('template_url'); ?>/assets/images/instagram/instagram_1.jpg" alt="">
-					</a> 
-					<div class="insta-info">
-						<div class="insta-meta">
-							<span><i class="fa fa-heart-o" aria-hidden="true"></i>(5)</span>
-							<span><i class="fa fa-comments-o" aria-hidden="true"></i>(10)</span>
-						</div>
-					</div>
-				</li>
-				<li class="item">
-					<a href="#">
-						<img src="<?php bloginfo('template_url'); ?>/assets/images/instagram/instagram_2.jpg" alt="">
-					</a>
-					<div class="insta-info">
-						<div class="insta-meta">
-							<span><i class="fa fa-heart-o" aria-hidden="true"></i>(5)</span>
-							<span><i class="fa fa-comments-o" aria-hidden="true"></i>(10)</span>
-						</div>
-					</div>
-				</li>
-				<li class="item">
-					<a href="#">
-						<img src="<?php bloginfo('template_url'); ?>/assets/images/instagram/instagram_3.jpg" alt="">
-					</a> 
-					<div class="insta-info">
-						<div class="insta-meta">
-							<span><i class="fa fa-heart-o" aria-hidden="true"></i>(5)</span>
-							<span><i class="fa fa-comments-o" aria-hidden="true"></i>(10)</span>
-						</div>
-					</div>
-				</li>
-				<li class="item">
-					<a href="#">
-						<img src="<?php bloginfo('template_url'); ?>/assets/images/instagram/instagram_4.jpg" alt="">
-					</a> 
-					<div class="insta-info">
-						<div class="insta-meta">
-							<span><i class="fa fa-heart-o" aria-hidden="true"></i>(5)</span>
-							<span><i class="fa fa-comments-o" aria-hidden="true"></i>(10)</span>
-						</div>
-					</div>
-				</li>
-				<li class="item">
-					<a href="#">
-						<img src="<?php bloginfo('template_url'); ?>/assets/images/instagram/instagram_5.jpg" alt="">
-					</a> 
-					<div class="insta-info">
-						<div class="insta-meta">
-							<span><i class="fa fa-heart-o" aria-hidden="true"></i>(5)</span>
-							<span><i class="fa fa-comments-o" aria-hidden="true"></i>(10)</span>
-						</div>
-					</div>
-				</li>
-				<li class="item">
-					<a href="#">
-						<img src="<?php bloginfo('template_url'); ?>/assets/images/instagram/instagram_6.jpg" alt="">
-					</a>
-					<div class="insta-info">
-						<div class="insta-meta">
-							<span><i class="fa fa-heart-o" aria-hidden="true"></i>(5)</span>
-							<span><i class="fa fa-comments-o" aria-hidden="true"></i>(10)</span>
-						</div>
-					</div>
-				</li>
-			</ul>
-		</div>
-    </div>
-   	<!-- =====================================
-    	==== End instagram -->
 
 
 <?php get_footer(); ?>

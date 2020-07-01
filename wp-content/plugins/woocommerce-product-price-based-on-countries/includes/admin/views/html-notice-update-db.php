@@ -9,18 +9,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div class="error">
+<?php if ( 'admin_notices' === current_action() ) : ?>
+<div class="notice notice-error">
+<?php else : ?>
+<div id="message" class="error inline">
+<?php endif; ?>
 	<p>
 	<?php
 	// translators: HTML tags.
-	printf( esc_html( __( '%1$sWooCommerce Price Based on Country Database Update Required%2$s We just need to update your install to the latest version', 'wc-price-based-country' ) ), '<strong>', '</strong> &#8211;' );
+	printf( esc_html( __( '%1$sWooCommerce Price Based on Country Database Update Required%2$s We just need to update your install to the latest version', 'woocommerce-product-price-based-on-countries' ) ), '<strong>', '</strong> &#8211;' );
 	?>
 	</p>
-	<p class="submit"><a href="<?php echo esc_url( add_query_arg( 'do_update_wc_price_based_country', 'true', admin_url( 'admin.php?page=wc-settings&tab=price-based-country' ) ) ); ?>" class="wc-update-now button-primary"><?php esc_html_e( 'Run the updater', 'wc-price-based-country' ); ?></a></p>
+	<p class="submit" style="margin-top:0;"><a href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin.php?page=wc-settings&tab=price-based-country' ), 'do_update_wc_price_based_country', 'update_wc_price_based_country_nonce' ) ); ?>" class="wc-update-now button-primary"><?php esc_html_e( 'Run the updater', 'woocommerce-product-price-based-on-countries' ); ?></a></p>
 </div>
 <script type="text/javascript">
 	jQuery('.wc-update-now').click('click', function(){
-		var answer = confirm( '<?php esc_html_e( 'It is strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'wc-price-based-country' ); ?>' );
+		var answer = confirm( '<?php esc_html_e( 'It is strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'woocommerce-product-price-based-on-countries' ); ?>' );
 		return answer;
 	});
 </script>

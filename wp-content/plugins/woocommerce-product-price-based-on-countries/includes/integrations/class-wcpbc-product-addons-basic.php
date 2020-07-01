@@ -33,7 +33,7 @@ if ( ! wcpbc_is_pro() && ! class_exists( 'WCPBC_Product_Addons_Basic' ) ) :
 		 */
 		public static function global_addons_admin() {
 
-			if ( ! empty( $_GET['add'] ) || ! empty( $_GET['edit'] ) ) { // WPCS: CSRF ok.
+			if ( ! empty( $_GET['add'] ) || ! empty( $_GET['edit'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 				$utm_source = 'product-addons';
 				$name       = 'WooCommerce Product Add-ons';
 				ob_start();
@@ -47,7 +47,9 @@ if ( ! wcpbc_is_pro() && ! class_exists( 'WCPBC_Product_Addons_Basic' ) ) :
 		 * Add product tab.
 		 */
 		public static function tab() {
-			?><li class="addons_tab product_addons"><a href="#wcpbc_product_addons_data"><span><?php esc_html_e( 'Add-ons zone pricing', 'wc-price-based-country' ); ?></span></a></li><?php
+			?>
+			<li class="addons_tab product_addons"><a href="#wcpbc_product_addons_data"><span><?php esc_html_e( 'Add-ons zone pricing', 'woocommerce-product-price-based-on-countries' ); ?></span></a></li>
+			<?php
 		}
 
 		/**

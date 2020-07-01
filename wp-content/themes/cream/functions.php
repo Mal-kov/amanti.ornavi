@@ -196,6 +196,7 @@ function cream_scripts() {
 
 //    <!-- main CSS -->
     wp_enqueue_style( 'cream-main', get_template_directory_uri() . '../assets/css/style.css' );
+
     if ( is_front_page() ){
         wp_enqueue_style( 'cream-bootstrap-style', get_template_directory_uri() . '../assets/css/bootstrap.min.css' );
         wp_enqueue_style( 'cream-owl_main_style', get_template_directory_uri() . '../assets/css/owl.carousel.min.css' );//    <!-- slick CSS -->
@@ -230,11 +231,42 @@ function cream_scripts() {
 //    <!-- custom js-->
     wp_enqueue_script( 'cream-custom-js', get_template_directory_uri() . '../assets/js/custom.js', array(), '20151215', true );
 
+    if ( !is_front_page() ) {
+        wp_enqueue_script( 'cream-customOwl-js', get_template_directory_uri() . '../assets/js/custom-owl.js', array(), '20151215', true );
+    }
+
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'cream_scripts' );
+
+/**
+ * Пользовательские опции - телефон + адрес электронной почты в админке
+ */
+function amantiMainOption() {
+    add_settings_field(
+        'amanti_phone', 'Телефон компании', 'display_phone', 'general'
+    );
+    add_settings_field(
+        'amanti_email', 'Почта компании', 'display_email', 'general'
+    );
+    register_setting(
+        'general', 'mainPhone'
+    );
+    register_setting(
+        'general', 'mainEmail'
+    );
+
+}
+function display_phone(){
+    echo "<input type='text' class='regular-text' name='mainPhone' value='" . esc_attr(get_option('mainPhone')) . "'>";
+}
+function display_email(){
+    echo "<input type='text' class='regular-text' name='mainEmail' value='" . esc_attr(get_option('mainEmail')) . "'>";
+}
+add_action('admin_init', 'amantiMainOption');
+
 
 /**
  *  Отзывы о книгах
@@ -321,6 +353,17 @@ function productsFeedback_reviews() {
     return $productsAmanty_reviews;
 }
 
+/**
+ * Обработка пагинации для главной страницы
+ */
+add_filter( 'navigation_markup_template', 'amanti_navigation_template', 10, 2 );
+function amanti_navigation_template( $template, $class ) {
+    return '
+    <nav class="navigation %1$s" role="navigation">
+        <div class="nav-links">%3$s</nav>
+    </nav>
+    ';
+}
 
 
 /**
@@ -564,3 +607,5 @@ function change_attr_related($arg) {
     );
     return $args;
 }
+
+

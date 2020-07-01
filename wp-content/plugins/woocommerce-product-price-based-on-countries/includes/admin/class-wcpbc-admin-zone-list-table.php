@@ -31,14 +31,15 @@ class WCPBC_Admin_Zone_List_Table extends WP_List_Table {
 	 * Initialize the regions table list
 	 */
 	public function __construct() {
-
 		$this->base_currency = get_option( 'woocommerce_currency' );
 
-		parent::__construct( array(
-			'singular' => __( 'Pricing zone', 'wc-price-based-country' ),
-			'plural'   => __( 'Pricing zones', 'wc-price-based-country' ),
-			'ajax'     => false,
-		) );
+		parent::__construct(
+			array(
+				'singular' => __( 'Pricing zone', 'woocommerce-product-price-based-on-countries' ),
+				'plural'   => __( 'Pricing zones', 'woocommerce-product-price-based-on-countries' ),
+				'ajax'     => false,
+			)
+		);
 	}
 
 	/**
@@ -56,12 +57,15 @@ class WCPBC_Admin_Zone_List_Table extends WP_List_Table {
 	 * @return array
 	 */
 	public function get_columns() {
-		return apply_filters( 'wc_price_based_country_settings_zone_columns', array(
-			'cb'        => '',
-			'name'      => __( 'Zone name', 'wc-price-based-country' ),
-			'countries' => __( 'Countries', 'wc-price-based-country' ),
-			'currency'  => __( 'Currency', 'wc-price-based-country' ),
-		) );
+		return apply_filters(
+			'wc_price_based_country_settings_zone_columns',
+			array(
+				'cb'        => '',
+				'name'      => __( 'Zone name', 'woocommerce-product-price-based-on-countries' ),
+				'countries' => __( 'Countries', 'woocommerce-product-price-based-on-countries' ),
+				'currency'  => __( 'Currency', 'woocommerce-product-price-based-on-countries' ),
+			)
+		);
 	}
 
 	/**
@@ -102,8 +106,8 @@ class WCPBC_Admin_Zone_List_Table extends WP_List_Table {
 			$edit_url    = admin_url( 'admin.php?page=wc-settings&tab=price-based-country&section=zones&zone_id=' . $zone->get_zone_id() );
 			$actions     = array(
 				'id'    => sprintf( 'Slug: %s', $zone->get_zone_id() ),
-				'edit'  => '<a href="' . esc_url( $edit_url ) . '">' . __( 'Edit', 'wc-price-based-country' ) . '</a>',
-				'trash' => '<a class="submitdelete wcpbc-delete-zone" title="' . esc_attr__( 'Delete', 'wc-price-based-country' ) . '" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'delete_zone' => $zone->get_zone_id() ), admin_url( 'admin.php?page=wc-settings&tab=price-based-country&section=zones' ) ), 'wc-price-based-country-delete-zone' ) ) . '">' . __( 'Delete', 'wc-price-based-country' ) . '</a>',
+				'edit'  => '<a href="' . esc_url( $edit_url ) . '">' . __( 'Edit', 'woocommerce-product-price-based-on-countries' ) . '</a>',
+				'trash' => '<a class="submitdelete wcpbc-delete-zone" title="' . esc_attr__( 'Delete', 'woocommerce-product-price-based-on-countries' ) . '" href="' . esc_url( wp_nonce_url( add_query_arg( array( 'delete_zone' => $zone->get_zone_id() ), admin_url( 'admin.php?page=wc-settings&tab=price-based-country&section=zones' ) ), 'wc-price-based-country-delete-zone' ) ) . '">' . __( 'Delete', 'woocommerce-product-price-based-on-countries' ) . '</a>',
 			);
 			$row_actions = array();
 			foreach ( $actions as $action => $link ) {
@@ -134,10 +138,10 @@ class WCPBC_Admin_Zone_List_Table extends WP_List_Table {
 			foreach ( $zone->get_countries() as $country ) {
 				$countries[] = WC()->countries->countries[ $country ];
 			}
-			$output = implode( $countries, ', ' );
+			$output = implode( ', ', $countries );
 
 		} else {
-			$output = __( 'Default pricing and currency are used for countries that are not included in any other pricing zone.', 'wc-price-based-country' );
+			$output = __( 'Default pricing and currency are used for countries that are not included in any other pricing zone.', 'woocommerce-product-price-based-on-countries' );
 		}
 
 		return $output;
@@ -167,7 +171,7 @@ class WCPBC_Admin_Zone_List_Table extends WP_List_Table {
 	public function prepare_items() {
 
 		$default_zone = WCPBC_Pricing_Zones::create();
-		$default_zone->set_name( __( 'Countries not covered by your other zones', 'wc-price-based-country' ) );
+		$default_zone->set_name( __( 'Countries not covered by your other zones', 'woocommerce-product-price-based-on-countries' ) );
 		$default_zone->set_currency( $this->base_currency );
 
 		$zones   = WCPBC_Pricing_Zones::get_zones();

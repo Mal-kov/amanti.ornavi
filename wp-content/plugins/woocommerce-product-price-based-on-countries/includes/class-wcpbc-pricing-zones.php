@@ -62,12 +62,6 @@ class WCPBC_Pricing_Zones {
 		$zones[ $zone_id ] = $zone_data;
 		update_option( 'wc_price_based_country_regions', $zones );
 
-		// Sync product prices with exchange rate.
-		wcpbc_sync_exchange_rate_prices( $zone );
-
-		// Refresh transient version.
-		wcpbc_refresh_product_transient_version();
-
 		return $zone_id;
 	}
 
@@ -79,15 +73,22 @@ class WCPBC_Pricing_Zones {
 	 */
 	public static function bulk_save( $zones ) {
 		$azones = (array) get_option( 'wc_price_based_country_regions', array() );
+
 		foreach ( $zones as $zone ) {
+
+			if ( ! $zone->get_zone_id() ) {
+				$zone_id = self::get_unique_slug( sanitize_key( sanitize_title( $zone->get_name() ) ), array_keys( $zones ) );
+				$zone->set_zone_id( $zone_id );
+			} else {
+				$zone_id = $zone->get_zone_id();
+			}
+
 			$zone_data = $zone->get_data();
 			unset( $zone_data['zone_id'] );
-			$azones[ $zone->get_zone_id() ] = $zone_data;
+
+			$azones[ $zone_id ] = $zone_data;
 		}
 		update_option( 'wc_price_based_country_regions', $azones );
-
-		// Refresh transient version.
-		wcpbc_refresh_product_transient_version();
 	}
 
 	/**
@@ -128,9 +129,6 @@ class WCPBC_Pricing_Zones {
 		$zones = (array) get_option( 'wc_price_based_country_regions', array() );
 
 		if ( isset( $zones[ $zone->get_zone_id() ] ) ) {
-			foreach ( wcpbc_get_meta_keys_to_delete() as $metakey ) {
-				$wpdb->delete( $wpdb->postmeta, array( 'meta_key' => $zone->get_postmetakey( $metakey ) ) ); // WPCS: slow query ok.
-			}
 			unset( $zones[ $zone->get_zone_id() ] );
 			update_option( 'wc_price_based_country_regions', $zones );
 		}
@@ -139,13 +137,17 @@ class WCPBC_Pricing_Zones {
 	/**
 	 * Get pricing zones.
 	 *
+	 * @param array $zone_ids Array of IDs of Pricing zones to filter the result. Optional. False return all.
 	 * @return array Array of WCPBC_Pricing_Zone instances.
 	 */
-	public static function get_zones() {
+	public static function get_zones( $zone_ids = false ) {
 		$classname = self::get_pricing_zone_class_name();
 		$zones     = array();
 
 		foreach ( (array) get_option( 'wc_price_based_country_regions', array() ) as $id => $data ) {
+			if ( ! empty( $zone_ids ) && is_array( $zone_ids ) && ! in_array( $id, $zone_ids, true ) ) {
+				continue;
+			}
 			$zones[ $id ] = new $classname( array_merge( $data, array( 'zone_id' => $id ) ) );
 		}
 
@@ -255,7 +257,7 @@ class WCPBC_Pricing_Zones {
 	 */
 	public static function get_allowed_countries( $zone ) {
 		$allowed_countries = array();
-		$raw_countries     = array_keys( wc()->countries->get_allowed_countries() );
+		$raw_countries     = array_keys( apply_filters( 'wc_price_based_country_allow_all_countries', false ) ? WC()->countries->get_countries() : WC()->countries->get_allowed_countries() );
 		$zone_countries    = array();
 
 		foreach ( self::get_zones() as $_zone ) {
